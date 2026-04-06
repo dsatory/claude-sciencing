@@ -17,30 +17,30 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 ### Quick Example
 
 ```
-/sci-search engineered bacteria for succinic acid     → Find relevant papers
-/sci-library add 10.1016/j.ymben.2024.01.005         → Add to your library
-/sci-read deep path/to/paper.pdf                      → Deep technical analysis
-/sci-review "host selection for organic acid production" → Synthesize into review
-/sci-draft proposal                                    → Draft the proposal section
-/sci-edit path/to/draft.md clarity                     → Polish the writing
-/sci-figures caption                                   → Write figure captions
+"Search for recent papers on engineered bacteria for succinic acid"   → Finds and ranks relevant literature
+"Add this paper to my library: 10.1016/j.ymben.2024.01.005"          → Resolves metadata, generates BibTeX
+"Give me a deep technical analysis of this paper"                     → Structured analysis with field-specific lenses
+"Write a state-of-the-art review on host selection for organic acids" → Thematic synthesis with comparison tables
+"Draft a proposal for this DARPA solicitation"                        → Full proposal structured to the BAA
+"Edit this draft for clarity and scientific tone"                     → Multi-pass editing
+"Write captions for all figures"                                      → Publication-quality captions
 ```
 
 ### Full Walkthrough: Writing a Government Proposal
 
-This end-to-end example shows how every skill and command works together — from receiving a solicitation to submitting a compliant proposal. Each step notes which plugin component activates and what it handles for you.
+This end-to-end example shows how the plugin handles the full proposal lifecycle — from receiving a solicitation to submitting a compliant document. Every step uses natural language prompts; the plugin's skills activate automatically based on context.
 
 ---
 
 **Step 1: Read the solicitation and understand requirements**
 
 ```
-"Read this DARPA BAA and summarize the key requirements"
-→ Provide the solicitation PDF or URL
+"Read this DARPA BAA and extract the key requirements — evaluation
+criteria, page limits, required sections, formatting specs, and deadlines"
 ```
 
 **What the plugin does:**
-- **document-formats** skill reads the PDF (or Claude Code's native PDF reader for smaller docs)
+- **document-formats** skill reads the solicitation PDF
 - **scientific-reading** skill activates to extract structured information — not a generic summary, but the specific data you need: evaluation criteria with weights, page limits per section, required section order, font/margin specs, technical focus areas, mandatory attachments, and submission deadlines
 - Output: a structured requirements brief you can reference throughout the writing process
 
@@ -49,13 +49,14 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 2: Search the literature landscape**
 
 ```
-/sci-search microbial conversion of industrial waste to high-value chemicals --recent
-/sci-search "your specific technical approach" --limit 20
+"Search for recent papers on microbial conversion of industrial waste
+to high-value chemicals — focus on the last 2 years"
+
+"Also search for papers on [your specific technical approach]"
 ```
 
 **What the plugin does:**
-- **/sci-search** queries PubMed via MCP tools with optimized Boolean queries and MeSH terms
-- **pubmed-setup** skill verifies PubMed MCP is connected (guides setup if not)
+- **scientific-reading** and **pubmed-setup** skills activate — verifies PubMed MCP is connected, then queries with optimized Boolean queries and MeSH terms
 - Searches across PubMed, preprints (bioRxiv, chemRxiv), and web sources in parallel
 - Returns results ranked by relevance, recency, and open-access availability
 - Suggests a reading order, identifies gaps in the search, and recommends follow-up queries
@@ -84,15 +85,16 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 4: Analyze key papers**
 
 ```
-/sci-read deep literature/PDFs/02_Metabolic_Engineering/MetabEng_Ecoli_succinate_2024.pdf
-/sci-read extract literature/PDFs/01_Reviews/BiotechBiofuels_biofuel_review_2023.pdf
+"Give me a deep technical analysis of MetabEng_Ecoli_succinate_2024.pdf"
+
+"Extract the quantitative data from these review papers into comparison tables"
 ```
 
 **What the plugin does:**
-- **/sci-read** provides structured analysis tailored to the paper type:
+- **scientific-reading** skill provides structured analysis tailored to the paper type:
   - **Deep analysis:** Methods-first evaluation, separating claims from evidence, extracting specific numbers with units and conditions
   - **Data extraction:** Pulls quantitative results into comparison tables — titers, yields, productivities, conditions — ready for your proposal's state-of-the-art table
-- **scientific-reading** skill applies field-specific evaluation lenses: flags whether results are from model substrates or real feedstocks, shake flask or bioreactor, and whether the mass balance was closed
+- Applies field-specific evaluation lenses: flags whether results are from model substrates or real feedstocks, shake flask or bioreactor, and whether the mass balance was closed
 - Output: structured briefs with "bottom line," key findings, relevance to your project, limitations, and action items
 
 ---
@@ -100,13 +102,14 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 5: Build your reference library**
 
 ```
-/sci-library add 10.1016/j.ymben.2024.01.005
-/sci-library add 10.1038/s41467-025-12345-6 10.1021/acscatal.5c00123
-/sci-library tag smith2024 #for-proposal #state-of-art #key-benchmark
+"Add these papers to my reference library: 10.1016/j.ymben.2024.01.005,
+10.1038/s41467-025-12345-6, 10.1021/acscatal.5c00123"
+
+"Tag smith2024 as for-proposal, state-of-art, key-benchmark"
 ```
 
 **What the plugin does:**
-- **/sci-library** resolves full metadata via PubMed MCP for each DOI/PMID
+- Resolves full metadata via PubMed MCP for each DOI/PMID
 - Generates BibTeX entries and adds to `library.bib` (for LaTeX) and `library.md` (for browsing)
 - Supports batch adding from search results, reference lists, or DOI lists
 - Tags let you filter later: `#for-proposal` to pull only proposal-relevant citations
@@ -118,11 +121,13 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 6: Synthesize the literature into a review section**
 
 ```
-/sci-review "state of the art in microbial conversion of aromatic compounds" --format comparison
+"Write a state-of-the-art review section on microbial conversion of
+aromatic compounds — include a comparison table of reported titers,
+yields, and productivities across studies"
 ```
 
 **What the plugin does:**
-- **/sci-review** draws from your library and paper analyses to produce thematic synthesis
+- **scientific-writing** and **scientific-reading** skills work together to produce thematic synthesis
 - Builds state-of-the-art comparison tables with standardized metrics across studies
 - Organizes by technical challenge or approach — not paper-by-paper summaries
 - Identifies consensus, contradictions, and gaps in the literature
@@ -134,12 +139,11 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 7: Draft the proposal**
 
 ```
-/sci-draft proposal
-→ "This is for DARPA, responding to [solicitation number]. Our approach is..."
+"Draft a proposal for this DARPA solicitation. Our approach is [brief
+description]. Use the literature review and paper analyses from earlier."
 ```
 
 **What the plugin does:**
-- **/sci-draft** identifies the document type and reads the relevant reference file (`references/proposals.md`) for structural guidance
 - **scientific-writing** skill activates to provide strategic framing calibrated to the audience — DARPA PMs want bold/high-risk framing with quantitative go/no-go criteria; ARPA-H PMs want patient impact and clinical translation; ARPA-E PMs want TEA and scale-up pathways
 - Mirrors the solicitation's section structure exactly — never invents its own organization
 - Allocates effort proportional to evaluation criteria weights
@@ -153,12 +157,13 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 8: Create figures and tables**
 
 ```
-/sci-figures caption
-/sci-figures table
+"Write captions for all figures in the proposal"
+
+"Format the results as a milestone table and a state-of-the-art comparison table"
 ```
 
 **What the plugin does:**
-- **/sci-figures** writes publication-quality captions that make figures standalone-interpretable
+- Writes publication-quality captions that make figures standalone-interpretable
 - Formats comparison tables (state-of-the-art benchmarks, experimental results, milestone tables) with consistent column headers, units, and significant figures
 - Manages panel labeling (A, B, C) and cross-references throughout the document
 - **document-formats** skill activates if you need to generate the actual PPTX for figure slides or XLSX for data tables
@@ -169,13 +174,14 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 9: Edit and refine**
 
 ```
-/sci-edit proposal_draft.md clarity
-/sci-edit proposal_draft.md flow
-/sci-edit proposal_draft.md tone
+"Edit the proposal draft for clarity — tighten the prose and
+strengthen the quantitative claims"
+
+"Now check the logical flow and scientific tone"
 ```
 
 **What the plugin does:**
-- **/sci-edit** runs multi-pass editing, each focused on a different dimension:
+- Runs multi-pass editing, each focused on a different dimension:
   - **Clarity:** Tightens prose (most scientific writing can lose 20–30% of words), removes ambiguity, strengthens quantitative claims
   - **Flow:** Checks logical progression paragraph-by-paragraph, ensures topic sentences carry the narrative, identifies non-sequiturs
   - **Tone:** Calibrates confidence level — assertive but not overclaiming, honest about limitations without undermining the proposal
@@ -187,8 +193,8 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 10: Verify format compliance**
 
 ```
-"Check this proposal against the DARPA BAA requirements"
-→ Provide the solicitation alongside your draft
+"Check this proposal against the DARPA BAA requirements — make sure
+everything is compliant before submission"
 ```
 
 **What the plugin does:**
@@ -209,7 +215,7 @@ This end-to-end example shows how every skill and command works together — fro
 **Step 11: Export to final format**
 
 ```
-"Convert the proposal to DOCX" or "Generate a PDF"
+"Convert the proposal to DOCX with the formatting specs from the solicitation"
 ```
 
 **What the plugin does:**
@@ -227,6 +233,8 @@ This end-to-end example shows how every skill and command works together — fro
 - **scientific-reading** structures every paper analysis for actionable output
 - **paper-retrieval** never gives up on a PDF until all 16 sources are exhausted
 - **format-compliance** catches the trivial formatting issues that cause desk rejections
+
+> **Note:** Slash commands (`/sci-search`, `/sci-draft`, etc.) are also available for power users who want direct access to specific capabilities. The walkthrough above uses natural language prompts because the skills trigger automatically — use whichever style you prefer.
 
 ## Auto-Activating Skills
 
