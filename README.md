@@ -265,7 +265,7 @@ These skills trigger automatically when Claude detects relevant context — no s
 Clone the repo and add as a local plugin:
 
 ```bash
-git clone https://github.com/dsatory/claude-sciencing.git
+git clone https://gitlab.com/ginkgobioworks/ai-skills/claude-sciencing.git
 ```
 
 Then add the path to your Claude Code settings (`.claude/settings.json`):
