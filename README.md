@@ -21,7 +21,7 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 "Add this paper to my library: 10.1016/j.ymben.2024.01.005"          → Resolves metadata, generates BibTeX
 "Give me a deep technical analysis of this paper"                     → Structured analysis with field-specific lenses
 "Write a state-of-the-art review on host selection for organic acids" → Thematic synthesis with comparison tables
-"Draft a proposal for this DARPA solicitation"                        → Full proposal structured to the BAA
+"Draft a proposal for this grant solicitation"                        → Full proposal structured to requirements
 "Edit this draft for clarity and scientific tone"                     → Multi-pass editing
 "Write captions for all figures"                                      → Publication-quality captions
 ```
@@ -35,7 +35,7 @@ This end-to-end example shows how the plugin handles the full proposal lifecycle
 **Step 1: Read the solicitation and understand requirements**
 
 ```
-"Read this DARPA BAA and extract the key requirements — evaluation
+"Read this solicitation and extract the key requirements — evaluation
 criteria, page limits, required sections, formatting specs, and deadlines"
 ```
 
@@ -139,12 +139,12 @@ yields, and productivities across studies"
 **Step 7: Draft the proposal**
 
 ```
-"Draft a proposal for this DARPA solicitation. Our approach is [brief
+"Draft a proposal for this solicitation. Our approach is [brief
 description]. Use the literature review and paper analyses from earlier."
 ```
 
 **What the plugin does:**
-- **scientific-writing** skill activates to provide strategic framing calibrated to the audience — DARPA PMs want bold/high-risk framing with quantitative go/no-go criteria; ARPA-H PMs want patient impact and clinical translation; ARPA-E PMs want TEA and scale-up pathways
+- **scientific-writing** skill activates to provide strategic framing calibrated to the audience and funder — each agency has distinct conventions and the skill adapts accordingly
 - Mirrors the solicitation's section structure exactly — never invents its own organization
 - Allocates effort proportional to evaluation criteria weights
 - Drafts each section with specific technical content: preliminary data, risk mitigation, milestones, team qualifications demonstrated with evidence
@@ -193,7 +193,7 @@ strengthen the quantitative claims"
 **Step 10: Verify format compliance**
 
 ```
-"Check this proposal against the DARPA BAA requirements — make sure
+"Check this proposal against the solicitation requirements — make sure
 everything is compliant before submission"
 ```
 
@@ -252,7 +252,7 @@ These skills trigger automatically when Claude detects relevant context — no s
 
 ## Document Types Supported
 
-**Writing:** Abstracts (grant, conference, journal) · Government proposals (DARPA, ARPA-E, ARPA-H, DOE, NIH, BARDA) · Commercial proposals · Technical reports · Literature reviews · White papers · Statements of Work · Progress reports · Patent/invention disclosures · Slide presentations · One-pagers · Internal decision memos · Protocols
+**Writing:** Abstracts (grant, conference, journal) · Government proposals (NIH, NSF, DOE, DARPA, ARPA-E, ARPA-H, BARDA, and others) · Commercial proposals · Technical reports · Literature reviews · White papers · Statements of Work · Progress reports · Patent/invention disclosures · Slide presentations · One-pagers · Internal decision memos · Protocols
 
 **Reading:** Research articles · Review articles · Patents and patent applications · Preprints · Conference proceedings · TEA/LCA studies · Competitive landscape analysis
 

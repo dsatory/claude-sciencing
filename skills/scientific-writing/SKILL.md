@@ -3,7 +3,7 @@ name: scientific-writing
 description: >
   Comprehensive scientific and technical writing for biotechnology R&D in industrial settings.
   Covers every document type in the biotech research lifecycle: grant abstracts, government proposals
-  (DOE, DARPA, ARPA-E, ARPA-H, BARDA, NSF), commercial proposals, technical reports, literature reviews,
+  (NIH, NSF, DOE, DARPA, ARPA-E, ARPA-H, BARDA, and others), commercial proposals, technical reports, literature reviews,
   white papers, SOWs, progress reports, patent disclosures, slide decks, one-pagers, and internal memos.
   Use this skill whenever the user asks to write, draft, edit, revise, or review any scientific or
   technical document — even if they just say "write up the results" or "draft the abstract" or
@@ -30,11 +30,11 @@ Every assertion earns its place with evidence. Vague claims like "significant im
 
 ### 2. Audience-Calibrated Framing
 
-The same result gets framed differently for a DARPA PM, an internal R&D team, a commercial partner, or a patent examiner. Before writing, identify the reader and what they care about:
+The same result gets framed differently for a government program manager, an internal R&D team, a commercial partner, or a patent examiner. Before writing, identify the reader and what they care about:
 
 | Audience | They care about | Frame results as |
 |----------|----------------|-----------------|
-| Government PM (DARPA, ARPA-H, DOE) | Mission alignment, technical risk, metrics | Progress toward program milestones; risk reduction |
+| Government PM | Mission alignment, technical risk, metrics | Progress toward program milestones; risk reduction |
 | Internal R&D | Mechanistic insight, next experiments | What we learned, what it means, what to do next |
 | Commercial partner | Timeline, cost, competitive advantage | Business value, differentiation, path to market |
 | IP counsel / patent | Novelty, enablement, claim support | What's new, what it enables, reduction to practice |
