@@ -21,7 +21,7 @@ Ask the user (if not provided in $ARGUMENTS):
 ### Step 2: Gather Sources
 
 - If `--papers` provided, read those from the reference library
-- If not, search for relevant literature using `/sci-search` logic
+- If not, search PubMed and the web for relevant literature (construct Boolean queries, use MeSH terms, search multiple sources)
 - Check if the user has reading notes in `references/notes/` — use those for papers already analyzed
 - Target 10-30 papers for a focused review, 30-80 for a comprehensive one
 

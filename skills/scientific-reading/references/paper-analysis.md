@@ -13,9 +13,9 @@ For a quick but rigorous paper distillation (~2-3 minutes of reading time for th
 The single most important takeaway for the reader's work. This requires understanding both the paper AND the reader's context.
 
 **Examples:**
-- "First demonstration of one-pot enzymatic PET depolymerization + microbial conversion to PHA — directly validates our proposed cascade bioprocess."
-- "New thermostable ketoreductase with 3x higher activity than LbADH, but only tested on model ketones — worth monitoring, not ready for our platform."
-- "TEA shows bio-succinic acid at $1,086/ton with integrated membrane separation — competitive with petroleum-derived, directly citable for our DOE cost projections."
+- "First demonstration of one-pot enzymatic PET depolymerization + microbial conversion to PHA — directly validates cascade bioprocess approaches."
+- "New thermostable ketoreductase with 3× higher activity than LbADH, but only tested on model ketones — worth monitoring, not yet validated on industrial substrates."
+- "TEA shows bio-succinic acid at $1,086/ton with integrated membrane separation — competitive with petroleum-derived, directly citable as a cost benchmark in proposals."
 
 ### Step 3: Key Findings (3-5 bullets)
 Each bullet must contain a specific number or concrete claim. No vague summaries.

@@ -63,12 +63,12 @@ How likely is it that another group could reproduce these results?
 Even valid, reproducible results may not matter for your specific application.
 
 **Relevance filters for industrial biotech:**
-- Does this work at conditions we can implement? (Exotic solvents, extreme pressures, rare catalysts may be scientifically interesting but industrially useless)
-- Does the substrate match what we'll actually process?
-- Is the product something we can actually recover and purify?
+- Does this work at industrially feasible conditions? (Exotic solvents, extreme pressures, rare catalysts may be scientifically interesting but impractical)
+- Does the substrate match what would actually be processed at scale?
+- Is the product recoverable and purifiable with standard downstream methods?
 - Does the economics work even in the best case?
-- Is the organism something we can engineer and ferment at our facility?
-- Does it integrate with our existing pipeline, or require rebuilding from scratch?
+- Is the organism something that can be engineered and fermented at industrial scale?
+- Does it integrate with existing process infrastructure, or require rebuilding from scratch?
 
 ---
 

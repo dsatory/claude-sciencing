@@ -25,7 +25,7 @@ Generate structured scientific content. Parse the first argument from $ARGUMENTS
 - **flow** — Analyze argument flow in existing text
 - If no argument or unrecognized, ask which mode to use
 
-Before drafting, always check if the `scientific-writing` skill is loaded for additional strategic guidance. Read the relevant reference file from `skills/scientific-writing/references/` for the document type being drafted.
+Before drafting, the `scientific-writing` skill provides additional strategic guidance for each document type. If it is loaded, its reference files contain detailed conventions — trust that context and apply its principles.
 
 ---
 
@@ -156,8 +156,6 @@ Draft a government or commercial proposal section. Ask the user:
 3. What section are they drafting?
 4. What are the evaluation criteria?
 
-Read `skills/scientific-writing/references/proposals.md` for detailed guidance on government vs. commercial proposal conventions.
-
 Key principles:
 - **Mirror the solicitation's structure** — never invent your own organization
 - **Echo the solicitation's language** when describing your approach
@@ -179,7 +177,7 @@ Draft a technical report or section. Structure:
 7. References
 8. Appendices
 
-Read `skills/scientific-writing/references/reports.md` for full guidance.
+Tables and figures carry the primary data; text interprets and contextualizes them.
 
 ---
 
@@ -193,7 +191,7 @@ Draft a Statement of Work. For each task, specify:
 - Outputs/deliverables (measurable)
 - Duration and timeline
 
-Include a milestones table with go/no-go criteria and a deliverables table with due dates and formats. Read `skills/scientific-writing/references/sow.md`.
+Include a milestones table with go/no-go criteria and a deliverables table with due dates and formats. Be specific enough to be enforceable, flexible enough to accommodate reality.
 
 ---
 
@@ -206,7 +204,7 @@ Draft a progress/milestone report. Structure per task:
 - **Issues encountered**
 - **Next period plan**
 
-Include milestone status table and risk register update. Read `skills/scientific-writing/references/progress-reports.md`.
+Include milestone status table and risk register update. Lead with results, not activities ("Achieved 47% yield" not "Performed experiments").
 
 ---
 
@@ -222,7 +220,7 @@ Draft an invention disclosure. Structure:
 7. Potential Applications
 8. Public Disclosures (dates — critical for filing deadlines)
 
-Read `skills/scientific-writing/references/patents.md`.
+Describe the broadest version AND the specific best embodiment. Be exhaustive in examples — more examples = broader claim support.
 
 ---
 
@@ -235,7 +233,7 @@ Outline a slide deck. Principles:
 
 Structure: Problem (2-3 slides) → Approach → Key Results (strongest data) → Conclusions + Next Steps → Acknowledgments.
 
-Read `skills/scientific-writing/references/presentations.md`.
+Put the most important result in the first third of the talk, not the last slide before conclusions.
 
 ---
 

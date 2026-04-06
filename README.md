@@ -48,19 +48,25 @@ These skills trigger automatically when Claude detects relevant context — no s
 
 ## Installation
 
-Add the marketplace and install:
-
-```bash
-claude plugin marketplace add dsatory/claude-sciencing
-claude plugin install claude-sciencing
-```
-
-Or clone and use locally:
+Clone the repo and add as a local plugin:
 
 ```bash
 git clone https://github.com/dsatory/claude-sciencing.git
-claude --plugin-dir ./claude-sciencing
 ```
+
+Then add the path to your Claude Code settings (`.claude/settings.json`):
+
+```json
+{
+  "plugins": ["path/to/claude-sciencing"]
+}
+```
+
+### Optional: PubMed Integration
+
+The `/sci-search`, `/sci-read`, `/sci-library`, and `/sci-review` commands can use PubMed MCP tools for structured literature search, metadata retrieval, and full-text access. If you have the PubMed MCP server configured in Claude, these tools are used automatically. Without PubMed MCP, the commands fall back to web search — still functional, but with less structured results.
+
+To set up PubMed MCP, add it to your `.mcp.json` or Claude settings. See [Claude MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp) for setup instructions.
 
 ## Field-Specific Evaluation Lenses
 
