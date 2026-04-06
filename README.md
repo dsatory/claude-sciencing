@@ -32,9 +32,12 @@ These skills trigger automatically when Claude detects relevant context — no s
 
 | Skill | Triggers on |
 |-------|------------|
-| **scientific-style** | Editing `.tex`, `.md`, `.bib` files with scientific content. Provides tense, voice, nomenclature, statistical reporting, and formatting guidance. |
+| **scientific-style** | Editing `.tex`, `.md`, `.bib`, `.pdf`, `.docx`, `.pptx`, `.xlsx` files with scientific content. Provides tense, voice, nomenclature, statistical reporting, and formatting guidance. |
 | **scientific-writing** | Any request to write, draft, or revise scientific documents. Provides strategic framing, audience calibration, and document-type-specific conventions. |
 | **scientific-reading** | Any request to read, summarize, or analyze a paper or patent. Provides structured distillation with field-specific evaluation lenses. |
+| **paper-retrieval** | Any request to download, fetch, or collect scientific PDFs. Exhaustive 5-tier, 16-source download strategy with auto-categorization into numbered folders and standardized naming (`JournalAbbrev_description_year.pdf`). |
+| **pubmed-setup** | Checks PubMed MCP integration status and guides setup. Runs diagnostics across search, metadata, ID conversion, and full-text capabilities. |
+| **document-formats** | Reading or writing `.pdf`, `.docx`, `.pptx`, `.xlsx` files. Handles dependency checks, Python-based read/write for all four formats, and format conversion. |
 
 ## Document Types Supported
 
@@ -62,11 +65,21 @@ Then add the path to your Claude Code settings (`.claude/settings.json`):
 }
 ```
 
-### Optional: PubMed Integration
+### PubMed Integration
 
-The `/sci-search`, `/sci-read`, `/sci-library`, and `/sci-review` commands can use PubMed MCP tools for structured literature search, metadata retrieval, and full-text access. If you have the PubMed MCP server configured in Claude, these tools are used automatically. Without PubMed MCP, the commands fall back to web search — still functional, but with less structured results.
+The `/sci-search`, `/sci-read`, `/sci-library`, and `/sci-review` commands use PubMed MCP tools for structured literature search, metadata retrieval, and full-text access. PubMed MCP is a Claude.ai managed integration — enable it at [claude.ai/settings/connectors](https://claude.ai/settings/connectors) and it syncs automatically to Claude Code. Without PubMed MCP, the commands fall back to web search — still functional, but with less structured results.
 
-To set up PubMed MCP, add it to your `.mcp.json` or Claude settings. See [Claude MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp) for setup instructions.
+Run the **pubmed-setup** skill to check your integration status and troubleshoot any issues.
+
+### Python Dependencies (for document-formats skill)
+
+The document-formats skill requires Python libraries for Office and PDF file handling:
+
+```bash
+pip3 install python-docx python-pptx openpyxl fpdf2
+```
+
+The skill checks for missing dependencies automatically and guides installation.
 
 ## Field-Specific Evaluation Lenses
 
