@@ -1,6 +1,6 @@
 ---
 name: scientific-style
-description: This skill should be used when the user is writing or editing .tex, .md, or .bib files that contain scientific content such as methods sections, citations, figure references, experimental results, or statistical analyses. It auto-activates to provide background guidance on scientific writing best practices for biotech and life sciences documents. Trigger when file content includes patterns like "\cite", "\ref", "Figure", "Table", "p-value", "et al.", "Methods", "Results", "Discussion", section headers typical of scientific papers, or when the user mentions writing a paper, manuscript, protocol, or grant.
+description: This skill should be used when the user is writing or editing .tex, .md, .bib, .pdf, .docx, .pptx, or .xlsx files that contain scientific content such as methods sections, citations, figure references, experimental results, or statistical analyses. It auto-activates to provide background guidance on scientific writing best practices for biotech and life sciences documents. Trigger when file content includes patterns like "\cite", "\ref", "Figure", "Table", "p-value", "et al.", "Methods", "Results", "Discussion", section headers typical of scientific papers, or when the user mentions writing a paper, manuscript, protocol, or grant.
 version: 1.0.0
 ---
 
@@ -11,7 +11,7 @@ Provide background scientific writing guidance when the user is working on scien
 ## When This Skill Applies
 
 Activate when editing or writing files that contain scientific content indicators:
-- File extensions: `.tex`, `.md`, `.bib`, `.Rmd`
+- File extensions: `.tex`, `.md`, `.bib`, `.Rmd`, `.pdf`, `.docx`, `.pptx`, `.xlsx`
 - Content patterns: citation commands, figure/table references, statistical values, section headers matching IMRaD structure, reagent or organism names, methodology descriptions
 
 ## Core Principles
