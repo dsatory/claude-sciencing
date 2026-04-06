@@ -1,8 +1,10 @@
 # Claude Sciencing
 
-A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish.
+A Claude Code plugin for scientific research in biotech and life sciences — covering the full research lifecycle from literature search through wet lab work to publication.
 
 ## Slash Commands
+
+### Literature & Writing (`sci-*`)
 
 | Command | Description |
 |---------|-------------|
@@ -14,13 +16,37 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 | `/sci-edit` | Multi-pass scientific editing — clarity, tone, jargon, logical flow, topic sentence analysis. |
 | `/sci-figures` | Write figure captions, format tables, manage panel labeling for publications. |
 
-### Workflow Example
+### Lab & Experimental (`lab-*`)
+
+| Command | Description |
+|---------|-------------|
+| `/lab-ideate` | Brainstorm experimental approaches — generate, evaluate, and prioritize strategies. |
+| `/lab-plan` | Design rigorous experiments — controls, replicates, DOE, statistical power, timelines. |
+| `/lab-protocol` | Generate detailed bench-ready protocols with reagent calculations and practical notes. |
+| `/lab-troubleshoot` | Diagnose failed experiments — ranked root causes with diagnostic experiments. |
+| `/lab-analyze` | Analyze experimental data — statistics, visualization, and biological interpretation. |
+| `/lab-qc` | Generate QC checklists with acceptance criteria for purification, assays, and processes. |
+| `/lab-notebook` | Format lab notebook entries for reproducibility and IP protection. |
+
+### Workflow Examples
 
 ```
+# Literature workflow
 /sci-search engineered bacteria for succinic acid     → Find relevant papers
 /sci-library add 10.1016/j.ymben.2024.01.005         → Add to your library
 /sci-read deep path/to/paper.pdf                      → Deep technical analysis
 /sci-review "host selection for organic acid production" → Synthesize into review
+
+# Lab workflow
+/lab-ideate improving recombinant protein yield in E. coli
+/lab-plan expression optimization --doe
+/lab-protocol Gibson assembly --scale 10 reactions
+/lab-troubleshoot no colonies after transformation, cloning
+/lab-analyze fermentation_data.csv --stats --viz
+/lab-qc post-IMAC
+/lab-notebook --ip
+
+# Writing workflow
 /sci-draft proposal                                    → Draft the proposal section
 /sci-edit path/to/draft.md clarity                     → Polish the writing
 /sci-figures caption                                   → Write figure captions
@@ -28,23 +54,32 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 
 ## Auto-Activating Skills
 
-These skills trigger automatically when Claude detects relevant context — no slash command needed.
+These skills trigger automatically when Claude detects relevant context — no slash command needed. You can just describe what you need and the right skill activates.
 
 | Skill | Triggers on |
 |-------|------------|
 | **scientific-style** | Editing `.tex`, `.md`, `.bib` files with scientific content. Provides tense, voice, nomenclature, statistical reporting, and formatting guidance. |
 | **scientific-writing** | Any request to write, draft, or revise scientific documents. Provides strategic framing, audience calibration, and document-type-specific conventions. |
 | **scientific-reading** | Any request to read, summarize, or analyze a paper or patent. Provides structured distillation with field-specific evaluation lenses. |
+| **lab-workflow** | Any discussion of experimental design, protocols, troubleshooting, data analysis, or hands-on lab work. Covers molecular biology, fermentation, protein science, and analytical chemistry. |
 
-## Document Types Supported
+## What's Covered
 
-**Writing:** Abstracts (grant, conference, journal) · Government proposals (DARPA, DOE, ARPA-E, NIH, BARDA) · Commercial proposals · Technical reports · Literature reviews · White papers · Statements of Work · Progress reports · Patent/invention disclosures · Slide presentations · One-pagers · Internal decision memos · Protocols
+**Literature:** Search (PubMed, web, patents) · Reference management · Paper distillation · Thematic review synthesis · Competitive intelligence
 
-**Reading:** Research articles · Review articles · Patents and patent applications · Preprints · Conference proceedings · TEA/LCA studies · Competitive landscape analysis
+**Writing:** Abstracts (grant, conference, journal) · Government proposals (DARPA, DOE, ARPA-E, NIH) · Commercial proposals · Technical reports · Literature reviews · White papers · SOWs · Progress reports · Patent disclosures · Presentations · One-pagers · Memos · Protocols
 
-**Editing:** Clarity and conciseness · Passive voice assessment · Scientific tone · Jargon calibration · Logical flow · Topic sentence strengthening
+**Lab — Molecular Biology:** Cloning (Gibson, Golden Gate, Gateway) · PCR · Mutagenesis · Transformation · Sequencing prep
 
-**Figures & Tables:** Publication-quality captions · Journal-formatted tables (Markdown + LaTeX) · Panel labeling and cross-references
+**Lab — Microbiology & Fermentation:** Strain construction · Growth characterization · Shake flask optimization · Bioreactor operation · ALE · Contamination
+
+**Lab — Protein Science:** Expression optimization · Lysis · Chromatography (IMAC, IEX, SEC) · SDS-PAGE · Activity assays · Protein engineering
+
+**Lab — Analytical:** HPLC/UPLC · LC-MS · Plate reader assays · Spectrophotometry
+
+**Editing:** Clarity · Passive voice · Scientific tone · Jargon calibration · Logical flow · Topic sentences
+
+**Figures & Tables:** Publication-quality captions · Journal-formatted tables · Panel labeling
 
 ## Installation
 
@@ -66,23 +101,12 @@ Then add the path to your Claude Code settings (`.claude/settings.json`):
 
 The `/sci-search`, `/sci-read`, `/sci-library`, and `/sci-review` commands can use PubMed MCP tools for structured literature search, metadata retrieval, and full-text access. If you have the PubMed MCP server configured in Claude, these tools are used automatically. Without PubMed MCP, the commands fall back to web search — still functional, but with less structured results.
 
-To set up PubMed MCP, add it to your `.mcp.json` or Claude settings. See [Claude MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp) for setup instructions.
-
-## Field-Specific Evaluation Lenses
-
-The reading and review tools apply domain-specific scrutiny:
-
-- **Strain engineering** — chromosomal vs. plasmid, production-relevant conditions, genetic complexity
-- **Catalysis / enzymology** — model vs. real substrate, catalyst loading, stability, mass balance
-- **Fermentation** — shake flask vs. bioreactor, titer + yield + productivity, feedstock type
-- **TEA / economics** — assumptions, sensitivity analysis, scale, capital inclusion, benchmarks
-- **Patents** — claims scope, enablement, design-around opportunities, FTO risk
-
 ## Core Principles
 
 - **Data over claims** — specific numbers with units, conditions, and comparisons
-- **Audience-calibrated** — same result framed differently for program managers, R&D teams, commercial partners, IP counsel
-- **Synthesize, don't summarize** — draw connections, identify consensus, flag contradictions
+- **Practical over theoretical** — bench-ready protocols, not textbook summaries
+- **Quick wins first** — try the 30-minute experiment before the 3-week one
+- **Controls are non-negotiable** — every experiment needs positive, negative, and vehicle controls
 - **Model vs. real** — always distinguish model substrate from real feedstock results
 - **Honest limitations** — credibility through acknowledging what you don't know
 
