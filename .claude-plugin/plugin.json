@@ -1,0 +1,19 @@
+{
+  "name": "claude-code-toolkit",
+  "version": "1.0.0",
+  "description": "A curated collection of Claude Code plugins for research, scientific writing, and technical work",
+  "author": {
+    "name": "Dominik Satory"
+  },
+  "keywords": [
+    "scientific-writing",
+    "literature-review",
+    "biotech",
+    "life-sciences",
+    "research",
+    "papers",
+    "grants",
+    "patents",
+    "pubmed"
+  ]
+}
