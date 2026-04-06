@@ -126,19 +126,42 @@ Does this grouping work, or would you like to adjust?
 
 ---
 
+## Prerequisites — PubMed MCP
+
+**This skill depends on PubMed MCP integration.** PubMed is the single best source for resolving article identifiers, checking OA status, and downloading full-text PDFs via PMC. Always start here.
+
+Before attempting any downloads, verify PubMed MCP is available:
+1. Call `mcp__claude_ai_PubMed__search_articles` with a simple test query
+2. If it fails, guide the user to run the **pubmed-setup** skill first
+3. Do NOT proceed with batch downloads without PubMed MCP — it is the backbone of identifier resolution and the most reliable download source
+
+---
+
 ## Download Strategy — Exhaustive and Persistent
 
 **CRITICAL PRINCIPLE: Never give up after one or two failed attempts.** For every paper, exhaust ALL sources below before marking it as unavailable. Many papers that appear paywalled have free copies somewhere — an author's personal site, a university repository, a government archive, or an alternative version (preprint, accepted manuscript, supplementary). The difference between downloading 50% vs 85% of a reading list is persistence, not luck.
 
 **Do NOT stop at the first failure for a paper. Work through EVERY tier systematically.**
 
+### Tier 0: PubMed MCP (ALWAYS do this first for every paper)
+
+**Before trying any download source, resolve the paper through PubMed MCP:**
+
+1. **Get metadata**: `mcp__claude_ai_PubMed__get_article_metadata` — retrieves title, authors, journal, DOI, PMID, abstract
+2. **Convert IDs**: `mcp__claude_ai_PubMed__convert_article_ids` — get PMCID from DOI or PMID (PMCID is the key to free PDFs)
+3. **Check copyright**: `mcp__claude_ai_PubMed__get_copyright_status` — tells you if the article is OA and what license it has
+4. **Try full text**: `mcp__claude_ai_PubMed__get_full_text_article` — if the article is in PMC, this returns the full text directly
+
+If PubMed returns a PMCID, the PDF is almost certainly available — proceed to Tier 1 step 1.
+If PubMed has the article but no PMCID, the metadata still provides DOI, journal, and year needed for all other tiers.
+If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to Tier 1 step 2 onward.
+
 ### Tier 1: Near-Guaranteed (try these first)
 
-**1. PubMed Central (PMC) — Most Reliable**
-- If the paper has a PMCID, the PDF is almost always available
+**1. PubMed Central (PMC) direct download**
+- Requires PMCID from Tier 0
 - URL pattern: `https://www.ncbi.nlm.nih.gov/pmc/articles/PMC{id}/pdf/`
-- Use `mcp__claude_ai_PubMed__get_full_text_article` to check availability
-- Use `mcp__claude_ai_PubMed__convert_article_ids` to get PMCID from DOI or PMID
+- This is the single most reliable PDF source — if a PMCID exists, this works ~95% of the time
 - **Also try**: individual article PDF links within PMC (some have multiple PDF files — main text vs. supplement)
 
 **2. MDPI Journals (Polymers, Catalysts, Biomolecules, Molecules, etc.)**
@@ -278,8 +301,8 @@ Paper: Smith et al. 2024, DOI: 10.1234/example
 
 ### For a single paper:
 
-1. **Resolve ALL identifiers** — Get DOI, PMID, PMCID, and any alternate IDs using PubMed tools. If the paper isn't in PubMed, use Semantic Scholar or CrossRef to resolve identifiers.
-2. **Work through tiers systematically** — Start at Tier 1, proceed through every tier. For each source:
+1. **PubMed MCP first (Tier 0)** — Resolve DOI, PMID, PMCID, and OA status using PubMed MCP tools. If the paper isn't in PubMed, use Semantic Scholar or CrossRef to resolve identifiers.
+2. **Work through tiers systematically** — Start at Tier 1 (PMC direct download if PMCID exists), proceed through every tier. For each source:
    a. Attempt the download
    b. **Verify immediately** (see Verification Steps below)
    c. If verification fails, log the failure reason and move to the next source
@@ -288,8 +311,8 @@ Paper: Smith et al. 2024, DOI: 10.1234/example
 
 ### For a batch of papers:
 
-1. **Build a manifest** — List all papers with their identifiers, OA status (from Unpaywall), and target filenames
-2. **Fast pass (Tier 1-2)** — Try PMC, publisher OA, and Unpaywall for ALL papers first. This handles the easy ones quickly.
+1. **Build a manifest via PubMed MCP** — Run Tier 0 for ALL papers first: resolve identifiers, get PMCIDs, check OA status. This gives you the full picture before downloading anything.
+2. **Fast pass (Tier 1-2)** — Download from PMC (for all papers with PMCIDs), then publisher OA and Unpaywall for the rest. This handles the easy ones quickly.
 3. **Stubborn pass (Tier 3-5)** — For every paper that failed the fast pass, go through Tier 3-5 sources one by one. This is where persistence pays off.
 4. **Report results** with full transparency:
 
