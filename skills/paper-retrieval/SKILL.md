@@ -60,19 +60,19 @@ All downloaded PDFs follow this strict naming format:
   - For journals not listed, create a sensible PascalCase abbreviation
 - **max_3_word_description**: 3 words max, underscored, capturing the core content
   - Use key organism, substrate, product, method, or finding
-  - Abbreviate organism names: `P_putida`, `N_aromaticivorans`, `E_coli`, `S_cerevisiae`
-  - Examples: `CuNi_lignin_toluene`, `lignin_valorization_review`, `beta_etherase_LigF`
+  - Abbreviate organism names: `E_coli`, `S_cerevisiae`, `C_glutamicum`, `B_subtilis`
+  - Examples: `CRISPR_Cas9_knockout`, `succinate_production_review`, `lipase_thermostability`
 - **year**: 4-digit publication year
 
-### Examples from established conventions:
+### Examples:
 ```
-NatComm_CuNi_lignin_toluene_2025.pdf
-ACSCatal_nanocluster_CO_cleavage_2025.pdf
-BiotechBiofuels_lignin_pyrolysis_review_2022.pdf
-AEM_N_aromaticivorans_PDC_2021.pdf
-MicrobCellFact_Comamonas_PDC_engineering_2023.pdf
-PNAS_sphingomonad_beta_etherase_2023.pdf
-SciAdv_P_putida_betaketoadipic_2023.pdf
+NatComm_Ecoli_succinate_titer_2025.pdf
+ACSCatal_enzyme_CO2_fixation_2025.pdf
+BiotechBiofuels_biofuel_production_review_2022.pdf
+AEM_Scerevisiae_ethanol_tolerance_2021.pdf
+MicrobCellFact_Cglutamicum_lysine_engineering_2023.pdf
+PNAS_directed_evolution_lipase_2023.pdf
+SciAdv_cellulose_hydrolysis_enzyme_2023.pdf
 ```
 
 ---
@@ -98,15 +98,15 @@ After downloading a batch, analyze the papers and propose a category structure b
 
 1. **Extract key themes** from each paper: primary method/approach, organism, target product, application area
 2. **Cluster by shared themes** — group papers that share a dominant axis:
-   - **Method-centric clusters**: papers sharing an approach (e.g., reductive catalytic fractionation, enzymatic depolymerization, metabolic engineering)
-   - **Organism-centric clusters**: papers centered on the same organism (e.g., P. putida engineering, N. aromaticivorans)
-   - **Product-centric clusters**: papers targeting the same output (e.g., muconic acid, PDC, adipic acid)
+   - **Method-centric clusters**: papers sharing an approach (e.g., directed evolution, CRISPR engineering, fermentation optimization)
+   - **Organism-centric clusters**: papers centered on the same organism (e.g., E. coli engineering, S. cerevisiae, C. glutamicum)
+   - **Product-centric clusters**: papers targeting the same output (e.g., succinate, lysine, ethanol)
    - **Review/survey papers**: always get their own `01_Reviews` folder
 3. **Choose the dominant grouping axis** — whichever axis produces the most balanced, non-overlapping clusters (typically 4-8 categories for a batch of 20-50 papers). Prefer the axis that minimizes papers appearing in multiple categories.
 4. **Number and name folders** using the pattern `{NN}_{Category_Name}`:
    - `01_Reviews` is always first
    - Remaining categories numbered `02`–`NN` in rough order from upstream (feedstock/depolymerization) to downstream (products/applications)
-   - Names should be 2-4 words, underscored, descriptive: `02_Catalytic_CC_CO_Cleavage`, `05_N_aromaticivorans_PDC`
+   - Names should be 2-4 words, underscored, descriptive: `02_Metabolic_Engineering`, `05_Enzyme_Discovery`
 5. **Present the proposed structure** to the user as a table:
 
 ```
@@ -115,7 +115,7 @@ After downloading a batch, analyze the papers and propose a category structure b
 | Folder | Category | Papers |
 |--------|----------|--------|
 | 01_Reviews/ | Review articles & surveys | 8 |
-| 02_Catalytic_Depolymerization/ | Chemical/catalytic lignin breakdown | 6 |
+| 02_Metabolic_Engineering/ | Strain engineering & pathway design | 6 |
 | 03_Biological_Funneling/ | Microbial aromatic catabolism | 5 |
 | ... | ... | ... |
 
@@ -299,7 +299,7 @@ Paper: Smith et al. 2024, DOI: 10.1234/example
 | # | Paper | Attempts | Source | Status | Filename |
 |---|-------|----------|--------|--------|----------|
 | 1 | Smith et al. 2024 | 1 | PMC | ✅ Downloaded | MetabEng_Ecoli_succinate_2024.pdf |
-| 2 | Chen et al. 2025 | 3 | Author site | ✅ Downloaded | NatComm_enzyme_lignin_2025.pdf |
+| 2 | Chen et al. 2025 | 3 | Author site | ✅ Downloaded | NatComm_enzyme_biocatalysis_2025.pdf |
 | 3 | Park et al. 2023 | 9 | — | ❌ Paywalled (all sources exhausted) | — |
 
 **Downloaded: 18/20 (90%)**
