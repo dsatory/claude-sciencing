@@ -1,6 +1,6 @@
 # Government & Commercial Proposals
 
-## Government Proposals (DARPA, DOE, ARPA-E, BARDA)
+## Government Proposals (DARPA, ARPA-E, ARPA-H, DOE, BARDA)
 
 Government proposals are the highest-stakes scientific writing in industrial biotech. They fund multi-year, multi-million-dollar programs. The reader is a technical program manager who is simultaneously an expert, a skeptic, and someone evaluating 30-100 submissions.
 
@@ -22,6 +22,25 @@ DARPA proposals have a distinct culture:
 - **Risk acknowledged and mitigated.** A proposal that claims no risks is not credible. Identify the top 3-5 technical risks, rate their severity/likelihood, and present concrete mitigation strategies.
 - **Team capability demonstrated, not just claimed.** Don't say "world-class team." Say "PI has published 23 papers on microbial organic acid production and demonstrated fed-batch succinate fermentation at 500 L scale (Smith et al. 2024)."
 - **Brief is better.** DARPA appreciates concision. Dense, substantive paragraphs beat padded sections.
+
+### ARPA-H-Specific Conventions
+
+ARPA-H shares DARPA's bold culture but with a health mission focus:
+
+- **Patient impact front and center.** Frame everything in terms of health outcomes — lives saved, diseases treated, patients reached, time to diagnosis reduced. ARPA-H exists to solve health problems that no one else will tackle.
+- **Clinical translation pathway.** Unlike DARPA, ARPA-H expects a clear path from research to clinical use. Address regulatory strategy (FDA pathway), clinical validation, and deployment plan.
+- **Health equity considerations.** ARPA-H cares about broad access — address how the technology reaches underserved populations, not just well-resourced health systems.
+- **Quantitative health metrics.** Similar to DARPA's go/no-go criteria but health-focused: "Reduce diagnostic turnaround from 14 days to <24 hours" or "Achieve ≥90% sensitivity at <$10/test."
+- **Interdisciplinary teams.** ARPA-H values clinical + engineering + regulatory expertise. Show the team spans bench to bedside.
+
+### ARPA-E-Specific Conventions
+
+ARPA-E focuses on transformative energy technologies:
+
+- **Energy impact metrics.** Quantify impact in terms of energy savings, emissions reduction, cost per kWh, or efficiency gains over state-of-the-art.
+- **Techno-economic analysis expected.** ARPA-E proposals should include or reference TEA showing a path to cost-competitiveness with incumbent technologies.
+- **Scale-up pathway.** Address manufacturing scalability and commercial deployment — ARPA-E wants technologies that can reach market, not just lab demonstrations.
+- **Market context.** Show awareness of the competitive landscape: existing solutions, market size, and why the proposed approach wins on cost, performance, or both.
 
 ### Proposal Structure (Typical Government)
 

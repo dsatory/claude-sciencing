@@ -42,7 +42,7 @@ These skills trigger automatically when Claude detects relevant context — no s
 
 ## Document Types Supported
 
-**Writing:** Abstracts (grant, conference, journal) · Government proposals (DARPA, DOE, ARPA-E, NIH, BARDA) · Commercial proposals · Technical reports · Literature reviews · White papers · Statements of Work · Progress reports · Patent/invention disclosures · Slide presentations · One-pagers · Internal decision memos · Protocols
+**Writing:** Abstracts (grant, conference, journal) · Government proposals (DARPA, ARPA-E, ARPA-H, DOE, NIH, BARDA) · Commercial proposals · Technical reports · Literature reviews · White papers · Statements of Work · Progress reports · Patent/invention disclosures · Slide presentations · One-pagers · Internal decision memos · Protocols
 
 **Reading:** Research articles · Review articles · Patents and patent applications · Preprints · Conference proceedings · TEA/LCA studies · Competitive landscape analysis
 

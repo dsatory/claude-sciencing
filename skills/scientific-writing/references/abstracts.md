@@ -2,13 +2,13 @@
 
 ## Types of Abstracts in Industrial Biotech
 
-### Grant/Proposal Abstracts (DARPA, DOE, ARPA-E, BARDA, NSF)
+### Grant/Proposal Abstracts (DARPA, ARPA-E, ARPA-H, DOE, BARDA, NSF)
 
 These are sales documents disguised as science. The reader is a program manager evaluating dozens of submissions. You have 150-500 words (check the solicitation) to convince them your approach is technically sound, innovative, and aligned with their program's goals.
 
 **Structure:**
 
-1. **Problem + Mission Alignment** (1-2 sentences): Frame the problem in terms the program cares about. For DARPA, this means national security, resilience, strategic advantage. For DOE, it's energy efficiency, sustainability, domestic manufacturing.
+1. **Problem + Mission Alignment** (1-2 sentences): Frame the problem in terms the program cares about. For DARPA, this means national security, resilience, strategic advantage. For ARPA-H, it's transformative health outcomes, patient impact, and breakthrough medical technologies. For DOE, it's energy efficiency, sustainability, domestic manufacturing.
 
 2. **Gap / Limitation of Current Approaches** (1-2 sentences): What can't be done now? Be specific — "current methods are inadequate" is worthless. "Current microbial 1,3-propanediol production plateaus at ~135 g/L due to glycerol uptake inhibition and NADH imbalance at high cell densities" is informative.
 

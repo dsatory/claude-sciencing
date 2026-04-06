@@ -16,7 +16,7 @@ Mapping who is doing what, with what funding, at what maturity, and what it mean
 - **Key signal:** A company filing patents in an area = serious commercial interest
 
 ### Funding Announcements
-- **DOE, DARPA, ARPA-E, NSF awards** are publicly searchable
+- **DOE, DARPA, ARPA-E, ARPA-H, NSF awards** are publicly searchable
 - **SBIR/STTR awards** reveal startup activity in the space
 - **Federal Reporter / USASpending.gov** for US government awards
 - **CORDIS** for EU-funded projects

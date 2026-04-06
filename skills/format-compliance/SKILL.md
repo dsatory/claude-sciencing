@@ -61,7 +61,7 @@ For every compliance check, you must have the actual requirements in hand. Searc
    - Cover letter requirements
    - Manuscript formatting (double-spaced? Line numbers? Font?)
 
-### Government Proposals (DARPA, DOE, ARPA-E, NIH, BARDA, NSF)
+### Government Proposals (DARPA, ARPA-E, ARPA-H, DOE, NIH, BARDA, NSF)
 
 1. **Check if the user has the solicitation** — ask for the BAA, NOFO, PS, RFI, or FOA document
 2. **If available**, read it and extract:
@@ -167,7 +167,7 @@ If the document is a proposal, additionally check:
 - [ ] **Evaluation criteria addressed** — every criterion is explicitly addressed, with effort proportional to weight
 - [ ] **Compliance matrix** — if required or if >10 requirements
 - [ ] **Milestones and deliverables** — present, specific, and measurable
-- [ ] **Go/no-go criteria** — quantitative and unambiguous (for DARPA)
+- [ ] **Go/no-go criteria** — quantitative and unambiguous (for DARPA/ARPA-E/ARPA-H)
 - [ ] **Risk identification and mitigation** — present and substantive
 - [ ] **Team qualifications** — demonstrated with evidence, not just claimed
 - [ ] **Budget alignment** — scope matches the budget narrative (if budget section is included)

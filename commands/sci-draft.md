@@ -144,7 +144,7 @@ Draft grant-specific sections following NIH or similar funding agency convention
 - Potential pitfalls and alternative strategies
 - Timeline and milestones
 
-Ask for the funding mechanism (R01, R21, K award, DARPA, DOE, ARPA-E, foundation) to calibrate scope and tone.
+Ask for the funding mechanism (R01, R21, K award, DARPA, ARPA-E, ARPA-H, DOE, foundation) to calibrate scope and tone.
 
 ---
 
