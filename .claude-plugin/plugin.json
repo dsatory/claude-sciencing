@@ -1,7 +1,7 @@
 {
-  "name": "claude-code-toolkit",
+  "name": "claude-sciencing",
   "version": "1.0.0",
-  "description": "A curated collection of Claude Code plugins for research, scientific writing, and technical work",
+  "description": "Claude Code plugin for scientific research in biotech and life sciences — search, read, analyze, write, edit, and publish",
   "author": {
     "name": "Dominik Satory"
   },

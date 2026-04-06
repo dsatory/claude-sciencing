@@ -1,12 +1,6 @@
-# Claude Code Toolkit
+# Claude Sciencing
 
-A curated collection of Claude Code plugins for research, scientific writing, and technical work.
-
-## Plugins
-
-### `scientific-toolkit`
-
-A comprehensive scientific research assistant covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish.
+A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish.
 
 ## Slash Commands
 
@@ -54,17 +48,18 @@ These skills trigger automatically when Claude detects relevant context — no s
 
 ## Installation
 
-Install as a Claude Code plugin:
+Add the marketplace and install:
 
 ```bash
-claude plugin add dsatory/claude-code-toolkit
+claude plugin marketplace add dsatory/claude-sciencing
+claude plugin install claude-sciencing
 ```
 
-Or clone and add locally:
+Or clone and use locally:
 
 ```bash
-git clone https://github.com/dsatory/claude-code-toolkit.git
-# Add the path to your Claude Code plugin configuration
+git clone https://github.com/dsatory/claude-sciencing.git
+claude --plugin-dir ./claude-sciencing
 ```
 
 ## Field-Specific Evaluation Lenses
