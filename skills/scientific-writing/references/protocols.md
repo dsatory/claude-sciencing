@@ -341,3 +341,88 @@ Formal SOPs then follow a standardized section order:
 | Recovery timing | "Have medium ready BEFORE electroporation" | Steps listed sequentially without urgency |
 | Dilution strategy | Plate 3 dilutions because yields vary | Single plating concentration |
 | Night-before prep | "Claim a centrifuge, set to 4°C" | Starts protocol on Day 1 morning |
+
+### Patterns from Molecular Biology / qRT-PCR Protocols
+
+These additional patterns come from validated multi-day molecular biology protocols.
+
+**Pattern 7: Multi-Run Experimental Strategy**
+
+Define a progressive multi-run approach upfront so each run informs the next:
+
+```
+Three-run strategy:
+- Run 1 (pilot): 2 strains, all 4 primer pairs, triplicates. Validate 
+  primers, check amplification efficiencies, select best housekeeping gene.
+- Run 2 (screen): All 50 strains, 2 primer pairs (best housekeeping + target), 
+  technical duplicates. Rank strains by target expression.
+- Run 3 (validation): Top 10 strains, best housekeeping + target, biological 
+  and technical triplicates for publication-quality data.
+```
+
+This framing tells the scientist what decisions this run feeds — not just what to do, but why it matters.
+
+**Pattern 8: Day-Based Timeline with Time-of-Day Labels**
+
+Multi-day protocols should use day and time-of-day structure, not just sequential step numbers:
+
+```
+Day 1 (evening):
+1. Inoculate cultures into selective media. Grow overnight at 30°C, 200-250 rpm.
+
+Day 2 (morning):
+2. Back-dilute to OD₆₀₀ ~0.1-0.2 in fresh pre-warmed media.
+3. Grow at 30°C, 200-250 rpm for 3-4 hours until mid-log (OD₆₀₀ 0.4-0.8).
+   Check OD₆₀₀ hourly.
+
+Note: If strains grow at different rates, stagger back-dilutions so both 
+reach mid-log phase simultaneously.
+```
+
+**Pattern 9: Enzymatic Digestion with In-Process Monitoring**
+
+When incubation duration is variable, include a monitoring method and decision criterion:
+
+```
+Cell Wall Digestion:
+6. Resuspend pellet in 500 µL sorbitol buffer (1 M sorbitol, 100 mM EDTA, pH 7.4).
+7. Add enzyme at 2-5 units per OD₆₀₀ equivalent.
+8. Incubate at 30°C for 30-60 min with gentle agitation (invert every 10 min).
+9. Monitor: Mix 5 µL sample + 5 µL 1% SDS on a slide. Target >80% lysis in SDS.
+10. Pellet at 300 × g for 5 min. Do NOT exceed — cells are fragile after digestion.
+
+Note: Under-digestion = poor yield (lysis reagent cannot penetrate intact walls).
+Over-digestion = degradation. Log-phase cells digest faster than stationary-phase.
+```
+
+**Pattern 10: Plate-Based Assay Master Mix Strategy**
+
+For qPCR, ELISA, or any plate-based assay, specify the master mix → sample addition order:
+
+```
+1. Normalize all RNA samples to 10 ng/µL with nuclease-free water.
+2. Prepare 4 primer-specific master mixes (one per primer pair).
+3. Aliquot 18 µL master mix per well into 384-well plate.
+4. Add 2 µL template RNA (10 ng/µL) to sample wells (20 ng final).
+5. NTC wells: add 2 µL nuclease-free water instead of template.
+6. No-RT controls: omit RT/Taq enzyme mix (replace with water).
+7. Seal plate with optical adhesive film. Centrifuge 1,000 × g for 1 min.
+```
+
+Key: master mix goes in first (same volume every well), sample goes in last (varies). Specify controls explicitly — NTC and no-RT are both required for qPCR.
+
+**Pattern 11: QC Decision Gate with Remediation**
+
+Include pass/fail criteria AND what to do when it fails:
+
+```
+RNA Quality Control:
+1. NanoDrop: Measure 1-2 µL. Target A260/A280: 1.8-2.1. Target A260/A230: >1.8.
+2. Qubit: RNA Broad Range or High Sensitivity assay for accurate quantification.
+3. Record all values. Calculate amount needed for RT-qPCR.
+
+Note: If A260/A230 < 1.5, residual extraction reagent may inhibit RT. 
+Consider ethanol precipitation cleanup before proceeding.
+```
+
+The remediation step ("consider ethanol precipitation") is what separates a useful QC gate from a number with no actionable context.

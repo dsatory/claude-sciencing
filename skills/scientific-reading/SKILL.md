@@ -42,7 +42,7 @@ exist, including scale-up challenges.
 ```
 ## Bottom line
 First report of anaerobic succinate production from crude corn stover hydrolysate
-at >100 g/L — directly citable as a benchmark in the Fleetwood Phase II proposal.
+at >100 g/L — directly citable as a benchmark in a Phase II proposal.
 
 ## Key findings
 - Engineered E. coli AFP111 achieved 112 g/L succinate from corn stover hydrolysate

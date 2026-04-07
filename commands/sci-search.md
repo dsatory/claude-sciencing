@@ -29,7 +29,7 @@ Before searching external literature, scan internal channels for related past, c
    - Direct topic terms: `"lignin depolymerization"`, `"muconic acid"`, `"vanillin biosynthesis"`
    - Broader class terms: `"aromatic catabolism"`, `"lignin valorization"`, `"phenolic compounds"`
    - Method terms: `"biological funneling"`, `"reductive catalytic fractionation"`
-   - Project/proposal terms: `"DARPA Fleetwood"`, `"lignin proposal"`
+   - Project/proposal terms: search for specific program names, solicitation numbers, or project keywords
    - Key channels to prioritize: `#tech-papers`, project-specific channels, `#science`, `#proposals`
    - When a relevant thread is found, read it fully with `slack_read_thread` — context and replies often contain the most valuable information (links, data, feedback)
 
@@ -51,10 +51,10 @@ Before searching external literature, scan internal channels for related past, c
 
 | Source | Project/Document | Relevance | Key Assets |
 |--------|-----------------|-----------|------------|
-| Slack #tech-papers | Thread on aromatic catabolism (2025-11) | High — same product class | 3 shared PDFs, protocol link |
-| Slack #p716-lignin | Proposal draft discussion | High — same program | Draft proposal, reviewer feedback |
-| GDrive Shared/SolutionsBU | "Lignin_Valorization_Proposal_v2.gdoc" | High — prior proposal | Reusable lit review, comparison tables |
-| GDrive My Drive | "Biological_Funneling_Slides.gslides" | Medium — related approach | Pathway diagrams, strain data |
+| Slack #tech-papers | Thread on [related topic] (2025-11) | High — same product class | 3 shared PDFs, protocol link |
+| Slack #project-channel | Proposal draft discussion | High — same program | Draft proposal, reviewer feedback |
+| GDrive Shared Drive | "[Topic]_Proposal_v2.gdoc" | High — prior proposal | Reusable lit review, comparison tables |
+| GDrive My Drive | "[Related_Topic]_Slides.gslides" | Medium — related approach | Pathway diagrams, strain data |
 | Local ./literature/ | Existing PDF library (23 papers) | High — prior search | Already downloaded and categorized |
 
 ### Reusable Assets
