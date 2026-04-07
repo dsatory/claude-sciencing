@@ -208,115 +208,136 @@ For formal SOPs (GLP/GMP/regulated environments), add:
 
 ---
 
-## Real-World Protocol Patterns (Sanitized Examples)
+## Real-World Protocol Patterns (from Human-Written Lab Protocols)
 
-These patterns are extracted from real laboratory protocols in industrial biotech settings. All identifying details have been replaced with generic equivalents.
+These patterns are extracted from real laboratory protocols written by bench scientists in industrial biotech. All strain IDs, project numbers, and personnel names have been sanitized.
 
-### Pattern 1: Multi-Run Experimental Strategy
+### Pattern 1: Strain-Specific Inoculation Parameters
 
-Real protocols often define a progressive multi-run approach upfront, where each run informs the next:
-
-```
-Three-run strategy:
-- Run 1 (pilot): 2 strains, all 4 assay conditions, triplicates. Validate assay, 
-  check reproducibility, select best reference standard.
-- Run 2 (screen): All 50 strains, 2 assay conditions (best reference + target), 
-  technical duplicates. Rank strains by target metric.
-- Run 3 (validation): Top 10 strains, best reference + target, biological and 
-  technical triplicates for publication-quality data.
-```
-
-This framing helps the scientist understand why THIS run matters in the larger context and what decisions will be made based on its outcomes.
-
-### Pattern 2: Day-Based Timeline with Decision Points
-
-Protocols with multi-day workflows should use a day-based structure, not just step numbering:
+Real protocols specify different conditions per strain because organisms behave differently. A generic "inoculate and grow overnight" is insufficient:
 
 ```
-Day 1 (evening):
-1. Inoculate cultures into selective media. Grow overnight at 30°C, 200-250 rpm.
+Evening prior to transformation:
 
-Day 2 (morning):
-2. Back-dilute to OD₆₀₀ ~0.1-0.2 in fresh pre-warmed media.
-3. Grow at 30°C, 200-250 rpm for 3-4 hours until mid-log (OD₆₀₀ 0.4-0.8).
-   Check OD₆₀₀ hourly.
+Thaw one glycerol stock and inoculate into 100 mL BHI + 1x trace metals 
+(+ appropriate selection) in 500 mL baffled flasks. Incubate at 25°C, 
+shaking at 220 rpm (25 mm throw) for ~16 hours.
 
-Note: If strains grow at different rates, stagger back-dilutions so both 
-reach mid-log phase simultaneously.
+Strain-specific inoculum volumes:
+- Strain A wild type: 50-75 µL initial inoculum
+- Strain A helper plasmid: 200 µL initial inoculum
+- Strain A single X-over strains: 150 µL initial inoculum
+- Strain B wild type: 500 µL initial inoculum (grows clumpy from bullets)
+- Strain B helper plasmid: 200 µL initial inoculum, grown at 30°C for 24 h
 
-Harvest:
-4. Record exact OD₆₀₀ for each culture.
-5. Harvest 5-10 OD units per sample (e.g., 10-25 mL of OD₆₀₀ 0.4-0.8 culture).
-   Expected yield: ~5-30 µg total RNA.
+Claim one of the centrifuges for use the following day — set to 4°C, 
+ensure lid is closed.
 ```
 
-Key elements: day labels, time-of-day hints, expected yields at each stage, notes about strain-specific variation.
+Key features: strain-specific volumes with justification ("grows clumpy"), equipment reservation the night before, temperature and throw specified for the shaker model.
 
-### Pattern 3: Enzymatic Digestion with Monitoring
+### Pattern 2: Advance Preparation Callout
 
-When a step involves variable-duration incubation, include a monitoring method and decision criterion:
-
-```
-Cell Wall Digestion:
-6. Resuspend pellet in 500 µL sorbitol buffer (1 M sorbitol, 100 mM EDTA, pH 7.4).
-7. Add enzyme at 2-5 units per OD₆₀₀ equivalent.
-8. Incubate at 30°C for 30-60 min with gentle agitation (invert every 10 min).
-9. Monitor: Mix 5 µL sample + 5 µL 1% SDS on a slide. Target >80% lysis in SDS.
-10. Pellet at 300 × g for 5 min. Do NOT exceed — cells are fragile after digestion.
-
-Note: Under-digestion = poor yield (lysis reagent cannot penetrate intact walls).
-Over-digestion = degradation. Log-phase cells digest faster than stationary-phase.
-```
-
-The monitoring step (Step 9) prevents both under- and over-processing. The note explains WHY each failure mode matters, not just that they exist.
-
-### Pattern 4: Extraction with Phase Separation
-
-For any protocol involving phase separation (RNA extraction, liquid-liquid extraction, etc.):
+Experienced protocol writers front-load a preparation block. This prevents the "I need X but it's not ready" problem mid-protocol:
 
 ```
-11. Add 700 µL lysis reagent directly to pellet. Vortex vigorously 30 sec.
-12. Incubate at RT for 5 min.
-13. Add 140 µL chloroform. Shake vigorously 15 sec. Incubate at RT 2-3 min.
-    **CAUTION:** Chloroform is volatile and toxic. Work in fume hood.
-14. Centrifuge at 12,000 × g for 15 min at 4°C.
-15. Transfer upper aqueous phase (~350 µL) to new tube. Avoid interphase.
-    **CRITICAL:** Contamination with interphase introduces DNA and protein.
-    If unclear, take less rather than more.
+Perform as much preparation work in advance. Set up electroporation 
+machine at the beginning of the day, aliquot DNA, prepare recovery 
+plates, recovery media, etc. Also pre-chill electroporation buffer, 
+cuvettes, and centrifuge. Recovery plates should contain appropriate 
+selective media.
 ```
 
-Pattern: specify exact volumes, exact centrifugation parameters (g-force, not RPM), expected phase volumes in parentheses, and the consequence of the most common mistake.
+This single paragraph saves hours of delays. It signals to the reader: "read ahead before starting."
 
-### Pattern 5: Plate-Based Assay Setup
+### Pattern 3: Wash Steps with Resuspension Logic
 
-For high-throughput assays (qPCR, ELISA, plate reader assays), specify the plate layout logic:
-
-```
-Plate Setup:
-16. Normalize all samples to working concentration with buffer.
-17. Prepare condition-specific master mixes (one per condition).
-18. Aliquot master mix per well (e.g., 18 µL/well).
-19. Add 2 µL sample to sample wells.
-20. Controls:
-    - Negative control wells: add buffer instead of sample.
-    - No-enzyme controls: omit enzyme from master mix.
-21. Seal plate with optical film. Centrifuge 1,000 × g for 1 min.
-```
-
-Always specify: what goes in first (master mix), what's added last (sample), how controls differ from samples, and the sealing/centrifugation step before running.
-
-### Pattern 6: QC Decision Gates
-
-Real protocols include explicit QC checkpoints with pass/fail criteria:
+Cell washing protocols must specify how tubes are combined, not just "wash 3 times":
 
 ```
-Quality Control:
-22. Measure sample purity: Target ratio 1.8-2.1 (indicates acceptable purity).
-23. Quantify with fluorometric assay for accurate measurement.
-24. Record all values. Calculate amount needed for downstream assay.
-
-Note: If purity ratio < 1.5, residual reagent may inhibit downstream 
-reactions. Perform cleanup before proceeding.
+1. Transfer 100 mL culture to two 50 mL conical tubes. Ice for 10 min.
+2. Pellet at 4,122 × g for 10 min at 4°C.
+3. Remove supernatant from both tubes. Add 10 mL wash buffer to one tube. 
+   Resuspend pellet. Transfer resuspension to the second tube and resuspend 
+   that pellet (combining both into one tube).
+4. Pellet at 4,122 × g for 10 min at 4°C.
+5. Remove supernatant. Resuspend in 10 mL wash buffer.
+6. Repeat steps 4-5 once or twice more, for 3-4 total washes.
+7. Pellet. Resuspend to OD₆₀₀ ≈ 50 in wash buffer (600 µL per 100 mL 
+   original culture). This does not need to be exact, so long as the 
+   overnight OD₆₀₀ ≈ 0.3.
 ```
 
-The QC section tells the scientist what "good" looks like and what to do when it doesn't look good.
+Key features: explicit tube-combining logic (step 3), target OD with back-calculation from starting volume (step 7), tolerance for imprecision where it's acceptable.
+
+### Pattern 4: Critical Step with Immediate Recovery
+
+For electroporation, transformation, or any step requiring immediate follow-up action:
+
+```
+Have 1 mL recovery medium ready in a pipette BEFORE electroporating. 
+
+1. Load cuvette into machine. Close protective cover.
+2. Electroporate. Ensure no arcing. If arcing occurs, remake the sample.
+   Record peak voltage and time constant.
+3. IMMEDIATELY add 1 mL recovery medium to cuvette. Gently pipette 
+   up and down to mix.
+4. Transfer to recovery plate well. Cover loosely with breathable seal.
+5. Recover at 30°C for 1-3 hours, 1000 rpm (3 mm throw).
+```
+
+The "have X ready BEFORE" instruction is a hallmark of protocols written by someone who has actually done the procedure. The instruction to record machine output (voltage, time constant) is essential for troubleshooting.
+
+### Pattern 5: Plating with Dilution Strategy
+
+When colony counts will span orders of magnitude:
+
+```
+1. While recovering, dry selective plates at 37°C. Label and add glass beads.
+2. Plate 100 µL of transformation mixture onto selective medium.
+3. ALSO plate 100 µL of 1:10 and 1:100 dilutions on separate plates — 
+   high-efficiency transformations can produce confluent lawns.
+4. Incubate at 30°C for 2-3 days until colonies form.
+5. Record CFU/mL per µg DNA.
+```
+
+The dilution plating (step 3) is experience-driven — a novice would plate one concentration and get an uncountable lawn.
+
+### Pattern 6: Formal SOP Document Control
+
+For regulated or institutional protocols, include document control metadata:
+
+```
+Document Number: SOP-RES-XX
+Revision Number: 00
+Version: 1.0
+
+Document Title: [Descriptive procedure name]
+Author: [Name]
+Owner: [Name]
+
+Associated Documents: [List related SOPs]
+Effective Date: [Date]
+```
+
+Formal SOPs then follow a standardized section order:
+1. PURPOSE & SCOPE
+2. ABBREVIATIONS / DEFINITIONS
+3. MATERIALS
+4. RECIPES
+5. PROCESS FLOW (diagram)
+6. PROCEDURE DESCRIPTION (numbered subsections per stage)
+7. SAFETY AND DISPOSAL
+8. VALIDATION REFERENCE
+
+### What Real Protocols Do That AI-Generated Protocols Often Miss
+
+| Element | Real protocol | AI-generated protocol |
+|---------|--------------|----------------------|
+| Strain-specific parameters | Different volumes, temps, times per organism | Generic "inoculate culture" |
+| Equipment details | Shaker throw (25 mm), centrifuge model, cuvette gap width | "Centrifuge" without specs |
+| Failure experience | "Grows clumpy from bullets," "if arcing occurs" | Generic cautions |
+| Tube logistics | How to combine pellets across tubes | Skips this entirely |
+| Recovery timing | "Have medium ready BEFORE electroporation" | Steps listed sequentially without urgency |
+| Dilution strategy | Plate 3 dilutions because yields vary | Single plating concentration |
+| Night-before prep | "Claim a centrifuge, set to 4°C" | Starts protocol on Day 1 morning |

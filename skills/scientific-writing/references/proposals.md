@@ -59,9 +59,9 @@ ARPA-E focuses on transformative energy technologies:
 - **Scale-up pathway.** Address manufacturing scalability and commercial deployment — ARPA-E wants technologies that can reach market, not just lab demonstrations.
 - **Market context.** Show awareness of the competitive landscape: existing solutions, market size, and why the proposed approach wins on cost, performance, or both.
 
-### Real-World Abstract Structure (Sanitized Example)
+### Proposal Abstract Structure (Standard Government Format)
 
-A strong government proposal abstract follows this exact structure. This is based on real DARPA abstracts — all identifying details have been replaced with generic equivalents.
+Government proposal abstracts follow this general structure, based on standard DARPA/ARPA-E/DOE conventions documented in solicitation guides and successful proposal templates. Adapt to each solicitation's specific requirements.
 
 **Cover Sheet Elements (typically required):**
 ```
