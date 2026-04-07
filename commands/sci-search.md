@@ -320,49 +320,104 @@ Before running ANY search, decompose the topic into an explicit term expansion t
 
 **The difference between a 7-paper search and a 33-paper search is query diversity, not luck.**
 
-### Step 2: Multi-Source Search
+### Step 2: Multi-Database Search
 
-**Run ALL of the following for every search. Do not stop after the first source returns results.**
+**Search ALL of the following databases. Do not stop after PubMed returns results.** Different databases index different journals, preprints, and metadata. See `skills/pubmed-setup/references/multi-database-api.md` for full API documentation.
 
-1. **PubMed** (default) — use PubMed MCP tools for peer-reviewed biomedical/life science literature. If PubMed MCP is unavailable, use `site:pubmed.ncbi.nlm.nih.gov` web searches as fallback — run at least 5 separate queries with different term combinations.
-2. **Web search** — for preprints (bioRxiv, chemRxiv), conference proceedings, theses, and grey literature
-3. **Patent search** — when `--patents` flag or when query involves commercial methods, compositions, or processes
-4. **Citation chasing** — when a review is found, extract its reference list and identify the 5-10 most-cited primary sources. Search for those specifically.
-5. **Author tracking** — identify the 2-3 most prolific labs/groups from initial results. Search for their other recent publications.
+**Database 1: PubMed** (biomedical primary source)
+- Use PubMed MCP if available, otherwise NCBI E-utilities API (see Pre-Flight check)
+- Returns PMIDs, abstracts, MeSH terms
+- Best for: biomedical, life sciences, clinical literature
 
-**Minimum result count:** A well-executed search on an active biotech topic should identify **20-40 papers**. If you have fewer than 15, your queries are too narrow — go back to Step 1 and add more term variations.
+**Database 2: OpenAlex** (broadest coverage + citation counts)
+```
+WebFetch: https://api.openalex.org/works?search={QUERY}&per_page=50&select=id,doi,title,publication_year,cited_by_count,open_access,authorships,primary_location&sort=relevance_score:desc&filter=publication_year:2021-2026
+```
+- 250M+ works, all disciplines, free, no auth
+- Returns citation counts (PubMed doesn't), OA URLs, author affiliations
+- Covers engineering, chemistry, and other journals PubMed doesn't index
 
-### Step 3: Filter and Rank
+**Database 3: Semantic Scholar** (semantic matching + OA PDFs)
+```
+WebFetch: https://api.semanticscholar.org/graph/v1/paper/search?query={QUERY}&fields=title,year,authors,citationCount,openAccessPdf,externalIds,abstract&limit=25
+```
+- Embedding-based search finds related papers even with different terminology
+- Pre-resolved OA PDF URLs (saves time during download)
+- Rate limit: 1 req/sec without key
 
-Apply filters:
-- `--recent` → last 2 years only
+**Database 4: bioRxiv/medRxiv** (preprints)
+- Use bioRxiv MCP if available, otherwise web search with `site:biorxiv.org`
+- Catches papers not yet peer-reviewed or indexed
+
+**Database 5: Web search** (grey literature, theses, reports)
+- For preprints on chemRxiv, conference proceedings, theses, government reports
+
+**Database 6: Patent search** (always, unless `--no-patents`)
+- Web search for Google Patents results
+- Extract claims via WebFetch from Google Patents HTML (see `/sci-patents`)
+
+**Database 7: Citation chasing** (after initial results)
+- When a review is found, extract its reference list and identify the 5-10 most-cited primary sources
+- Use OpenAlex's citation data to find highly-cited papers the keyword search missed
+
+**Database 8: Author tracking** (after initial results)
+- Identify the 2-3 most prolific labs/groups from initial results
+- Search OpenAlex or Semantic Scholar for their other recent publications
+
+### Deduplication
+
+After collecting results from all databases, deduplicate:
+1. **DOI match** (exact) — most reliable
+2. **Title similarity** (>80% word overlap) — catches DOI variations and preprint→published pairs
+3. **PMID/PMCID match** — cross-reference via idconv
+
+Keep the richest record: prefer OpenAlex for citation counts, PubMed for MeSH terms, Semantic Scholar for OA PDF URLs.
+
+**Minimum result count:** A well-executed multi-database search on an active biotech topic should identify **25-50 unique papers** after deduplication. If you have fewer than 15, your queries are too narrow — go back to Step 1 and add more term variations.
+
+### Step 3: Relevance Scoring (0-10)
+
+Score every paper on a 0-10 scale before presenting results. This replaces subjective ranking with quantifiable prioritization.
+
+| Component | Weight | Scoring |
+|-----------|--------|---------|
+| **Keyword relevance** | 40% | Title contains key terms = 4.0, abstract only = 2.0, tangential = 1.0 |
+| **Recency** | 25% | Current year = 2.5, -1yr = 2.0, -2yr = 1.5, -3yr = 1.0, older = 0.5 |
+| **Citation impact** | 20% | Top 10% in result set = 2.0, top 25% = 1.5, top 50% = 1.0, bottom 50% = 0.5 |
+| **Open access** | 15% | OA with PDF/XML = 1.5, OA abstract only = 1.0, paywalled = 0.5 |
+
+**Score interpretation:**
+- **8-10:** Must-read — directly relevant, recent, well-cited, accessible
+- **5-7:** Important — relevant but older, less cited, or paywalled
+- **3-4:** Background — tangentially relevant or dated
+- **0-2:** Skip unless completeness needed
+
+Apply user filters after scoring:
+- `--recent` → only show papers from last 2 years
 - `--reviews` → filter to review articles
-- `--clinical` → filter to clinical trials or clinical data
-- `--limit N` → return top N results (default: 10)
-- `--no-patents` → skip patent search (default: patents are always included)
-- `--no-internal` → skip internal project discovery via Slack/GDrive
-
-Rank results by:
-1. Relevance to the query
-2. Recency (newer = higher, in fast-moving fields)
-3. Impact (journal, citation count if available)
-4. Open access availability
+- `--clinical` → filter to clinical trials
+- `--limit N` → return top N results (default: 20)
+- `--no-patents` → skip patent search
+- `--no-internal` → skip internal project discovery
 
 ### Step 4: Present Results
 
-For each result, present:
+Sort by relevance score (highest first). For each result:
+
 ```
-### [N]. [Title]
-**Authors:** First Author et al. | **Journal:** Name (Year) | **DOI:** link
-**Open Access:** Yes/No
-**Summary:** 2-3 sentence summary of key findings and relevance
-**Key data:** [Most important quantitative result]
+### [1] Score: 9.2 — "Title of Paper" (Year)
+**Authors:** First Author et al. | **Journal:** Name | **DOI:** link
+**OA:** ✅ PDF available / ❌ Paywalled | **Citations:** N | **Source:** PubMed + OpenAlex
+**Key finding:** [One sentence with specific numbers]
+**Relevance:** [Why this matters for the user's topic]
 ```
 
 After listing results, provide:
-- **Suggested reading order** (which papers to read first based on relevance)
-- **Gaps identified** (what the search didn't find — terms to try next)
-- **Related searches** (adjacent queries that might be useful)
+- **Score distribution:** How many papers scored 8+, 5-7, <5
+- **Suggested reading order** — start with highest-scoring papers
+- **Database coverage:** Which databases found what (e.g., "OpenAlex found 12 papers PubMed missed")
+- **Gaps identified** — what the search didn't find, terms to try next
+- **Related searches** — adjacent queries that might be useful
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "claude-sciencing",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Claude Code plugin for scientific research in biotech and life sciences — search, read, analyze, write, edit, and publish",
   "author": {
     "name": "Dominik Satory"
@@ -19,5 +19,19 @@
     "docx",
     "pptx",
     "xlsx"
-  ]
+  ],
+  "mcpServers": {
+    "PubMed": {
+      "type": "http",
+      "url": "https://pubmed.mcp.claude.com/mcp"
+    },
+    "bioRxiv": {
+      "type": "http",
+      "url": "https://mcp.deepsense.ai/biorxiv/mcp"
+    },
+    "Scholar Gateway": {
+      "type": "http",
+      "url": "https://connector.scholargateway.ai/mcp"
+    }
+  }
 }

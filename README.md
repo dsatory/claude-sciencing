@@ -1,4 +1,4 @@
-# Claude Sciencing v2.1.1
+# Claude Sciencing v2.2.0
 
 A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Works on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock).
 
@@ -6,12 +6,12 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 
 | Command | Description |
 |---------|-------------|
-| `/sci-search` | Search PubMed, preprints, and patents. Scan internal sources (Slack, Confluence, GDrive, Glean). Build reading lists. Map research landscapes. |
+| `/sci-search` | Multi-database search (PubMed, OpenAlex, Semantic Scholar, bioRxiv) with 0-10 relevance scoring. Scan internal sources (Slack, Confluence, GDrive, Glean). Patents via Google Patents. Deduplication across databases. |
 | `/sci-library` | Manage a local reference library — add papers, tag, organize, export BibTeX/citations. |
 | `/sci-read` | Distill papers and patents — tactical briefings, deep analysis, data extraction, patent claims. |
 | `/sci-review` | Compile thematic literature reviews with state-of-the-art comparison tables and gap analysis. |
 | `/sci-draft` | Draft any scientific document — abstracts, proposals, reports, SOWs, patents, presentations, protocols, memos. |
-| `/sci-edit` | Multi-pass scientific editing — grammar, spelling, typos, clarity, tone, jargon, logical flow, topic sentence analysis. |
+| `/sci-edit` | Multi-pass scientific editing — grammar, spelling, typos, clarity, tone, jargon, logical flow, topic sentences. Peer review mode for pre-submission self-assessment (journal and grant formats). |
 | `/sci-figures` | Write figure captions, format tables, manage panel labeling for publications. |
 | `/sci-patents` | Search, analyze, and map patent landscapes — claims extracted directly from Google Patents via WebFetch (no PDF needed). FTO assessment, design-around analysis. |
 
@@ -295,7 +295,40 @@ Then add the path to your Claude Code settings (`.claude/settings.json`):
 }
 ```
 
-### PubMed Integration
+### Multi-Database Search
+
+The plugin searches across **4 scientific databases** simultaneously, deduplicates results, and scores every paper on a 0-10 relevance scale:
+
+| Database | Coverage | Auth Required? | What It Adds |
+|----------|----------|---------------|-------------|
+| **PubMed** | Biomedical, life sciences | No (E-utilities) or Claude.ai MCP | MeSH terms, structured metadata |
+| **OpenAlex** | All disciplines (250M+ works) | No | Citation counts, OA URLs, affiliations |
+| **Semantic Scholar** | All disciplines (AI-powered) | No (1 req/sec) | Semantic matching, OA PDF URLs |
+| **bioRxiv/medRxiv** | Preprints | No (MCP or API) | Pre-peer-review papers |
+
+A search on an active topic typically yields **25-50 unique papers** after deduplication across databases.
+
+### Bundled MCP Servers
+
+The plugin bundles three remote MCP servers that auto-install with the plugin — no local setup needed:
+
+| Server | Provider | What It Provides |
+|--------|----------|-----------------|
+| **PubMed** | U.S. NLM | Structured literature search, metadata, full text |
+| **bioRxiv** | deepsense.ai | bioRxiv and medRxiv preprint access |
+| **Scholar Gateway** | Wiley | Access to Wiley academic publications |
+
+These work on any provider (Anthropic, Vertex, Bedrock) because they're HTTP-based remote MCP servers, not Claude.ai managed integrations.
+
+**Additional MCP servers available from the [Anthropic Life Sciences marketplace](https://github.com/anthropics/life-sciences):**
+
+```
+/plugin marketplace add anthropics/life-sciences
+```
+
+This marketplace offers: 10x Genomics, BioRender, Synapse.org, ChEMBL, Open Targets, Clinical Trials, and more.
+
+### PubMed Integration Details
 
 The plugin searches PubMed for structured literature discovery, metadata retrieval, ID conversion, and full-text access. **Two access methods are supported** — the plugin auto-detects which is available and uses the best option.
 
@@ -393,7 +426,7 @@ The plugin enforces hard checkpoints to prevent shallow output — the kind wher
 
 ### Search Enforcement
 
-`/sci-search` requires a **mandatory term expansion table** before any search is executed. Minimum 8 distinct queries across 3+ concept axes with synonyms. If PubMed returns 49 papers for a topic and the plugin only finds 7, the search queries were too narrow — the plugin will flag this.
+`/sci-search` requires a **mandatory term expansion table** before any search is executed. Minimum 8 distinct queries across 3+ concept axes with synonyms, searched across 4 databases (PubMed, OpenAlex, Semantic Scholar, bioRxiv) with deduplication. Every paper is scored 0-10 on keyword relevance (40%), recency (25%), citation impact (20%), and open access availability (15%). Minimum 25 unique papers expected for an active topic — fewer triggers a warning to broaden queries.
 
 ### Download-Before-Write Gate
 

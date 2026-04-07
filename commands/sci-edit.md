@@ -112,3 +112,100 @@ When editing files directly (if the user requests changes be applied), preserve 
 - For animal studies, check for ARRIVE guideline compliance: sample sizes, randomization, blinding, exclusion criteria
 - For systematic reviews, note PRISMA adherence if relevant
 - Flag statistical reporting issues: missing effect sizes, confidence intervals reported without point estimates, misuse of "significant" without specifying statistical significance
+
+---
+
+## Mode: Peer Review (invoked with `review` focus or `--peer-review`)
+
+Generate a structured peer review of the document as if reviewing for a journal or funder. This is a pre-submission self-assessment — identify weaknesses before reviewers do.
+
+### Review Format
+
+Select the venue format based on the document type or user specification:
+
+**For journal manuscripts (default):**
+
+```markdown
+## Peer Review: [Document Title]
+
+### Overall Assessment
+**Recommendation:** Accept / Minor Revisions / Major Revisions / Reject
+**Confidence:** High / Medium / Low (based on reviewer domain expertise match)
+
+### Summary (2-3 sentences)
+[What the paper does and its main contribution]
+
+### Strengths
+1. [Specific strength with evidence from the text]
+2. [Another strength]
+3. [...]
+
+### Weaknesses
+1. [Specific weakness — what's missing, unclear, or unsupported]
+2. [Another weakness]
+3. [...]
+
+### Detailed Comments
+
+#### Significance / Novelty
+- What is the advance over prior work?
+- Is the novelty clearly stated and substantiated?
+
+#### Technical Rigor
+- Are methods appropriate and sufficiently described?
+- Are controls adequate?
+- Are statistical analyses appropriate?
+- Is the data quality sufficient to support the conclusions?
+
+#### Presentation / Clarity
+- Is the writing clear and concise?
+- Are figures and tables effective?
+- Is the logical flow sound?
+
+#### Missing Elements
+- [Experiments, controls, analyses, or discussions that should be added]
+
+### Minor Comments
+- [Line-level suggestions: typos, unclear phrasing, formatting]
+
+### Questions for Authors
+1. [Questions that a reviewer would ask]
+```
+
+**For grant proposals (DARPA, DOE, NIH, etc.):**
+
+```markdown
+## Review: [Proposal Title]
+
+### Overall Score: [1-10]
+
+### Evaluation Criteria Scores
+| Criterion | Score (1-10) | Comments |
+|-----------|-------------|----------|
+| Technical Approach | | |
+| Innovation | | |
+| Team Qualifications | | |
+| Management / Schedule | | |
+| Cost Reasonableness | | |
+
+### Strengths
+1. [...]
+
+### Weaknesses
+1. [...]
+
+### Risk Assessment
+- Are risks identified and mitigated?
+- Are go/no-go criteria quantitative and unambiguous?
+
+### Recommendations
+- [What would make this proposal competitive]
+```
+
+### Review Principles
+
+- **Be specific** — "The statistical analysis is weak" is useless. "Section 3.2 reports p < 0.05 for 12 comparisons without correction for multiple testing" is actionable.
+- **Distinguish fatal from fixable** — clearly separate issues that undermine the core contribution from those that can be addressed in revision.
+- **Assess the claims against the evidence** — not whether you agree with the hypothesis, but whether the evidence supports the conclusions drawn.
+- **Check for missing comparisons** — are the right baselines and benchmarks used? Are state-of-the-art comparisons current?
+- **Flag citation gaps** — are key papers in the field cited? Are the citations current?
