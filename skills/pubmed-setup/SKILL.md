@@ -121,7 +121,15 @@ Explain how PubMed MCP powers the plugin:
 
 ## PubMed MCP Tool Names
 
-The canonical list of PubMed MCP tool names used across this plugin is maintained in `CLAUDE.md` at the project root. If tool names change due to a Claude.ai integration update, update them in CLAUDE.md first, then propagate to the `allowed-tools` field in each command and skill file listed there.
+PubMed MCP tool names are declared in the `allowed-tools` frontmatter of each command and skill file that uses them. If tool names change due to a Claude.ai integration update, update them in each file's `allowed-tools` field. The tools are:
+
+- `mcp__claude_ai_PubMed__search_articles`
+- `mcp__claude_ai_PubMed__get_article_metadata`
+- `mcp__claude_ai_PubMed__get_full_text_article`
+- `mcp__claude_ai_PubMed__find_related_articles`
+- `mcp__claude_ai_PubMed__lookup_article_by_citation`
+- `mcp__claude_ai_PubMed__convert_article_ids`
+- `mcp__claude_ai_PubMed__get_copyright_status`
 
 ---
 

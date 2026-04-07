@@ -1,4 +1,4 @@
-# Claude Sciencing
+# Claude Sciencing v1.3.0
 
 A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish.
 
@@ -6,24 +6,26 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 
 | Command | Description |
 |---------|-------------|
-| `/sci-search` | Search PubMed, preprints, and patents. Build reading lists. Map research landscapes. |
-| `/sci-library` | Manage a local reference library — add papers, tag, organize, export BibTeX/citations. |
-| `/sci-read` | Distill papers and patents — tactical briefings, deep analysis, data extraction, patent claims. |
+| `/sci-search` | Search PubMed, preprints, patents, and web sources. Scans internal channels (Slack, Google Drive) first for related past/current projects. Builds reading lists, maps research landscapes, produces patent landscape summaries. |
+| `/sci-library` | Manage a local reference library — add papers, tag, organize, export BibTeX/citations, track reading status. Saves structured reading notes from `/sci-read` analyses. |
+| `/sci-read` | Distill papers and patents — 6 modes: tactical briefing, deep technical analysis, data extraction, patent claims analysis, side-by-side comparison, and relevance assessment. Also supports competitive intelligence and proposal ammunition analysis. |
 | `/sci-review` | Compile thematic literature reviews with state-of-the-art comparison tables and gap analysis. |
-| `/sci-draft` | Draft any scientific document — abstracts, proposals, reports, SOWs, patents, presentations, protocols, memos. |
+| `/sci-draft` | Draft any scientific document — 14 types: outline, abstract, grant, proposal, report, SOW, progress report, patent disclosure, presentation, memo, one-pager, white paper, protocol, and argument flow analysis. |
 | `/sci-edit` | Multi-pass scientific editing — grammar, spelling, typos, clarity, tone, jargon, logical flow, topic sentence analysis. |
 | `/sci-figures` | Write figure captions, format tables, manage panel labeling for publications. |
 
 ### Quick Example
 
 ```
-"Search for recent papers on engineered bacteria for succinic acid"   → Finds and ranks relevant literature
-"Add this paper to my library: 10.1016/j.ymben.2024.01.005"          → Resolves metadata, generates BibTeX
-"Give me a deep technical analysis of this paper"                     → Structured analysis with field-specific lenses
-"Write a state-of-the-art review on host selection for organic acids" → Thematic synthesis with comparison tables
-"Draft a proposal for this grant solicitation"                        → Full proposal structured to requirements
-"Edit this draft for clarity and scientific tone"                     → Multi-pass editing
-"Write captions for all figures"                                      → Publication-quality captions
+"Search for recent papers on engineered bacteria for succinic acid"   → Scans Slack/GDrive for related projects, then searches PubMed + web + patents
+"Add this paper to my library: 10.1016/j.ymben.2024.01.005"          → Resolves metadata via PubMed, generates BibTeX, tracks reading status
+"Give me a deep technical analysis of this paper"                     → Structured analysis with field-specific lenses (fermentation, TEA, etc.)
+"Compare these two papers on lignin depolymerization"                 → Side-by-side comparison of methods, results, and limitations
+"Write a state-of-the-art review on host selection for organic acids" → Thematic synthesis with comparison tables and gap analysis
+"Draft a proposal for this grant solicitation"                        → Full proposal structured to solicitation requirements
+"Check this proposal against the solicitation requirements"           → Format compliance audit with 30+ checks and automated fixes
+"Edit this draft for clarity and scientific tone"                     → Multi-pass editing (grammar → clarity → tone → flow)
+"Write captions for all figures"                                      → Publication-quality captions with panel labeling
 ```
 
 ### Full Walkthrough: Writing a Government Proposal
@@ -56,13 +58,14 @@ to high-value chemicals — focus on the last 2 years"
 ```
 
 **What the plugin does:**
-- **scientific-reading** and **pubmed-setup** skills activate — verifies PubMed MCP is connected, then queries with optimized Boolean queries and MeSH terms
+- **Step 0 — Internal Discovery:** Before hitting external sources, scans Slack channels and Google Drive for related past, current, or planned projects by colleagues. Surfaces reusable assets (proposals, data, shared papers) and prevents duplicating work. Disable with `--no-internal`.
+- **pubmed-setup** skill verifies PubMed MCP is connected, then queries with optimized Boolean queries and MeSH terms
 - Searches across PubMed, preprints (bioRxiv, chemRxiv), and web sources in parallel
 - Returns results ranked by relevance, recency, and open-access availability
 - Patent search runs automatically alongside literature search
 - Produces a Patent Landscape Summary with claims distillation, project comparison, clear/caution/avoid categories
 - Suggests a reading order, identifies gaps in the search, and recommends follow-up queries
-- Output: a curated reading list organized by priority
+- Output: a curated reading list organized by priority, with internal project context where relevant
 
 ---
 
@@ -266,10 +269,10 @@ These skills trigger automatically when Claude detects relevant context — no s
 
 ## Installation
 
-Clone the repo and add as a local plugin:
+Clone the repo to a permanent location and add as a local plugin:
 
 ```bash
-git clone https://gitlab.com/ginkgobioworks/ai-skills/claude-sciencing.git
+git clone https://gitlab.com/ginkgobioworks/ai-skills/claude-sciencing.git ~/.claude/plugins/claude-sciencing
 ```
 
 **Option B: From Archive (without git access)**
@@ -288,7 +291,7 @@ Then add the path to your Claude Code settings (`.claude/settings.json`):
 
 ```json
 {
-  "plugins": ["path/to/claude-sciencing"]
+  "plugins": ["~/.claude/plugins/claude-sciencing"]
 }
 ```
 
