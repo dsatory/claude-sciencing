@@ -13,6 +13,7 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 | `/sci-draft` | Draft any scientific document — abstracts, proposals, reports, SOWs, patents, presentations, protocols, memos. |
 | `/sci-edit` | Multi-pass scientific editing — grammar, spelling, typos, clarity, tone, jargon, logical flow, topic sentence analysis. |
 | `/sci-figures` | Write figure captions, format tables, manage panel labeling for publications. |
+| `/sci-patents` | Search, download, analyze, and map patent landscapes — claims distillation, FTO assessment, design-around analysis. |
 
 ### Quick Example
 

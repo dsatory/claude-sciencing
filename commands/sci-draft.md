@@ -8,6 +8,14 @@ allowed-tools: Read, Glob, Grep, Bash, Edit, Write, WebSearch, WebFetch
 
 Generate structured scientific content. Parse the first argument from $ARGUMENTS to determine the drafting mode.
 
+## File Input Support
+
+When the user provides a file to work with (outline, existing draft, solicitation, etc.):
+- **`.md`, `.tex`, `.txt`** — read directly
+- **`.docx`, `.pptx`, `.xlsx`** — read via python-docx/python-pptx/openpyxl (document-formats skill)
+- **`.pdf`** — read via Claude Code's native PDF reader
+- **`.gdoc`, `.gsheet`, `.gslides`** — these are Google Drive pointer files. Read the JSON to extract the `doc_id`, then open the export URL in the user's browser to download as `.docx`/`.xlsx`/`.pptx`. Ask the user to confirm the download location before proceeding.
+
 ## Argument Routing
 
 - **outline** — Generate a document outline (IMRaD, review, protocol, or custom)

@@ -157,6 +157,29 @@ Not all data are equal:
 - Published vs. preprint
 - Independently reproduced vs. single-lab
 
+### Citation Integrity
+
+Every citation in the review must be traceable to a verified source:
+- **Prefer papers from the reference library** (`references/library.md`) or search results — these are confirmed to exist
+- **Well-known landmark papers** (seminal methods, foundational discoveries) are acceptable even if not in the library, but flag them with `<!-- citation: not from search results -->` for user verification
+- **NEVER fabricate citations.** If a claim needs a citation and no matching paper exists, insert `[CITATION NEEDED]` rather than inventing an author-year-journal combination
+- A review with `[CITATION NEEDED]` placeholders is infinitely more trustworthy than one with hallucinated references
+
+### Data Reliability Flags
+
+When building comparison tables, flag the reliability of each data point:
+
+| Flag | Meaning | How to assess |
+|------|---------|---------------|
+| Model substrate | Result from purified/synthetic substrate | Check methods section for substrate source |
+| Real feedstock | Result from crude/industrial/waste feedstock | More industrially relevant but harder to compare |
+| Shake flask | Uncontrolled conditions (pH, DO) | Results may not translate to bioreactor |
+| Bioreactor | Controlled fermentation | More reliable for scale-up projections |
+| n=1 | Single experiment, no replicates | Treat with caution |
+| Preprint | Not peer-reviewed | Flag clearly; check if since published |
+
+Include these flags in comparison tables as a "Notes" or "Quality" column so readers can assess data reliability at a glance.
+
 ### Track Currency
 In fast-moving fields, 3-year-old reviews are ancient. Note publication dates and flag when recent results overturn earlier conclusions.
 
@@ -183,3 +206,4 @@ When the review is complete, offer to:
 - Comparison tables are the single most valuable output; prioritize them
 - Always end with gap analysis — this is where the review earns its keep
 - For proposal backgrounds, tie the gap analysis directly to your proposed approach
+- Apply citation integrity rules: every citation must be verifiable. Use [CITATION NEEDED] rather than fabricating references.

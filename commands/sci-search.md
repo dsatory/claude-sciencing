@@ -1,6 +1,6 @@
 ---
 description: Search scientific literature — PubMed, preprints, patents, and web sources. Also scans internal channels (Slack, Google Drive) for related past/current/future projects. Find papers, build reading lists, map landscapes.
-argument-hint: [query or topic] [optional flags: --recent, --reviews, --patents, --clinical, --no-internal, --limit N]
+argument-hint: [query or topic] [optional flags: --recent, --reviews, --no-patents, --clinical, --no-internal, --limit N]
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write, WebSearch, WebFetch, mcp__claude_ai_PubMed__search_articles, mcp__claude_ai_PubMed__get_article_metadata, mcp__claude_ai_PubMed__get_full_text_article, mcp__claude_ai_PubMed__find_related_articles, mcp__claude_ai_PubMed__lookup_article_by_citation, mcp__claude_ai_PubMed__convert_article_ids, mcp__claude_ai_PubMed__get_copyright_status, mcp__claude_ai_Slack__slack_search_public, mcp__claude_ai_Slack__slack_search_public_and_private, mcp__claude_ai_Slack__slack_read_channel, mcp__claude_ai_Slack__slack_read_thread
 ---
 
@@ -98,6 +98,8 @@ Apply filters:
 - `--reviews` → filter to review articles
 - `--clinical` → filter to clinical trials or clinical data
 - `--limit N` → return top N results (default: 10)
+- `--no-patents` → skip patent search (default: patents are always included)
+- `--no-internal` → skip internal project discovery via Slack/GDrive
 
 Rank results by:
 1. Relevance to the query
@@ -177,6 +179,21 @@ Generated: [Date]
 ```
 
 Save reading lists as markdown files when the user requests it.
+
+## Download Persistence
+
+When papers or patents are found during search, a `download_log.md` is maintained in the `literature/` folder tracking every download attempt — source tried, success/failure, and filename. This log:
+- Prevents re-attempting sources that already failed for a specific paper
+- Survives across sessions — future searches check the log before re-downloading
+- Provides transparency on what was tried and what remains paywalled
+
+## When Automated Downloads Fail
+
+If all automated download tiers are exhausted for a paper, the **browser-assisted fallback** activates:
+1. Known PDF URLs are opened in the user's default browser (works cross-platform: macOS, Linux, Windows)
+2. The user's browser session leverages institutional access, VPN, or saved credentials
+3. Multiple tabs are opened at once for batch failures
+4. After the user confirms downloads are complete, files are automatically picked up from the Downloads folder, renamed per naming convention, and sorted into the library
 
 ---
 

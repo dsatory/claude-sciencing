@@ -195,6 +195,7 @@ read_date: 2026-04-05
 - **/sci-read** analyses can be saved as reading notes
 - **/sci-draft** can pull citations from the library for proposals and reports
 - **/sci-review** uses the library as its source of papers to synthesize
+- **paper-retrieval** skill handles the actual downloading with a 7-tier, 20-source strategy — sci-library tracks what's been acquired and organizes it
 
 ---
 
@@ -214,6 +215,21 @@ When the user asks to "continue" or "pick up where we left off":
 - Check for draft files in the project directory that may be in progress
 - Summarize what exists and ask what to work on next
 
+### Download Log
+
+The `paper-retrieval` skill maintains a `download_log.md` in the `literature/` folder. When resuming:
+- Read this log to see which papers were successfully downloaded, which failed, and from which sources
+- Do NOT re-attempt downloads that already succeeded (verify the PDF still exists at the logged path)
+- For previously failed papers, start from the last-attempted tier rather than from scratch
+- Append new attempts to the log — never overwrite it
+
+### Patent Library
+
+Patents are stored in a dedicated `XX_Patents/` folder (numbered last in the category structure). When resuming:
+- Check for existing patents and their metadata
+- Do not re-download patents already in the library
+- Patent PDFs follow the naming convention: `USPat_`, `USApp_`, `EPPat_`, `WOApp_` + description + year
+
 ---
 
 ## General Guidance
@@ -223,3 +239,5 @@ When the user asks to "continue" or "pick up where we left off":
 - When the user shares a reference list from a paper, offer to batch-add all entries
 - If the library doesn't exist yet, create it on first `add` command
 - Prefer DOIs as the canonical identifier (most reliable for lookup)
+- When adding references, check the `download_log.md` to see if the paper has already been attempted
+- Patents can be added to the library like papers — use patent numbers as identifiers alongside DOIs

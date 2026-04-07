@@ -15,6 +15,13 @@ Review and improve scientific text for clarity, conciseness, tone, and logical f
 3. If no focus specified, perform a comprehensive review covering all areas
 4. If no file or text provided, ask the user what to edit
 
+### Supported File Formats
+
+- **`.md`, `.tex`, `.txt`** — read and edit directly
+- **`.docx`** — read via python-docx, apply edits, save back
+- **`.pdf`** — read for review/feedback only (cannot write back to PDF)
+- **`.gdoc`** — Google Drive pointer file. Extract `doc_id` from JSON, open export URL in browser to download as `.docx`. Edit the exported `.docx`.
+
 ## Editing Passes
 
 Apply the following passes. When a specific focus is requested, prioritize that pass but still flag critical issues from other categories.
