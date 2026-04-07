@@ -1,12 +1,14 @@
 ---
 name: document-formats
 description: >
-  Reads and writes PDF, DOCX, PPTX, and XLSX files using Python libraries. Use when the user
-  asks to "create a PDF," "write a Word doc," "make a PowerPoint," "generate a spreadsheet,"
-  "read this docx," "extract data from xlsx," "convert to PDF," "export as Word," "make slides,"
-  or any request involving reading, writing, or converting between these document formats.
-  Also triggers on "open this file" or "what's in this file" when the file is .pdf, .docx,
-  .pptx, or .xlsx. Handles scientific documents: papers, reports, presentations, data tables.
+  Reads and writes PDF, DOCX, PPTX, XLSX, and Google Drive native files (.gdoc, .gsheet, .gslides)
+  using Python libraries. Use when the user asks to "create a PDF," "write a Word doc," "make a
+  PowerPoint," "generate a spreadsheet," "read this docx," "extract data from xlsx," "convert to
+  PDF," "export as Word," "make slides," or any request involving reading, writing, or converting
+  between these document formats. Also triggers on "open this file" or "what's in this file" when
+  the file is .pdf, .docx, .pptx, .xlsx, .gdoc, .gsheet, or .gslides. Handles Google Drive files
+  by detecting pointer files and exporting to Office format via browser. Handles scientific
+  documents: papers, reports, presentations, data tables.
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write, WebFetch
 ---
 
@@ -53,6 +55,67 @@ pip3 install fpdf2         # PDF writing (reading is handled by Claude Code nati
 ```
 
 **Ask the user before installing.** Don't silently pip install — confirm first since this modifies their Python environment.
+
+---
+
+## Google Drive Native Files (.gdoc, .gsheet, .gslides)
+
+Google Drive for Desktop syncs native Google files as small JSON pointers — they don't contain the actual document content. To work with them, export to Office format first.
+
+### Detecting Google Drive Files
+
+When the user provides a `.gdoc`, `.gsheet`, or `.gslides` file (or a path under `~/Library/CloudStorage/GoogleDrive-*/`), check if it's a pointer file:
+
+```python
+import json, os
+
+def read_gdrive_pointer(filepath):
+    """Read a Google Drive pointer file and extract the document ID."""
+    with open(filepath) as f:
+        data = json.load(f)
+    doc_id = data.get("doc_id")
+    email = data.get("email", "unknown")
+    return doc_id, email
+```
+
+### Export Workflow
+
+Once you have the `doc_id`, export to an editable Office format:
+
+```bash
+# Export Google Doc as .docx
+open "https://docs.google.com/document/d/{doc_id}/export?format=docx"
+
+# Export Google Sheet as .xlsx
+open "https://docs.google.com/spreadsheets/d/{doc_id}/export?format=xlsx"
+
+# Export Google Slides as .pptx
+open "https://docs.google.com/presentation/d/{doc_id}/export?format=pptx"
+```
+
+This opens the export URL in the user's default browser, which uses their existing Google session to download the file (typically lands in `~/Downloads/`).
+
+### Step-by-Step When User Provides a .gdoc/.gsheet/.gslides File
+
+1. **Read the pointer file** to extract `doc_id` and confirm it's a Google Drive native file
+2. **Tell the user** what's happening: "This is a Google Docs file — the content lives in Google's cloud, not locally. I'll export it to .docx so we can work with it."
+3. **Run the `open` command** with the export URL to trigger a browser download
+4. **Ask the user** to confirm the downloaded file location (usually `~/Downloads/{filename}.docx`)
+5. **Read and process** the exported .docx using the standard DOCX workflow below
+6. **After editing**, the user can either:
+   - Upload the edited .docx back to Google Drive manually
+   - Open the original Google Doc in browser (`open "https://docs.google.com/document/d/{doc_id}/edit"`) and copy changes in
+   - Use the edited .docx as the canonical version going forward
+
+### Google Drive Path Detection
+
+Files under these paths are synced via Google Drive for Desktop:
+```
+~/Library/CloudStorage/GoogleDrive-*/My Drive/
+~/Library/CloudStorage/GoogleDrive-*/Shared drives/
+```
+
+Office files (`.docx`, `.xlsx`, `.pptx`) stored on Google Drive sync as real files and work directly — no export needed. Only native Google formats (`.gdoc`, `.gsheet`, `.gslides`) require the export step.
 
 ---
 

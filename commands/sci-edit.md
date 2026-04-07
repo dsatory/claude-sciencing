@@ -1,6 +1,6 @@
 ---
-description: Scientific editing and revision — clarity, tone, logical flow, jargon reduction
-argument-hint: [file path or paste text] [optional focus: clarity | tone | jargon | flow | topic-sentences]
+description: Scientific editing and revision — grammar, spelling, typos, clarity, tone, logical flow, jargon reduction. Works on any document type including .md, .docx, .tex, .txt, and pasted text.
+argument-hint: [file path or paste text] [optional focus: grammar | clarity | tone | jargon | flow | topic-sentences]
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write
 ---
 
@@ -18,6 +18,18 @@ Review and improve scientific text for clarity, conciseness, tone, and logical f
 ## Editing Passes
 
 Apply the following passes. When a specific focus is requested, prioritize that pass but still flag critical issues from other categories.
+
+### Pass 0: Grammar, Spelling, and Typos
+
+Always run this pass first, regardless of the requested focus.
+
+- Fix spelling errors and typos (including scientific terms: species names, chemical names, gene names)
+- Correct grammar: subject-verb agreement, dangling modifiers, comma splices, run-on sentences, incorrect prepositions
+- Fix punctuation: missing or misplaced commas, semicolons used as commas, inconsistent serial comma usage
+- Flag homophones and near-misses common in scientific writing: effect/affect, principal/principle, compliment/complement, discrete/discreet, elicit/illicit, ensure/insure, than/then
+- Check hyphenation: compound modifiers before nouns ("well-characterized enzyme" but "the enzyme is well characterized"), standard prefixes (non-, pre-, post-, co-)
+- Verify number-word consistency: spell out numbers below 10 except with units (see scientific-style guidelines)
+- Check for accidental word repetition ("the the", "of of") and missing words
 
 ### Pass 1: Clarity and Conciseness
 

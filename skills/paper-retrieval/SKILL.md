@@ -256,9 +256,28 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 - **Research4Life / HINARI**: institutional access programs (check if user's institution qualifies)
 - **Temporary OA promotions**: publishers sometimes make articles free during events — a web search may reveal a free link that a direct publisher URL doesn't
 
-### Tier 5: Last Resort
+### Tier 5: Internal / Organizational Sources (Ginkgo-Specific)
 
-**15. Direct Web Search — Creative Queries**
+Colleagues often share paywalled PDFs in internal channels and shared drives. These are legitimate copies for internal use and an excellent source when OA routes fail.
+
+**17. Slack — #tech-papers and other channels**
+- Search `#tech-papers` first — this is the primary channel where papers are shared: `slack_search_public_and_private` with query `"{paper title}"` or `"{first author} {year}"` or the DOI
+- Also try broader Slack search without channel filter — papers get shared in project channels, DMs, and threads
+- Look for PDF attachments or links to Google Drive / Dropbox / publisher URLs that may have been shared with institutional access
+- If a match is found, check if there's a file attachment (PDF) or a link. File attachments are the most reliable — download directly. Links may or may not still work.
+
+**18. Google Drive (Shared Drives and My Drive)**
+- Search Google Drive for the paper title, author names, or DOI. Papers may be stored under unpredictable names — try partial title matches and author surnames.
+- Check shared drives relevant to the project (e.g., SolutionsBU shared drive)
+- Common patterns: PDFs dropped in project folders, "papers" or "literature" subdirectories, or shared directly via links in Docs/Sheets
+- Google Drive files synced locally under `~/Library/CloudStorage/GoogleDrive-*/` can be searched with Glob/Grep if the files are actual PDFs (not .gdoc pointers)
+- For native Google Drive search (not locally synced), use Slack messages that contain Drive links as an indirect index
+
+**Note:** Internal sources should be tried AFTER public OA sources (Tiers 1-4) since those produce files you can freely cite and share outside the org. Internal copies are best for reading and reference.
+
+### Tier 6: Last Resort
+
+**19. Direct Web Search — Creative Queries**
 - `"{exact paper title}" pdf` — sometimes finds copies in unexpected places
 - `"{exact paper title}" filetype:pdf` — narrows to actual PDF files
 - `"{doi}" pdf` — sometimes finds hosted copies
@@ -266,7 +285,35 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 - Try Google and Bing separately — they index different repositories
 - Check the first 2-3 pages of results, not just the first result
 
-**16. Supplementary / Alternative Versions**
+**20. Browser-Assisted Manual Download (Human in the Loop)**
+- When a direct PDF URL is known but automated download fails (e.g., cookies, CAPTCHA, institutional proxy, JS-required redirect), open the URL in the user's browser:
+  ```python
+  import platform, subprocess
+  url = "https://publisher.com/path/to/article.pdf"
+  system = platform.system()
+  if system == "Darwin":
+      subprocess.run(["open", url])
+  elif system == "Linux":
+      subprocess.run(["xdg-open", url])
+  elif system == "Windows":
+      subprocess.run(["start", url], shell=True)
+  ```
+- Open multiple tabs at once for batch failures — don't make the user wait between each one
+- Ask the user to confirm when downloads are complete and where they were saved
+- Determine the user's downloads directory:
+  ```python
+  import platform, os
+  system = platform.system()
+  if system == "Windows":
+      downloads = os.path.join(os.environ.get("USERPROFILE", ""), "Downloads")
+  else:
+      downloads = os.path.expanduser("~/Downloads")
+  ```
+- Scan the downloads directory for newly downloaded PDFs, match them to the target papers (by filename, timestamp, or content), rename per naming convention, and move to the appropriate `literature/PDFs/` category folder
+- This leverages the user's browser session (institutional access, VPN, saved logins) to bypass restrictions that block programmatic downloads
+- **Only use this after exhausting all automated tiers** — it requires user effort, so minimize the number of papers that reach this step
+
+**21. Supplementary / Alternative Versions**
 - Some papers have freely available supplementary PDFs even when the main text is paywalled
 - Conference proceeding versions of journal articles may be free
 - Thesis chapters that contain the paper's content may be freely available
@@ -287,7 +334,7 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 
 ### Persistence Protocol
 
-**The #1 rule: DO NOT mark a paper as "unavailable" until you have tried at least 8 different sources/approaches.** Track each attempt in the download log.
+**The #1 rule: DO NOT mark a paper as "unavailable" until you have tried at least 10 different sources/approaches (including internal sources).** Track each attempt in the download log.
 
 For each paper, maintain an attempt log:
 ```
