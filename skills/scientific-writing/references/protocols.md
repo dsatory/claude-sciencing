@@ -205,3 +205,118 @@ For formal SOPs (GLP/GMP/regulated environments), add:
 | No troubleshooting section | Same failure debugged from scratch every time | Include the top 5 failure modes |
 | Reagent list without catalog #s | Wrong vendor product gives different results | Always include catalog # and supplier |
 | Steps that combine actions | Easy to miss one action in a compound step | One verb per numbered step |
+
+---
+
+## Real-World Protocol Patterns (Sanitized Examples)
+
+These patterns are extracted from real laboratory protocols in industrial biotech settings. All identifying details have been replaced with generic equivalents.
+
+### Pattern 1: Multi-Run Experimental Strategy
+
+Real protocols often define a progressive multi-run approach upfront, where each run informs the next:
+
+```
+Three-run strategy:
+- Run 1 (pilot): 2 strains, all 4 assay conditions, triplicates. Validate assay, 
+  check reproducibility, select best reference standard.
+- Run 2 (screen): All 50 strains, 2 assay conditions (best reference + target), 
+  technical duplicates. Rank strains by target metric.
+- Run 3 (validation): Top 10 strains, best reference + target, biological and 
+  technical triplicates for publication-quality data.
+```
+
+This framing helps the scientist understand why THIS run matters in the larger context and what decisions will be made based on its outcomes.
+
+### Pattern 2: Day-Based Timeline with Decision Points
+
+Protocols with multi-day workflows should use a day-based structure, not just step numbering:
+
+```
+Day 1 (evening):
+1. Inoculate cultures into selective media. Grow overnight at 30°C, 200-250 rpm.
+
+Day 2 (morning):
+2. Back-dilute to OD₆₀₀ ~0.1-0.2 in fresh pre-warmed media.
+3. Grow at 30°C, 200-250 rpm for 3-4 hours until mid-log (OD₆₀₀ 0.4-0.8).
+   Check OD₆₀₀ hourly.
+
+Note: If strains grow at different rates, stagger back-dilutions so both 
+reach mid-log phase simultaneously.
+
+Harvest:
+4. Record exact OD₆₀₀ for each culture.
+5. Harvest 5-10 OD units per sample (e.g., 10-25 mL of OD₆₀₀ 0.4-0.8 culture).
+   Expected yield: ~5-30 µg total RNA.
+```
+
+Key elements: day labels, time-of-day hints, expected yields at each stage, notes about strain-specific variation.
+
+### Pattern 3: Enzymatic Digestion with Monitoring
+
+When a step involves variable-duration incubation, include a monitoring method and decision criterion:
+
+```
+Cell Wall Digestion:
+6. Resuspend pellet in 500 µL sorbitol buffer (1 M sorbitol, 100 mM EDTA, pH 7.4).
+7. Add enzyme at 2-5 units per OD₆₀₀ equivalent.
+8. Incubate at 30°C for 30-60 min with gentle agitation (invert every 10 min).
+9. Monitor: Mix 5 µL sample + 5 µL 1% SDS on a slide. Target >80% lysis in SDS.
+10. Pellet at 300 × g for 5 min. Do NOT exceed — cells are fragile after digestion.
+
+Note: Under-digestion = poor yield (lysis reagent cannot penetrate intact walls).
+Over-digestion = degradation. Log-phase cells digest faster than stationary-phase.
+```
+
+The monitoring step (Step 9) prevents both under- and over-processing. The note explains WHY each failure mode matters, not just that they exist.
+
+### Pattern 4: Extraction with Phase Separation
+
+For any protocol involving phase separation (RNA extraction, liquid-liquid extraction, etc.):
+
+```
+11. Add 700 µL lysis reagent directly to pellet. Vortex vigorously 30 sec.
+12. Incubate at RT for 5 min.
+13. Add 140 µL chloroform. Shake vigorously 15 sec. Incubate at RT 2-3 min.
+    **CAUTION:** Chloroform is volatile and toxic. Work in fume hood.
+14. Centrifuge at 12,000 × g for 15 min at 4°C.
+15. Transfer upper aqueous phase (~350 µL) to new tube. Avoid interphase.
+    **CRITICAL:** Contamination with interphase introduces DNA and protein.
+    If unclear, take less rather than more.
+```
+
+Pattern: specify exact volumes, exact centrifugation parameters (g-force, not RPM), expected phase volumes in parentheses, and the consequence of the most common mistake.
+
+### Pattern 5: Plate-Based Assay Setup
+
+For high-throughput assays (qPCR, ELISA, plate reader assays), specify the plate layout logic:
+
+```
+Plate Setup:
+16. Normalize all samples to working concentration with buffer.
+17. Prepare condition-specific master mixes (one per condition).
+18. Aliquot master mix per well (e.g., 18 µL/well).
+19. Add 2 µL sample to sample wells.
+20. Controls:
+    - Negative control wells: add buffer instead of sample.
+    - No-enzyme controls: omit enzyme from master mix.
+21. Seal plate with optical film. Centrifuge 1,000 × g for 1 min.
+```
+
+Always specify: what goes in first (master mix), what's added last (sample), how controls differ from samples, and the sealing/centrifugation step before running.
+
+### Pattern 6: QC Decision Gates
+
+Real protocols include explicit QC checkpoints with pass/fail criteria:
+
+```
+Quality Control:
+22. Measure sample purity: Target ratio 1.8-2.1 (indicates acceptable purity).
+23. Quantify with fluorometric assay for accurate measurement.
+24. Record all values. Calculate amount needed for downstream assay.
+
+Note: If purity ratio < 1.5, residual reagent may inhibit downstream 
+reactions. Perform cleanup before proceeding.
+```
+
+The QC section tells the scientist what "good" looks like and what to do when it doesn't look good.

@@ -79,3 +79,68 @@ Go/no-go criteria should be lower than targets — they represent the minimum ac
 - **Avoid scope creep by defining what's out.** Explicitly state exclusions.
 - **Align tasks to budget.** Each task should map to a budget category. Reviewers check for consistency.
 - **Write for the worst case.** The SOW will be read when things go wrong and someone needs to determine what was actually promised.
+
+---
+
+## Real-World SOW Patterns (Sanitized Examples)
+
+### Pattern: Task Description with Quantitative Milestones
+
+Every task in an industrial biotech SOW should specify measurable success criteria. Compare:
+
+**Weak task:**
+> Task 2.1: Engineer bacteria for improved production. Test multiple modifications and select the best performers.
+
+**Strong task:**
+> **Task 2.1: Construct and Characterize Engineered Strains for Target Compound Overproduction**
+>
+> *Objective:* Construct knockout strains eliminating competing pathways to enable target compound accumulation via the desired metabolic route.
+>
+> *Approach:* Sequential markerless deletion of 4 competing pathway genes using recombineering. Confirm deletions by PCR and sequencing. Characterize strains on 3 carbon sources in controlled fermentation. Quantify target compound by HPLC.
+>
+> *Inputs:* Wild-type parent strain; fermentation protocols from Task 1.3.
+>
+> *Deliverables:* (1) Confirmed engineered strain; (2) Titer data from ≥3 carbon sources; (3) Growth curves comparing wild-type and engineered strains.
+>
+> *Duration:* Months 1-4. *Dependencies:* None (can begin immediately).
+
+The strong version names specific methods, specifies the number of conditions, and lists concrete deliverables.
+
+### Pattern: Multi-Phase SOW with Go/No-Go Gates
+
+For programs with phase-gated funding:
+
+```
+## Phase 1 (Months 1-12): Feasibility Demonstration
+
+### Go/No-Go Criteria (Month 12 review)
+| Criterion | Threshold | Method of Assessment |
+|-----------|-----------|---------------------|
+| Target compound titer | ≥10 g/L in bench-scale bioreactor | HPLC quantification, triplicate runs |
+| Process yield | ≥50% of theoretical maximum | Mass balance calculation |
+| Feedstock tolerance | Demonstrated on ≥3 feedstock types | Side-by-side comparison at 1 L scale |
+| TEA feasibility | MSP within 2x of market price | ASPEN Plus model at 3 production scales |
+
+Failure to meet ANY criterion will trigger a joint review with the 
+program office to determine path forward (no-go, scope adjustment, 
+or conditional proceed with risk mitigation plan).
+
+## Phase 2 (Months 13-24): Scale-Up and Optimization
+[Contingent on Phase 1 go decision]
+```
+
+Go/no-go criteria must be: (1) quantitative, (2) measurable by a named method, (3) binary pass/fail. "Promising results" is not a go/no-go criterion.
+
+### Pattern: Deliverables Table with Format Specifications
+
+```
+| # | Deliverable | Description | Due | Format | Audience |
+|---|------------|-------------|-----|--------|----------|
+| D1 | Monthly Status | Technical progress, risks, budget burn | Monthly | 2-page PDF | PM |
+| D2 | Quarterly Report | Detailed technical results, data tables | Q1-Q4 | PDF + raw data files | PM + technical team |
+| D3 | Phase 1 Report | Complete results, TEA, Phase 2 recommendation | Month 12 | PDF + ASPEN model files | PM + review panel |
+| D4 | Strain materials | Engineered strains deposited in culture collection | Month 12 | Physical + sequence files | Government |
+| D5 | Data package | All raw data, analysis scripts, metadata | Month 12 | Structured data repository | Government |
+```
+
+Specify format because it sets expectations. "Report" is ambiguous -- "PDF with embedded figures + Excel raw data as separate attachment" is actionable.

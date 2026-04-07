@@ -54,3 +54,72 @@ Follow the target journal's format requirements exactly. Many journals specify s
 - **Listing methods without showing results.** An abstract that's all approach and no data suggests you haven't done the work.
 - **Passive voice overload.** "It was demonstrated that the enzyme was shown to be effective" → "The engineered variant achieved 98% conversion."
 - **Ignoring evaluation criteria.** If the solicitation ranks criteria, your abstract should spend proportional effort on each.
+
+---
+
+## Real-World Abstract Patterns (Sanitized Examples)
+
+### Pattern: The Three-Strategy Integration Abstract
+
+The strongest government proposal abstracts present 2-3 complementary strategies that integrate into a single pipeline. Structure:
+
+```
+[Problem statement using program language, 1-2 sentences]
+
+We propose an integrated [approach type] pipeline that addresses 
+[all Focus Areas] across [program-specified feedstocks/conditions]. 
+Our approach couples three complementary strategies:
+
+• FA1 — [Strategy 1]: [Method] using [specific catalyst/organism] 
+  achieves [metric with number] while [co-benefit]. [Named lead + institution].
+  
+• FA2 — [Strategy 2]: Engineered [organism] converts [FA1 outputs] 
+  into [target products]. [Key preliminary result with number].
+  
+• [Modeling/TEA]: [Software] process modeling from [small scale] to 
+  [large scale], evaluating [economic metrics].
+
+This approach is innovative because [one sentence explaining what's 
+genuinely novel — ideally "the first reported demonstration of X"].
+```
+
+Key features: each bullet names a lead, cites a number, and shows how it connects to the program structure. The "innovative because" sentence is critical — reviewers look for it.
+
+### Pattern: Task-Level Detail in Approach Section
+
+Each Focus Area's approach section should break into numbered tasks with month ranges and inline milestones:
+
+```
+Phase 1 Tasks (Months 1-12):
+
+• Task 1.1 (Months 1-3): [Action verb] [specific method] across 
+  [N] [feedstock/conditions]. Screen [catalyst/strain library] using 
+  [platform]. Milestone: [quantitative threshold by specific month].
+  
+• Task 1.2 (Months 3-6): Optimize [parameters] per [variable]. 
+  Implement [secondary method] on [Task 1.1 outputs]. Milestone: 
+  ≥[X]% [metric] by Month 6.
+  
+• Task 1.3 (Months 6-11): Scale to [target scale]. Integrate 
+  [complementary approach]. Demonstrate [stability/robustness]. 
+  Milestone: End-of-phase demo with [scale] of ≥[N] [feedstock types].
+
+Phase 2 Plan (Months 13-24):
+[Shorter paragraph — maximize metrics, scale up, refine TEA]
+```
+
+### Pattern: Risk Section with Numbered Risks
+
+```
+We identify [N] primary risks and present concrete mitigations:
+
+Risk 1: [Specific technical risk statement]
+[Why it matters — 1-2 sentences with technical context]
+Mitigation: [Specific strategy with supporting data]
+
+Risk 2: [Next risk]
+[Context]
+Mitigation: [Strategy with data]
+```
+
+Risks should be real and specific, not generic. "Feedstock variability" is vague. "S/G ratio variation across biomass classes reduces monomer yield below Phase 1 targets" is specific and addressable.

@@ -24,6 +24,12 @@ The solicitation (BAA, RFI, NOFO, PS) is the law. Its structure, requirements, p
 - **Echo the solicitation's language.** If they say "feedstock-agnostic catalytic technologies," use those exact words when describing your approach. This isn't parroting — it's proving alignment.
 - **Respond to evaluation criteria in priority order.** If criteria are ranked (e.g., Technical Approach > Technical Ability > Technical Comprehension), allocate page real estate proportionally.
 
+**Abstract vs. Full Proposal:**
+The abstract is NOT a mini-proposal. It's a filter — program managers use it to decide who gets invited to submit a full proposal or give an oral presentation. Abstracts that try to be comprehensive lose to abstracts that are compelling and specific. Focus on:
+- The single most innovative aspect of your approach
+- The strongest piece of preliminary data
+- Clear alignment with every evaluation criterion (in descending order of importance)
+
 ### DARPA-Specific Conventions
 
 DARPA proposals have a distinct culture:
@@ -52,6 +58,53 @@ ARPA-E focuses on transformative energy technologies:
 - **Techno-economic analysis expected.** ARPA-E proposals should include or reference TEA showing a path to cost-competitiveness with incumbent technologies.
 - **Scale-up pathway.** Address manufacturing scalability and commercial deployment — ARPA-E wants technologies that can reach market, not just lab demonstrations.
 - **Market context.** Show awareness of the competitive landscape: existing solutions, market size, and why the proposed approach wins on cost, performance, or both.
+
+### Real-World Abstract Structure (Sanitized Example)
+
+A strong government proposal abstract follows this exact structure. This is based on real DARPA abstracts — all identifying details have been replaced with generic equivalents.
+
+**Cover Sheet Elements (typically required):**
+```
+Solicitation Title and Number
+Abstract Title: [Descriptive, technical, 15-20 words max]
+Program Solicitation #: [DARPA-PS-XX-XX]
+Proposer Organization: [Company Name, Inc.]
+Technical POC: Name, address, phone, email
+Administrative POC: Name, address, phone, email
+Other Team Members: [University partners, subcontractors]
+Phase 1 Cost Option: $X,XXX,XXX
+Estimated Period of Performance Phase 1: 12 months
+Estimated ROM Cost for Phase 2: $X,XXX,XXX
+Other solicitations: None / [list if applicable]
+SETA/A&AS Disclosure: [Required conflict-of-interest statement]
+```
+
+**Abstract Body Structure (typically 3-5 pages):**
+
+**Section 1: Executive Summary** (~0.5 page)
+- Opening sentence: frame the problem using the solicitation's own language
+- 2-3 sentence description of the integrated approach with specific methods named
+- Bullet list of key strategy components, one per Focus Area or thrust, each with a named lead and preliminary result
+- Final sentence tying back to program metrics
+
+**Section 2: Proposed Technical Approach** (~2-3 pages)
+Organized by program Focus Areas, NOT by your internal project structure:
+- **FA1 subsection:** Named lead + institution. Phase 1 tasks numbered (Task 1.1, 1.2, 1.3) with months, milestones, and quantitative go/no-go criteria inline. Phase 2 plan as a shorter paragraph.
+- **FA2 subsection:** Same structure. Tasks reference FA1 outputs as inputs.
+- **TEA/Modeling subsection:** Named partner. Scale specifications matching solicitation requirements. Software tools named (ASPEN Plus, etc.).
+
+**Section 3: Technical Challenges / Risk Assessment** (~0.5 page)
+- Number each risk (Risk 1, Risk 2, etc.)
+- For each: state the risk, explain why it matters, present specific mitigation with evidence
+- Reference prior work or preliminary data that reduces risk
+
+**Key patterns observed in successful abstracts:**
+- Name every team member's institution and specific contribution
+- Include state-of-the-art comparison tables with your approach benchmarked against literature
+- Phase tasks are numbered hierarchically (Task 1.1, 1.2, 2.1, 2.2) with month ranges
+- Every milestone has a quantitative threshold ("≥50% delignification by Month 6")
+- Cost figures are round numbers (typically in $100K increments)
+- The abstract echoes the solicitation's terminology verbatim throughout
 
 ### Proposal Structure (Typical Government)
 

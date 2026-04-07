@@ -114,3 +114,71 @@ Tables and figures are not decoration — they are the structural backbone of th
 - Third person for formal reports, first person plural ("we") acceptable for internal
 - Confident but precise — state what the data show, not what you hope it shows
 - Technical vocabulary without jargon. "Dynamic pathway regulation" is technical vocabulary (precise term for a specific strategy). "Synergistic leveraging of metabolic conversion paradigms" is jargon (vague words that obscure rather than clarify).
+
+---
+
+## Real-World Technical Report Patterns (Sanitized Examples)
+
+### Pattern: State-of-the-Art Comparison Tables
+
+Every technical report in industrial biotech should include at least one comparison table benchmarking your results against published literature. Structure:
+
+```
+**Table N.** State of the art in [target compound] production via [approach].
+
+| Catalyst/Strain | Feedstock | Yield | Conditions | Scale | Ref |
+|-----------------|-----------|-------|------------|-------|-----|
+| Literature baseline 1 | Model substrate | XX% | Lab conditions | Shake flask | [1] |
+| Literature baseline 2 | Real feedstock | XX% | Pilot conditions | 5 L bioreactor | [2] |
+| **This work** | **Real feedstock** | **XX%** | **Optimized** | **1 kg batch** | — |
+```
+
+Bold your own results. Always include: (1) the substrate type (model vs. real), (2) scale, (3) conditions. These three factors determine whether results are truly comparable.
+
+### Pattern: Risk Assessment Matrix
+
+For proposal-supporting reports, include a structured risk table:
+
+```
+| Risk | Severity | Likelihood | Mitigation | Evidence |
+|------|----------|------------|------------|----------|
+| Feedstock variability reduces yield | High | Medium | HTP screening platform enables rapid parameter optimization per feedstock (240 conditions/experiment) | Demonstrated on 50+ feedstock variants [Ref] |
+| Catalyst deactivation over time | Medium | Medium | Regeneration protocol restores >95% activity; 20+ recycle demonstrations | Continuous flow stability data (100 h on-stream) [Ref] |
+```
+
+The "Evidence" column is what separates credible risk assessment from hand-waving. Every mitigation should cite data.
+
+### Pattern: Hierarchical Section Numbering with Program Alignment
+
+When the report supports a funded program, mirror the program's Focus Area / Task structure:
+
+```
+## 4. FA1: [Focus Area 1 Title from Program]
+
+### 4.1 [Subtopic aligned with Task 1.1]
+### 4.2 [Subtopic aligned with Task 1.2]
+
+## 5. FA2: [Focus Area 2 Title from Program]
+
+### 5.1 [Subtopic aligned with Task 2.1]
+```
+
+This makes it trivial for a program manager to map your report to their tracking system.
+
+### Pattern: Executive Summary with Headline Numbers
+
+The executive summary should contain 2-3 "headline numbers" that a reader remembers even if they read nothing else:
+
+```
+## 1. Executive Summary
+
+[Problem in 1-2 sentences, using the program's language]
+
+[Approach in 2-3 sentences]
+
+Key results:
+- [Method A] achieves XX% yield from real [feedstock] — a Y-fold improvement 
+  over the state of the art
+- [Method B] demonstrates Z metric, the highest reported for [compound class]
+- Integrated pipeline validated at [scale] across [N] feedstock types
+```
