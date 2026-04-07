@@ -11,7 +11,7 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 | `/sci-read` | Distill papers and patents — tactical briefings, deep analysis, data extraction, patent claims. |
 | `/sci-review` | Compile thematic literature reviews with state-of-the-art comparison tables and gap analysis. |
 | `/sci-draft` | Draft any scientific document — abstracts, proposals, reports, SOWs, patents, presentations, memos. |
-| `/sci-edit` | Multi-pass scientific editing — clarity, tone, jargon, logical flow, topic sentence analysis. |
+| `/sci-edit` | Multi-pass scientific editing — grammar, spelling, typos, clarity, tone, jargon, logical flow, topic sentence analysis. |
 | `/sci-figures` | Write figure captions, format tables, manage panel labeling for publications. |
 
 ### Quick Example
@@ -58,9 +58,11 @@ to high-value chemicals — focus on the last 2 years"
 **What the plugin does:**
 - **scientific-reading** and **pubmed-setup** skills activate — verifies PubMed MCP is connected, then queries with optimized Boolean queries and MeSH terms
 - Searches across PubMed, preprints (bioRxiv, chemRxiv), and web sources in parallel
+- **Patent search runs automatically** — searches Google Patents, USPTO, Espacenet, WIPO, and Lens.org for active and pending patents using keyword and CPC classification codes
 - Returns results ranked by relevance, recency, and open-access availability
+- **Produces a Patent Landscape Summary** — distills claims from relevant patents, compares against project objectives (if available), and categorizes approaches as clear/caution/avoid with specific design-around strategies
 - Suggests a reading order, identifies gaps in the search, and recommends follow-up queries
-- Output: a curated reading list organized by priority
+- Output: a curated reading list + patent landscape analysis organized by priority
 
 ---
 
@@ -71,13 +73,15 @@ to high-value chemicals — focus on the last 2 years"
 ```
 
 **What the plugin does:**
-- **paper-retrieval** skill activates with its exhaustive 5-tier, 16-source strategy
+- **paper-retrieval** skill activates with its exhaustive 7-tier, 20-source strategy
 - **Tier 0 (PubMed MCP):** Resolves all identifiers (DOI → PMID → PMCID) and checks OA status for every paper upfront
-- **Fast pass (Tiers 1–2):** Downloads from PMC, publisher OA, Unpaywall, and Europe PMC — handles the easy ones first
-- **Stubborn pass (Tiers 3–5):** For remaining papers, searches institutional repositories, author websites, preprint servers, and creative web queries — tries at least 8 sources per paper before giving up
+- **Fast pass (Tiers 1–2):** Downloads from PMC, publisher OA, patents (Google Patents, USPTO, Espacenet, WIPO), Unpaywall, and Europe PMC — handles the easy ones first
+- **Stubborn pass (Tiers 3–4):** For remaining papers, searches institutional repositories, author websites, preprint servers, and publisher-specific OA programs — tries at least 10 sources per paper before giving up
+- **Internal sources (Tier 5):** Searches Slack channels (especially #tech-papers) and Google Drive shared drives for PDFs shared by colleagues — excellent for paywalled publications
+- **Last resort (Tiers 6–7):** Web search, browser-assisted manual download (opens PDF URLs in user's browser to leverage institutional access, then auto-picks up from Downloads folder), and supplementary/alternative versions
 - **Verifies every download** — checks for HTML masquerading as PDF, stub files, and corrupted downloads
-- **Names files** in standardized format: `JournalAbbrev_3word_description_year.pdf`
-- **Auto-suggests category folders** by analyzing the batch (e.g., `01_Reviews/`, `02_Metabolic_Engineering/`), asks for confirmation, then sorts
+- **Names files** in standardized format: `JournalAbbrev_3word_description_year.pdf` (patents: `USPat_`, `USApp_`, `EPPat_`, `WOApp_`)
+- **Auto-suggests category folders** by analyzing the batch (e.g., `01_Reviews/`, `02_Metabolic_Engineering/`, `XX_Patents/`), asks for confirmation, then sorts
 - Output: organized PDF library with a download log documenting every attempt
 
 ---
@@ -231,7 +235,7 @@ everything is compliant before submission"
 - **scientific-style** enforces nomenclature, statistical reporting, and writing conventions
 - **scientific-writing** provides document-type-specific strategic guidance
 - **scientific-reading** structures every paper analysis for actionable output
-- **paper-retrieval** never gives up on a PDF until all 16 sources are exhausted
+- **paper-retrieval** never gives up on a PDF until all 20 sources are exhausted (including internal channels and browser-assisted download)
 - **format-compliance** catches the trivial formatting issues that cause desk rejections
 
 > **Note:** Slash commands (`/sci-search`, `/sci-draft`, etc.) are also available for power users who want direct access to specific capabilities. The walkthrough above uses natural language prompts because the skills trigger automatically — use whichever style you prefer.
@@ -245,9 +249,9 @@ These skills trigger automatically when Claude detects relevant context — no s
 | **scientific-style** | Editing `.tex`, `.md`, `.bib`, `.pdf`, `.docx`, `.pptx`, `.xlsx` files with scientific content. Provides tense, voice, nomenclature, statistical reporting, and formatting guidance. |
 | **scientific-writing** | Any request to write, draft, or revise scientific documents. Provides strategic framing, audience calibration, and document-type-specific conventions. |
 | **scientific-reading** | Any request to read, summarize, or analyze a paper or patent. Provides structured distillation with field-specific evaluation lenses. |
-| **paper-retrieval** | Any request to download, fetch, or collect scientific PDFs. Exhaustive 5-tier, 16-source download strategy with auto-categorization into numbered folders and standardized naming (`JournalAbbrev_description_year.pdf`). |
+| **paper-retrieval** | Any request to download, fetch, or collect scientific PDFs and patents. Exhaustive 7-tier, 20-source download strategy including patent databases, internal Slack/GDrive sources, and browser-assisted fallback. Auto-categorization into numbered folders with dedicated `XX_Patents/` folder. Cross-platform (macOS/Linux/Windows). |
 | **pubmed-setup** | Checks PubMed MCP integration status and guides setup. Runs diagnostics across search, metadata, ID conversion, and full-text capabilities. |
-| **document-formats** | Reading or writing `.pdf`, `.docx`, `.pptx`, `.xlsx` files. Handles dependency checks, Python-based read/write for all four formats, and format conversion. |
+| **document-formats** | Reading or writing `.pdf`, `.docx`, `.pptx`, `.xlsx`, and Google Drive native files (`.gdoc`, `.gsheet`, `.gslides`). Handles dependency checks, Python-based read/write, format conversion, and GDrive export via browser. |
 | **format-compliance** | Verifies documents against venue requirements (journal guidelines, solicitation specs, conference rules). Searches for and fetches actual requirements, audits structure/length/citations/formatting, and reports issues with fixes. |
 
 ## Document Types Supported
@@ -256,19 +260,31 @@ These skills trigger automatically when Claude detects relevant context — no s
 
 **Reading:** Research articles · Review articles · Patents and patent applications · Preprints · Conference proceedings · TEA/LCA studies · Competitive landscape analysis
 
-**Editing:** Clarity and conciseness · Passive voice assessment · Scientific tone · Jargon calibration · Logical flow · Topic sentence strengthening
+**Editing:** Grammar, spelling, and typos · Clarity and conciseness · Passive voice assessment · Scientific tone · Jargon calibration · Logical flow · Topic sentence strengthening
 
 **Figures & Tables:** Publication-quality captions · Journal-formatted tables (Markdown + LaTeX) · Panel labeling and cross-references
 
 ## Installation
 
-Clone the repo and add as a local plugin:
+### Option A: Git Clone (recommended — supports auto-updates)
 
 ```bash
 git clone https://gitlab.com/ginkgobioworks/ai-skills/claude-sciencing.git
 ```
 
-Then add the path to your Claude Code settings (`.claude/settings.json`):
+### Option B: From Archive (no git access required)
+
+Download and extract the zip/tar.gz archive, then point to the local directory:
+
+```bash
+mkdir -p ~/.claude/plugins
+cd ~/.claude/plugins
+unzip ~/Downloads/claude-sciencing.zip
+```
+
+### Register the Plugin
+
+Add the path to your Claude Code settings (`.claude/settings.json`):
 
 ```json
 {
@@ -305,6 +321,8 @@ The reading and review tools apply domain-specific scrutiny:
 ## Core Principles
 
 - **Data over claims** — specific numbers with units, conditions, and comparisons
+- **Citation integrity** — every citation must trace to a verified source (search results, downloaded papers). Well-known landmark references are allowed but flagged. Never fabricate citations — use `[CITATION NEEDED]` instead.
+- **Patent-aware by default** — every literature search includes patent landscape analysis with claims distillation, project comparison, and feasibility assessment
 - **Audience-calibrated** — same result framed differently for program managers, R&D teams, commercial partners, IP counsel
 - **Synthesize, don't summarize** — draw connections, identify consensus, flag contradictions
 - **Model vs. real** — always distinguish model substrate from real feedstock results
