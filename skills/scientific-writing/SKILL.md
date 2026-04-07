@@ -149,6 +149,12 @@ Tables and figures are the backbone of scientific communication. A well-designed
 
 ### Citations
 
+**CRITICAL RULE: Every citation must be traceable to a real, verified source.**
+
+- **Primary sources:** Citations should come from papers found during literature search (`/sci-search`), downloaded to the `literature/` folder, or tracked in the library (`/sci-library`). These are verified — you have confirmed they exist.
+- **Well-known citations:** Landmark papers, textbook-level references, and widely-cited foundational works (e.g., seminal methods papers, Nobel-winning discoveries) are allowed even if not in the search results, BUT they must be explicitly flagged with a comment like `<!-- citation: not from search results -->` so the user can verify them independently.
+- **NEVER fabricate citations.** If a claim needs a citation and no matching paper exists in the library or your confident knowledge, insert `[CITATION NEEDED]` rather than inventing an author-year-journal combination. A placeholder is infinitely better than a hallucinated reference.
+
 - In technical documents: numbered references [1] or author-year (Nielsen et al. 2016) depending on format
 - Always cite primary sources, not reviews, for specific claims
 - When citing your own unpublished work: "preliminary data (unpublished)" or "internal data" — be transparent

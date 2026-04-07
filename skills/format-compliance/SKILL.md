@@ -164,6 +164,7 @@ Run a systematic check across ALL applicable categories below. Do not cherry-pic
 
 ### 3.4 Citation & Reference Compliance
 
+- [ ] **Citation source integrity** — every citation must be traceable to a verified source. Check that references come from the project's `literature/` folder, search results, or are well-known landmark papers. Flag any reference that cannot be verified with `[UNVERIFIED CITATION]`. Well-known references not from search results should have `<!-- citation: not from search results -->`.
 - [ ] **Citation style consistent** — all citations use the same format throughout
 - [ ] **Citation style matches venue** — numbered [1] vs author-year (Smith et al., 2024) vs superscript¹ as required
 - [ ] **All in-text citations have reference list entries** — cross-check every citation

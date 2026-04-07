@@ -69,6 +69,8 @@ Avoid double hedging ("it might possibly suggest").
 
 ### Citations
 
+**Source integrity rule:** Every citation in a generated document must be traceable to a real, verified paper. Prefer papers from the project's `literature/` folder or search results — these are confirmed to exist. Well-known landmark papers and foundational references are acceptable even if not in the search results, but flag them with `<!-- citation: not from search results -->` for user verification. If no verified source supports a claim, insert `[CITATION NEEDED]` — never fabricate a reference.
+
 - When inserting citations, follow the existing citation style in the document
 - In author-year styles, use "et al." for three or more authors
 - Place citations before punctuation in most styles
