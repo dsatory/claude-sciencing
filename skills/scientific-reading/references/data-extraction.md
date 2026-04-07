@@ -1,5 +1,15 @@
 # Structured Data Extraction
 
+## Priority Rules
+
+1. **Always specify the substrate type.** Model compound vs. real feedstock is the single most important context for any biotechnology result.
+2. **Always include units and conditions.** A yield number without temperature, substrate, and scale is not comparable.
+3. **Use "NR" for missing data, never blank cells.** Empty cells are ambiguous; NR is explicit.
+4. **Extract from tables and figures, not text.** Text may round or cherry-pick; the raw data is in the figures/tables and SI.
+5. **Add quality flags.** A ★★★ result from a bioreactor on real biomass is not the same as a ★☆☆ result from a microplate on pure glucose.
+
+---
+
 Extracting quantitative data from literature into standardized, comparable formats. This is the bridge between reading a paper and using its data — in comparison tables, proposals, TEA models, and experimental planning.
 
 ## Extraction Templates by Domain

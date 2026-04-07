@@ -1,5 +1,15 @@
 # Paper Analysis — Detailed Guidance
 
+## Priority Rules (apply to ALL analysis modes)
+
+1. **Every finding must include a specific number.** "Improved titer" is not a finding. "112 g/L succinate, 1.1 g/g yield" is a finding.
+2. **Separate claims from evidence.** The authors' interpretation is not the same as what the data show.
+3. **Note substrate and scale.** A result on model substrate at 100 uL scale means something fundamentally different from real feedstock at 5 L.
+4. **End with action items.** Every analysis should answer: "So what do I do with this information?"
+5. **Check the SI.** The supplementary information often contains the most important data — negative results, optimization screens, full datasets.
+
+---
+
 ## Tactical Briefing Protocol
 
 For a quick but rigorous paper distillation (~2-3 minutes of reading time for the user):

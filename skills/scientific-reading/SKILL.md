@@ -1,15 +1,15 @@
 ---
 name: scientific-reading
 description: >
-  Distills, analyzes, and extracts actionable intelligence from scientific literature, patents,
-  preprints, and technical documents in biotechnology, synthetic biology, metabolic engineering,
-  biocatalysis, and related fields. Use this skill whenever the user shares a paper, PDF, patent,
-  DOI, or PubMed link and wants it analyzed, summarized, compared, or critiqued. Also use when the
-  user asks to "read this," "summarize this paper," "what does this patent cover," "extract the
-  key data," "is this relevant to our project," "how does this compare to X," "pull out the yields,"
-  "do a prior art search," "what are the claims," or any request involving comprehension and
-  distillation of scientific or patent literature. Trigger even for casual requests like "take a
-  look at this" when the context is a scientific document.
+  Analyzes EXISTING scientific documents — papers, patents, preprints, and technical documents —
+  that the user has shared or referenced. Use when the user provides a paper, PDF, patent, DOI,
+  or PubMed link and wants it analyzed, summarized, compared, critiqued, or data extracted.
+  Trigger phrases: "read this," "summarize this paper," "what does this patent cover," "extract
+  the key data," "is this relevant," "how does this compare," "pull out the yields," "prior art
+  search," "what are the claims," "take a look at this." This skill is for READING and ANALYZING
+  documents that already exist — not for writing, drafting, or editing the user's own text (use
+  scientific-writing for that). Not for applying style conventions to text being edited (use
+  scientific-style for that).
 ---
 
 # Scientific Reading & Literature Intelligence
@@ -27,6 +27,38 @@ Reading scientific literature in an industrial R&D setting is fundamentally diff
 - What specific numbers can we benchmark against?
 
 Every analysis should produce **actionable output**, not academic book reports.
+
+### What Bad Output Looks Like
+
+**Bad tactical briefing — vague, no numbers, no action:**
+```
+This paper reports on the production of succinic acid using engineered bacteria.
+The authors achieved promising results with improved titers. The work is relevant
+to our research area and could be useful for future proposals. Several limitations
+exist, including scale-up challenges.
+```
+
+**Good tactical briefing — specific, quantified, actionable:**
+```
+## Bottom line
+First report of anaerobic succinate production from crude corn stover hydrolysate
+at >100 g/L — directly citable as a benchmark in the Fleetwood Phase II proposal.
+
+## Key findings
+- Engineered E. coli AFP111 achieved 112 g/L succinate from corn stover hydrolysate
+  in dual-phase fed-batch (anaerobic/microaerobic), 1.1 g/g yield, 2.3 g/L/h
+- In situ electrodialysis maintained extracellular succinate <35 g/L, overcoming the
+  70 g/L product inhibition ceiling seen in conventional fermentation
+- 5 L bioreactor scale, 96 h total process time, 3 independent runs (±4.2 g/L SD)
+
+## Action items
+- Add to Table 3 (state-of-the-art comparison) in the Technical Approach section
+- Contact corresponding author (Lee, KAIST) re: electrodialysis unit specs
+- NOTE: Real hydrolysate but only 5 L scale — flag as "demonstrated at bench,
+  pilot validation needed" in the proposal risk assessment
+```
+
+The difference: the bad version could describe any paper. The good version helps a scientist make a specific decision.
 
 ---
 

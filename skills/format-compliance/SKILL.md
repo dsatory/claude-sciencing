@@ -21,6 +21,37 @@ Format violations get papers desk-rejected, proposals downgraded, and reports re
 
 ---
 
+### What Bad Compliance Checking Looks Like
+
+**Bad:** Vague, incomplete, no source
+```
+The document looks mostly compliant. There may be some formatting issues
+with the margins. The references seem okay. You might want to double-check
+the page count.
+```
+
+**Good:** Specific, sourced, actionable
+```
+## Critical Issues
+1. **Over page limit:** Technical Approach is 13 pages; BAA HR001125S0001
+   Section IV.B specifies 12-page maximum. Need to cut ~350 words.
+   → Fix: Tighten Section 3.2 (currently 1.5 pages of background that
+   could be 0.5 pages — move detail to appendix)
+
+2. **Missing required section:** "Data Management Plan" not found.
+   BAA Section IV.B.6 lists it as mandatory attachment.
+   → Fix: Draft 1-page DMP per template at grants.gov/dmp
+
+## Passed
+- ✅ Font: Times New Roman 12pt throughout (matches BAA requirement)
+- ✅ Margins: 1" all sides (verified via DOCX section properties)
+- ✅ All 5 evaluation criteria addressed (mapped in compliance matrix)
+```
+
+The difference: the bad version creates false confidence. The good version catches the issues that cause desk rejection.
+
+---
+
 ## Step 1: Identify the Document and Its Purpose
 
 Read the document and determine:
@@ -133,7 +164,6 @@ Run a systematic check across ALL applicable categories below. Do not cherry-pic
 
 ### 3.4 Citation & Reference Compliance
 
-- [ ] **Citation source integrity** — every citation must be traceable to a verified source. Check that references come from the project's `literature/` folder, search results, or are well-known landmark papers. Flag any reference that cannot be verified with `[UNVERIFIED CITATION]`. Well-known references not from search results should have `<!-- citation: not from search results -->`.
 - [ ] **Citation style consistent** — all citations use the same format throughout
 - [ ] **Citation style matches venue** — numbered [1] vs author-year (Smith et al., 2024) vs superscript¹ as required
 - [ ] **All in-text citations have reference list entries** — cross-check every citation

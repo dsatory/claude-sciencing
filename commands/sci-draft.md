@@ -1,6 +1,6 @@
 ---
-description: Structure and draft scientific documents — abstracts, proposals, reports, SOWs, memos, presentations, patents, and more
-argument-hint: [type] [optional details]. Types: outline, abstract, grant, proposal, report, sow, progress, patent, presentation, memo, one-pager, white-paper, flow
+description: Structure and draft scientific documents — abstracts, proposals, reports, SOWs, protocols, memos, presentations, patents, and more
+argument-hint: [type] [optional details]. Types: outline, abstract, grant, proposal, report, sow, progress, patent, presentation, memo, one-pager, white-paper, protocol, flow
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write, WebSearch, WebFetch
 ---
 
@@ -22,6 +22,7 @@ Generate structured scientific content. Parse the first argument from $ARGUMENTS
 - **memo** — Draft an internal decision memo
 - **one-pager** — Draft an executive summary / one-pager
 - **white-paper** — Draft a thought leadership white paper
+- **protocol** — Draft a laboratory protocol or SOP
 - **flow** — Analyze argument flow in existing text
 - If no argument or unrecognized, ask which mode to use
 
@@ -268,6 +269,36 @@ Draft a thought leadership paper (5-15 pages):
 3. The Emerging Solution (35%)
 4. Evidence and Benchmarks (15%)
 5. Path Forward and Call to Action (10%)
+
+---
+
+## Mode: Protocol
+
+Draft a laboratory protocol or SOP. Ask the user:
+1. What procedure? (assay, extraction, fermentation, analytical method, etc.)
+2. Target audience? (experienced researcher who needs parameters, or new lab member who needs every detail)
+3. Regulated context? (GLP/GMP/ISO requires SOP format with document control)
+
+Structure:
+1. **Purpose** — What this protocol achieves and why (specific, not generic)
+2. **Safety** — PPE, hazards, waste disposal, BSL requirements
+3. **Materials table** — Reagent, catalog #, supplier, concentration, storage
+4. **Equipment** — Instruments with model numbers for instrument-specific steps
+5. **Reagent preparation** — Buffers, media, working solutions with recipes
+6. **Procedure** — Numbered steps, one action per step, lead with verb
+7. **Expected results** — What good data looks like, control acceptance criteria
+8. **Troubleshooting** — Top failure modes in table format
+9. **Version history** — Track changes across protocol iterations
+
+Key principles:
+- One action per numbered step — never combine multiple actions
+- Specify everything quantitatively (temperature, time, speed, volume)
+- Mark **CRITICAL** steps, **CAUTION** warnings, **PAUSE POINT** locations
+- Include catalog numbers for all reagents (not just names)
+- Include expected observations at key steps ("pellet should be white")
+- Include positive, negative, and no-template controls with acceptance criteria
+
+The `scientific-writing` skill's `references/protocols.md` contains detailed conventions — read it when drafting protocols.
 
 ---
 

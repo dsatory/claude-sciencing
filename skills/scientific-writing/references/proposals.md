@@ -1,5 +1,16 @@
 # Government & Commercial Proposals
 
+## Non-Negotiable Rules (apply to ALL proposals)
+
+1. **Mirror the solicitation's section structure exactly.** Never invent your own organization.
+2. **Address every evaluation criterion.** Allocate page real estate proportional to criterion weight.
+3. **Echo the solicitation's language.** If they say "feedstock-agnostic catalytic technologies," use those exact words.
+4. **Include preliminary data.** It is the single strongest predictor of proposal success.
+5. **Quantify everything.** "Improved performance" loses to "2.3-fold improvement in titer (45 → 103 g/L)."
+6. **State-of-the-art comparison table.** Every technical approach section needs one showing how your approach advances beyond current best.
+
+---
+
 ## Government Proposals (DARPA, ARPA-E, ARPA-H, DOE, BARDA)
 
 Government proposals are the highest-stakes scientific writing in industrial biotech. They fund multi-year, multi-million-dollar programs. The reader is a technical program manager who is simultaneously an expert, a skeptic, and someone evaluating 30-100 submissions.

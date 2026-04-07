@@ -119,6 +119,12 @@ Explain how PubMed MCP powers the plugin:
 
 ---
 
+## PubMed MCP Tool Names
+
+The canonical list of PubMed MCP tool names used across this plugin is maintained in `CLAUDE.md` at the project root. If tool names change due to a Claude.ai integration update, update them in CLAUDE.md first, then propagate to the `allowed-tools` field in each command and skill file listed there.
+
+---
+
 ## Troubleshooting
 
 ### "Tool not found" errors

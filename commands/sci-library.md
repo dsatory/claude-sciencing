@@ -198,6 +198,24 @@ read_date: 2026-04-05
 
 ---
 
+## Resuming from a Previous Session
+
+When the user starts a new conversation and the library already exists:
+
+1. **Check for existing library files** — look for `references/library.md` and `references/library.bib` in the project directory
+2. **If found, read `library.md`** to understand the current state: how many references, which tags are in use, what reading statuses exist
+3. **Report status briefly** — "Found your library with 34 references (12 unread, 18 read, 4 cited). Ready to continue."
+4. **Do NOT re-add papers already in the library** — check for existing DOIs/PMIDs before adding duplicates
+5. **Respect existing tag conventions** — use the tags already in the library rather than inventing new ones
+
+When the user asks to "continue" or "pick up where we left off":
+- Check for `download_log.md` in the literature folder for incomplete downloads
+- Check library.md for references with `unread` status
+- Check for draft files in the project directory that may be in progress
+- Summarize what exists and ask what to work on next
+
+---
+
 ## General Guidance
 
 - Always resolve full metadata when adding (don't store incomplete entries)

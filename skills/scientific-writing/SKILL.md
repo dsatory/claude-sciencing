@@ -1,16 +1,17 @@
 ---
 name: scientific-writing
 description: >
-  Comprehensive scientific and technical writing for biotechnology R&D in industrial settings.
+  Creates NEW scientific and technical documents or substantially revises the user's own drafts.
   Covers every document type in the biotech research lifecycle: grant abstracts, government proposals
-  (NIH, NSF, DOE, DARPA, ARPA-E, ARPA-H, BARDA, and others), commercial proposals, technical reports, literature reviews,
-  white papers, SOWs, progress reports, patent disclosures, slide decks, one-pagers, and internal memos.
-  Use this skill whenever the user asks to write, draft, edit, revise, or review any scientific or
-  technical document — even if they just say "write up the results" or "draft the abstract" or
-  "help me with the proposal" or "put together a report." Also use it when the user provides raw
-  data, experimental results, or literature and wants it shaped into a coherent narrative. Trigger
-  on any request involving scientific communication, technical writing, grant writing, or research
-  documentation in biotech, synthetic biology, metabolic engineering, biocatalysis, or related fields.
+  (NIH, NSF, DOE, DARPA, ARPA-E, ARPA-H, BARDA, and others), commercial proposals, technical reports,
+  literature reviews, white papers, SOWs, progress reports, patent disclosures, slide decks,
+  one-pagers, internal memos, and laboratory protocols.
+  Use this skill when the user asks to write, draft, outline, revise, or compose a scientific
+  document — "write up the results," "draft the abstract," "help me with the proposal," "put
+  together a report," "write a protocol." Also use when the user provides raw data, experimental
+  results, or literature and wants it shaped into a NEW coherent narrative. This skill is for
+  PRODUCING text — not for analyzing existing papers (use scientific-reading for that) and not
+  for passive style guidance on text being edited (use scientific-style for that).
 ---
 
 # Scientific Writing for Industrial Biotechnology
@@ -91,6 +92,7 @@ Each document type has specific conventions, structures, and strategic considera
 | "presentation" / "slide deck" / "talk" | Research presentation | `references/presentations.md` |
 | "one-pager" / "summary" / "brief" | Executive summary/one-pager | `references/one-pagers.md` |
 | "internal memo" / "decision doc" | Internal technical memo | `references/memos.md` |
+| "protocol" / "SOP" / "procedure" / "bench card" | Laboratory protocol | `references/protocols.md` |
 
 ### Format-Specific Summaries
 
@@ -115,6 +117,8 @@ Each document type has specific conventions, structures, and strategic considera
 **One-Pagers** — Extreme compression. The executive who reads this has 90 seconds. Lead with the ask or the insight, not the background. Read `references/one-pagers.md`.
 
 **Internal Memos** — Decision-oriented. State the decision needed, present options with trade-offs, recommend one, explain why. Read `references/memos.md`.
+
+**Protocols / SOPs** — Imperative, step-by-step procedures. One action per step, lead with the verb, specify everything quantitatively (volumes, temperatures, times, speeds). Include materials with catalog numbers, mark critical steps and pause points, add troubleshooting tables. Read `references/protocols.md`.
 
 ---
 
@@ -145,11 +149,6 @@ Tables and figures are the backbone of scientific communication. A well-designed
 
 ### Citations
 
-**CRITICAL RULE: Every citation must be traceable to a real, verified source.**
-
-- **Primary sources:** Citations should come from papers found during literature search (`/sci-search`), downloaded to the `literature/` folder, or tracked in the library (`/sci-library`). These are verified — you have confirmed they exist.
-- **Well-known citations:** Landmark papers, textbook-level references, and widely-cited foundational works (e.g., seminal methods papers, Nobel-winning discoveries) are allowed even if not in the search results, BUT they must be explicitly flagged with a comment like `<!-- citation: not from search results -->` so the user can verify them independently.
-- **NEVER fabricate citations.** If a claim needs a citation and no matching paper exists in the library or your confident knowledge, insert `[CITATION NEEDED]` rather than inventing an author-year-journal combination. A placeholder is infinitely better than a hallucinated reference.
 - In technical documents: numbered references [1] or author-year (Nielsen et al. 2016) depending on format
 - Always cite primary sources, not reviews, for specific claims
 - When citing your own unpublished work: "preliminary data (unpublished)" or "internal data" — be transparent

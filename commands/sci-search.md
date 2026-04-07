@@ -1,7 +1,7 @@
 ---
-description: Search scientific literature — PubMed, preprints, patents, and web sources. Find papers, build reading lists, map landscapes.
-argument-hint: [query or topic] [optional flags: --recent, --reviews, --patents, --clinical, --limit N]
-allowed-tools: Read, Glob, Grep, Bash, Edit, Write, WebSearch, WebFetch, mcp__claude_ai_PubMed__search_articles, mcp__claude_ai_PubMed__get_article_metadata, mcp__claude_ai_PubMed__get_full_text_article, mcp__claude_ai_PubMed__find_related_articles, mcp__claude_ai_PubMed__lookup_article_by_citation, mcp__claude_ai_PubMed__convert_article_ids, mcp__claude_ai_PubMed__get_copyright_status
+description: Search scientific literature — PubMed, preprints, patents, and web sources. Also scans internal channels (Slack, Google Drive) for related past/current/future projects. Find papers, build reading lists, map landscapes.
+argument-hint: [query or topic] [optional flags: --recent, --reviews, --patents, --clinical, --no-internal, --limit N]
+allowed-tools: Read, Glob, Grep, Bash, Edit, Write, WebSearch, WebFetch, mcp__claude_ai_PubMed__search_articles, mcp__claude_ai_PubMed__get_article_metadata, mcp__claude_ai_PubMed__get_full_text_article, mcp__claude_ai_PubMed__find_related_articles, mcp__claude_ai_PubMed__lookup_article_by_citation, mcp__claude_ai_PubMed__convert_article_ids, mcp__claude_ai_PubMed__get_copyright_status, mcp__claude_ai_Slack__slack_search_public, mcp__claude_ai_Slack__slack_search_public_and_private, mcp__claude_ai_Slack__slack_read_channel, mcp__claude_ai_Slack__slack_read_thread
 ---
 
 # Scientific Literature Search
@@ -11,6 +11,65 @@ Search, discover, and compile scientific literature. Parse $ARGUMENTS for the se
 ## Search Strategy
 
 When the user provides a topic or question, build a systematic search:
+
+### Step 0: Internal Project Discovery (runs first unless `--no-internal`)
+
+Before searching external literature, scan internal channels for related past, current, or planned projects. Colleagues may have already written proposals, run experiments, or shared papers on closely related topics. This step prevents duplicating work and surfaces reusable assets.
+
+**What to search for:**
+- Same or similar target molecules / product classes
+- Same or related organisms / strains
+- Similar assays, analytical methods, or reaction types
+- Related proposals or technical approaches
+- Relevant experimental data or preliminary results
+
+**Where to search:**
+
+1. **Slack** — use `slack_search_public_and_private` with multiple query variations:
+   - Direct topic terms: `"lignin depolymerization"`, `"muconic acid"`, `"vanillin biosynthesis"`
+   - Broader class terms: `"aromatic catabolism"`, `"lignin valorization"`, `"phenolic compounds"`
+   - Method terms: `"biological funneling"`, `"reductive catalytic fractionation"`
+   - Project/proposal terms: `"DARPA Fleetwood"`, `"lignin proposal"`
+   - Key channels to prioritize: `#tech-papers`, project-specific channels, `#science`, `#proposals`
+   - When a relevant thread is found, read it fully with `slack_read_thread` — context and replies often contain the most valuable information (links, data, feedback)
+
+2. **Google Drive (locally synced)** — scan for related documents:
+   - Search `~/Library/CloudStorage/GoogleDrive-*/` for matching keywords in filenames
+   - Look for `.gdoc`, `.gslides`, `.gsheet`, `.docx`, `.pptx`, `.pdf` files
+   - Common locations: shared drives, project folders, proposal drafts
+   - For `.gdoc`/`.gslides` files: read the pointer to get the `doc_id`, note the title and path — the user can export and review these later
+   - For actual files (`.docx`, `.pdf`, `.pptx`): these can be read directly
+
+3. **Local project directories** — check for existing literature folders, proposals, or reports in the current working directory and nearby project directories that might contain related work
+
+**Output: Internal Discovery Summary**
+
+```markdown
+## Internal Project Discovery: [Topic]
+
+### Related Projects Found
+
+| Source | Project/Document | Relevance | Key Assets |
+|--------|-----------------|-----------|------------|
+| Slack #tech-papers | Thread on aromatic catabolism (2025-11) | High — same product class | 3 shared PDFs, protocol link |
+| Slack #p716-lignin | Proposal draft discussion | High — same program | Draft proposal, reviewer feedback |
+| GDrive Shared/SolutionsBU | "Lignin_Valorization_Proposal_v2.gdoc" | High — prior proposal | Reusable lit review, comparison tables |
+| GDrive My Drive | "Biological_Funneling_Slides.gslides" | Medium — related approach | Pathway diagrams, strain data |
+| Local ./literature/ | Existing PDF library (23 papers) | High — prior search | Already downloaded and categorized |
+
+### Reusable Assets
+- **Prior proposals:** [list with paths/links — can reuse lit reviews, comparison tables, preliminary data sections]
+- **Existing strain data:** [any experimental results shared in Slack or stored in Drive]
+- **Previously shared papers:** [PDFs from Slack that may not be in your library yet]
+- **Contacts:** [people who posted about related work — potential collaborators or sources of expertise]
+
+### Recommendation
+[Brief assessment: how much of the literature search is already done, what can be reused vs. what needs fresh searching]
+```
+
+If no internal results are found, note that and proceed directly to external search. Don't spend excessive time on internal search if the topic is clearly novel to the organization.
+
+---
 
 ### Step 1: Query Design
 
@@ -30,39 +89,7 @@ Search across sources based on the query and flags:
 
 1. **PubMed** (default) — use PubMed MCP tools for peer-reviewed biomedical/life science literature
 2. **Web search** — for preprints (bioRxiv, chemRxiv), conference proceedings, theses, and grey literature
-3. **Patent search** (ALWAYS included) — search for relevant active and pending patents in every literature search. This is not optional — patent landscape awareness is essential for any R&D project to avoid infringement risks and identify design-around requirements. Use `--no-patents` to explicitly skip.
-
-#### Patent Search Sources (search all of them):
-
-- **Google Patents** (`patents.google.com`) — broadest coverage, full text search, includes US, EP, WO, CN, JP, KR. Best starting point.
-  - Search: `site:patents.google.com "{key terms}"` via web search
-  - Or construct URL: `https://patents.google.com/?q={query}&status=GRANT,APPLICATION`
-- **USPTO Full-Text (PatFT/AppFT)** — US granted patents and published applications
-  - Granted: `https://patft.uspto.gov/netahtml/PTO/srchnum.htm`
-  - Applications: `https://appft.uspto.gov/netahtml/PTO/srchnum.htm`
-- **Espacenet** — European Patent Office, excellent for international coverage
-  - `https://worldwide.espacenet.com/`
-- **Lens.org** — links patents to scholarly citations (uniquely powerful for biotech — shows which papers a patent cites and vice versa)
-  - `https://www.lens.org/`
-
-#### Patent Search Query Strategy:
-
-- Use CPC classification codes for precision:
-  - **C12P** — fermentation/bioprocessing
-  - **C12N** — microorganisms/enzymes/genetic engineering
-  - **C07C/C07D** — organic chemistry (specific compound classes)
-  - **C08G/C08L** — polymers
-  - **B01J** — catalysis
-- Search by assignee for known competitors
-- Search by inventor for academic groups spinning out IP
-- Include both **granted patents** (enforceable) and **published applications** (pending — may grant with different claims)
-
-#### Patent Filtering:
-
-- **Active patents:** Currently in force (granted + maintenance fees paid). These define the constraint landscape.
-- **Pending applications:** Published but not yet granted. Claims may change during prosecution but signal intent and direction.
-- **Expired/abandoned:** Note these for prior art purposes but they don't constrain your work.
-- Filter to the last 20 years unless the field has older foundational patents.
+3. **Patent search** — when `--patents` flag or when query involves commercial methods, compositions, or processes
 
 ### Step 3: Filter and Rank
 
@@ -150,80 +177,6 @@ Generated: [Date]
 ```
 
 Save reading lists as markdown files when the user requests it.
-
----
-
-## Patent Landscape Summary
-
-Every literature search that includes patents (i.e., all searches unless `--no-patents`) must produce a **Patent Landscape Summary** alongside the reading list. This is not optional — it's the synthesis step that makes patent search results actionable.
-
-### Structure
-
-```markdown
-# Patent Landscape: [Topic]
-Generated: [Date]
-
-## Active Patents (Granted, In Force)
-
-| # | Patent No. | Title | Assignee | Filed | Granted | Expiry | Key Claims |
-|---|-----------|-------|----------|-------|---------|--------|------------|
-| 1 | US XX,XXX,XXX | ... | Company | YYYY | YYYY | YYYY | Claims 1, 3: [brief scope] |
-
-### Claims Distillation
-
-For each relevant patent, distill:
-- **Broadest independent claim** — plain-language summary of what it actually protects
-- **Key limitations** — specific elements that narrow the claim scope
-- **Design-around openings** — elements that could be changed to avoid infringement
-
-## Pending Applications (Published, Not Yet Granted)
-
-| # | Publication No. | Title | Applicant | Filed | Key Claims |
-|---|----------------|-------|-----------|-------|------------|
-| 1 | US 20XX/XXXXXXX | ... | Company | YYYY | [brief scope — note: claims may change] |
-
-## Comparison with Project Objectives
-
-If project objectives, a proposal, a technical approach, or CLAUDE.md context are available, map each relevant patent against the project:
-
-| Patent | Overlap with Our Approach | Risk Level | Specific Concern |
-|--------|--------------------------|------------|------------------|
-| US XX,XXX,XXX | [Which elements of our process match claim elements] | High/Medium/Low | [What specifically could be problematic] |
-| US 20XX/XXXXXXX | [Overlap description] | Medium (pending) | [Concern — note claims may narrow during prosecution] |
-
-## Feasibility Assessment
-
-Based on the patent landscape, assess:
-
-1. **Clear to proceed:** Aspects of the proposed research that do NOT overlap with any active patent claims. These approaches are unencumbered.
-2. **Proceed with caution:** Aspects that overlap with pending applications (claims not yet final) or with narrow claims that could potentially be designed around. Flag specific design-around strategies.
-3. **Approaches to avoid (or license):** Aspects that fall squarely within active, broadly-claimed patents. For each:
-   - Identify the specific patent and claim
-   - Explain what element of the approach triggers the claim
-   - Suggest alternative approaches that avoid the claim
-   - Note if the patent is nearing expiry (design-around may not be worth the effort)
-
-## Recommended Actions
-
-- [ ] Consult IP counsel on [specific patents] before [specific activities]
-- [ ] Consider design-around for [approach] by [alternative]
-- [ ] Monitor [pending application] — prosecution may narrow claims
-- [ ] [Other specific actions]
-```
-
-### When Project Objectives Are Not Available
-
-If no project context exists (no proposal, no CLAUDE.md, no explicit objectives), still produce the patent landscape with claims distillation, but replace the comparison and feasibility sections with:
-
-```
-## Note: No Project Objectives Available
-
-The comparison and feasibility assessment require knowledge of your specific
-technical approach. To generate these sections, provide:
-- A project proposal or technical approach document
-- A brief description of your planned methods, organisms, and target products
-- Or run this search again from a project directory with a CLAUDE.md describing the work
-```
 
 ---
 
