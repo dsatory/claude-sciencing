@@ -57,6 +57,10 @@ All downloaded PDFs follow this strict naming format:
   - Discover Sustainability → `DiscoverSustain`
   - bioRxiv → `bioRxiv`
   - chemRxiv → `chemRxiv`
+  - US Patent → `USPat`
+  - US Patent Application → `USApp`
+  - European Patent → `EPPat`
+  - WIPO/PCT Application → `WOApp`
   - For journals not listed, create a sensible PascalCase abbreviation
 - **max_3_word_description**: 3 words max, underscored, capturing the core content
   - Use key organism, substrate, product, method, or finding
@@ -73,6 +77,10 @@ AEM_Scerevisiae_ethanol_tolerance_2021.pdf
 MicrobCellFact_Cglutamicum_lysine_engineering_2023.pdf
 PNAS_directed_evolution_lipase_2023.pdf
 SciAdv_cellulose_hydrolysis_enzyme_2023.pdf
+USPat_lignin_depolymerization_catalyst_2024.pdf
+USApp_Ecoli_muconic_acid_2025.pdf
+EPPat_enzymatic_lignin_conversion_2023.pdf
+WOApp_biocatalytic_vanillin_production_2024.pdf
 ```
 
 ---
@@ -86,8 +94,11 @@ literature/PDFs/
 ├── 01_Reviews/
 ├── 02_Category_Name/
 ├── 03_Category_Name/
-└── ...
+├── ...
+└── XX_Patents/
 ```
+
+**Patents always get their own dedicated folder** (`XX_Patents/`, numbered last). Do not mix patents with research papers in the same category folders.
 
 ### If categories already exist:
 - Read the existing folder structure and sort new PDFs into the best-matching folder
@@ -183,29 +194,57 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 - Reliable and fast
 - **Also check**: even for published papers, the preprint version may still be on bioRxiv — search by title or author
 
+**5. Patents (Always Free — All Patents Are Public Documents)**
+
+Patents and published patent applications are always freely downloadable. Never mark a patent as "unavailable."
+
+- **Google Patents** (best starting point):
+  - PDF download: `https://patents.google.com/patent/{patent_number}/en` → click "Download PDF" link
+  - Or fetch via: `https://patentimages.storage.googleapis.com/pdfs/{patent_number}.pdf`
+  - Covers US, EP, WO, CN, JP, KR, and more
+- **USPTO (US patents and applications)**:
+  - Granted patents: `https://pdfpiw.uspto.gov/.piw?docid={patent_number}` (image-based PDF)
+  - Full text + images: `https://patents.google.com/patent/US{number}/en` (often easier)
+  - Published applications: same via Google Patents with publication number
+- **Espacenet (European patents)**:
+  - `https://worldwide.espacenet.com/patent/search?q={patent_number}`
+  - PDF available via "Original document" link
+- **WIPO PatentScope (PCT/WO applications)**:
+  - `https://patentscope.wipo.int/search/en/detail.jsf?docId={WO_number}`
+  - PDF download available for all PCT publications
+- **Lens.org** — provides PDF links and uniquely cross-references patents ↔ scholarly literature
+
+**Patent naming convention:** Use `USPat_`, `USApp_`, `EPPat_`, `WOApp_` prefix (see naming rules above). Always sort into the `XX_Patents/` folder.
+
+**Metadata to capture for each patent:**
+- Patent/publication number, title, assignee, inventors
+- Filing date, grant date (if granted), estimated expiry
+- Status: Active / Pending / Expired / Abandoned
+- Independent claims (at minimum claim 1)
+
 ### Tier 2: Usually Works — Query ALL of These
 
-**5. Unpaywall API (free, no key required)**
+**6. Unpaywall API (free, no key required)**
 - Query: `https://api.unpaywall.org/v2/{doi}?email=user@example.com`
 - Returns OA status and direct PDF URLs when available
 - Finds green OA copies (author manuscripts in repositories)
 - **Check ALL `oa_locations` in the response, not just the `best_oa_location`** — sometimes the "best" link is broken but an alternative works
 - This is the single best check for OA availability across all publishers
 
-**6. Europe PMC**
+**7. Europe PMC**
 - Alternative to PubMed Central, sometimes has papers PMC doesn't
 - Full text: `https://europepmc.org/article/med/{pmid}`
 - PDF: `https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC{id}&blobtype=pdf`
 - **Also try**: Europe PMC manuscript repository (author manuscripts accepted under OA mandates)
 
-**7. DOE OSTI / NREL / National Lab Repositories**
+**8. DOE OSTI / NREL / National Lab Repositories**
 - Government-funded research often has free PDFs
 - NREL: `https://docs.nrel.gov/docs/...`
 - OSTI: `https://www.osti.gov/biblio/{id}` — look for "Full Text Available" links
 - DOE PAGES: `https://www.osti.gov/pages/` — aggregates DOE-funded publications
 - If the paper acknowledges DOE/USDA/NSF/NIH funding, there is very likely a free copy in a government archive
 
-**8. Semantic Scholar API**
+**9. Semantic Scholar API**
 - `https://api.semanticscholar.org/graph/v1/paper/DOI:{doi}?fields=openAccessPdf`
 - Returns direct PDF URL if open access
 - Free, no API key needed for low-volume requests
@@ -213,18 +252,18 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 
 ### Tier 3: Institutional & Author Repositories
 
-**9. University / Institutional Repositories**
+**10. University / Institutional Repositories**
 - Web search: `"{paper title}" filetype:pdf site:edu` or `"{paper title}" filetype:pdf site:ac.uk`
 - Many universities mandate open deposit — the author's accepted manuscript is often in their institutional repository
 - Common repositories: DSpace, EPrints, Digital Commons — these host author PDFs
 
-**10. Author Personal / Lab Websites**
+**11. Author Personal / Lab Websites**
 - Web search: `"{first author last name}" "{shortened paper title}" pdf`
 - Many researchers post PDFs of their publications on lab websites
 - Check the corresponding author's Google Scholar profile — sometimes links to free PDFs
 - Look for "Publications" pages on lab/group websites
 
-**11. Preprint Versions (Even for Published Papers)**
+**12. Preprint Versions (Even for Published Papers)**
 - Even if the final published version is paywalled, a preprint or accepted manuscript may exist:
   - bioRxiv/medRxiv: search by title
   - arXiv: for computational/modeling papers
@@ -233,7 +272,7 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
   - Web search: `"{paper title}" preprint pdf`
 - The preprint is scientifically equivalent for most purposes (note the version in the filename if using a preprint)
 
-**12. PubMed Author Manuscript / NIH Public Access**
+**13. PubMed Author Manuscript / NIH Public Access**
 - NIH-funded papers are required to be in PMC within 12 months
 - If a paper acknowledges NIH funding but isn't in PMC yet, it may appear later
 - Check: `https://www.ncbi.nlm.nih.gov/pmc/?term={title}` — sometimes PMC has it under a slightly different ID
@@ -241,7 +280,7 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 
 ### Tier 4: Publisher-Specific OA Checks
 
-**13. Publisher OA Programs**
+**14. Publisher OA Programs**
 - **ACS AuthorChoice / ACS Open Access**: some ACS articles are OA — check the article landing page for an open lock icon
 - **Wiley OnlineOpen**: look for CC license badge on the article page
 - **Elsevier Open Access**: some articles under CC licenses — check "Access" section on ScienceDirect
@@ -251,7 +290,7 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 - **Science/AAAS**: Science Advances is fully OA; Science has some OA articles
 - **Cell Press / Elsevier**: Cell Reports is OA; check individual article access status
 
-**14. Special Access Programs**
+**15. Special Access Programs**
 - **CHORUS** (publisher access for federally funded research): `https://www.chorusaccess.org/`
 - **Research4Life / HINARI**: institutional access programs (check if user's institution qualifies)
 - **Temporary OA promotions**: publishers sometimes make articles free during events — a web search may reveal a free link that a direct publisher URL doesn't
@@ -260,13 +299,13 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 
 Colleagues often share paywalled PDFs in internal channels and shared drives. These are legitimate copies for internal use and an excellent source when OA routes fail.
 
-**17. Slack — #tech-papers and other channels**
+**16. Slack — #tech-papers and other channels**
 - Search `#tech-papers` first — this is the primary channel where papers are shared: `slack_search_public_and_private` with query `"{paper title}"` or `"{first author} {year}"` or the DOI
 - Also try broader Slack search without channel filter — papers get shared in project channels, DMs, and threads
 - Look for PDF attachments or links to Google Drive / Dropbox / publisher URLs that may have been shared with institutional access
 - If a match is found, check if there's a file attachment (PDF) or a link. File attachments are the most reliable — download directly. Links may or may not still work.
 
-**18. Google Drive (Shared Drives and My Drive)**
+**17. Google Drive (Shared Drives and My Drive)**
 - Search Google Drive for the paper title, author names, or DOI. Papers may be stored under unpredictable names — try partial title matches and author surnames.
 - Check shared drives relevant to the project (e.g., SolutionsBU shared drive)
 - Common patterns: PDFs dropped in project folders, "papers" or "literature" subdirectories, or shared directly via links in Docs/Sheets
@@ -277,7 +316,7 @@ Colleagues often share paywalled PDFs in internal channels and shared drives. Th
 
 ### Tier 6: Last Resort
 
-**19. Direct Web Search — Creative Queries**
+**18. Direct Web Search — Creative Queries**
 - `"{exact paper title}" pdf` — sometimes finds copies in unexpected places
 - `"{exact paper title}" filetype:pdf` — narrows to actual PDF files
 - `"{doi}" pdf` — sometimes finds hosted copies
@@ -285,7 +324,7 @@ Colleagues often share paywalled PDFs in internal channels and shared drives. Th
 - Try Google and Bing separately — they index different repositories
 - Check the first 2-3 pages of results, not just the first result
 
-**20. Browser-Assisted Manual Download (Human in the Loop)**
+**19. Browser-Assisted Manual Download (Human in the Loop)**
 - When a direct PDF URL is known but automated download fails (e.g., cookies, CAPTCHA, institutional proxy, JS-required redirect), open the URL in the user's browser:
   ```python
   import platform, subprocess
@@ -313,7 +352,7 @@ Colleagues often share paywalled PDFs in internal channels and shared drives. Th
 - This leverages the user's browser session (institutional access, VPN, saved logins) to bypass restrictions that block programmatic downloads
 - **Only use this after exhausting all automated tiers** — it requires user effort, so minimize the number of papers that reach this step
 
-**21. Supplementary / Alternative Versions**
+**20. Supplementary / Alternative Versions**
 - Some papers have freely available supplementary PDFs even when the main text is paywalled
 - Conference proceeding versions of journal articles may be free
 - Thesis chapters that contain the paper's content may be freely available

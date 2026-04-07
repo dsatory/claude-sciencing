@@ -30,7 +30,39 @@ Search across sources based on the query and flags:
 
 1. **PubMed** (default) — use PubMed MCP tools for peer-reviewed biomedical/life science literature
 2. **Web search** — for preprints (bioRxiv, chemRxiv), conference proceedings, theses, and grey literature
-3. **Patent search** — when `--patents` flag or when query involves commercial methods, compositions, or processes
+3. **Patent search** (ALWAYS included) — search for relevant active and pending patents in every literature search. This is not optional — patent landscape awareness is essential for any R&D project to avoid infringement risks and identify design-around requirements. Use `--no-patents` to explicitly skip.
+
+#### Patent Search Sources (search all of them):
+
+- **Google Patents** (`patents.google.com`) — broadest coverage, full text search, includes US, EP, WO, CN, JP, KR. Best starting point.
+  - Search: `site:patents.google.com "{key terms}"` via web search
+  - Or construct URL: `https://patents.google.com/?q={query}&status=GRANT,APPLICATION`
+- **USPTO Full-Text (PatFT/AppFT)** — US granted patents and published applications
+  - Granted: `https://patft.uspto.gov/netahtml/PTO/srchnum.htm`
+  - Applications: `https://appft.uspto.gov/netahtml/PTO/srchnum.htm`
+- **Espacenet** — European Patent Office, excellent for international coverage
+  - `https://worldwide.espacenet.com/`
+- **Lens.org** — links patents to scholarly citations (uniquely powerful for biotech — shows which papers a patent cites and vice versa)
+  - `https://www.lens.org/`
+
+#### Patent Search Query Strategy:
+
+- Use CPC classification codes for precision:
+  - **C12P** — fermentation/bioprocessing
+  - **C12N** — microorganisms/enzymes/genetic engineering
+  - **C07C/C07D** — organic chemistry (specific compound classes)
+  - **C08G/C08L** — polymers
+  - **B01J** — catalysis
+- Search by assignee for known competitors
+- Search by inventor for academic groups spinning out IP
+- Include both **granted patents** (enforceable) and **published applications** (pending — may grant with different claims)
+
+#### Patent Filtering:
+
+- **Active patents:** Currently in force (granted + maintenance fees paid). These define the constraint landscape.
+- **Pending applications:** Published but not yet granted. Claims may change during prosecution but signal intent and direction.
+- **Expired/abandoned:** Note these for prior art purposes but they don't constrain your work.
+- Filter to the last 20 years unless the field has older foundational patents.
 
 ### Step 3: Filter and Rank
 
@@ -118,6 +150,80 @@ Generated: [Date]
 ```
 
 Save reading lists as markdown files when the user requests it.
+
+---
+
+## Patent Landscape Summary
+
+Every literature search that includes patents (i.e., all searches unless `--no-patents`) must produce a **Patent Landscape Summary** alongside the reading list. This is not optional — it's the synthesis step that makes patent search results actionable.
+
+### Structure
+
+```markdown
+# Patent Landscape: [Topic]
+Generated: [Date]
+
+## Active Patents (Granted, In Force)
+
+| # | Patent No. | Title | Assignee | Filed | Granted | Expiry | Key Claims |
+|---|-----------|-------|----------|-------|---------|--------|------------|
+| 1 | US XX,XXX,XXX | ... | Company | YYYY | YYYY | YYYY | Claims 1, 3: [brief scope] |
+
+### Claims Distillation
+
+For each relevant patent, distill:
+- **Broadest independent claim** — plain-language summary of what it actually protects
+- **Key limitations** — specific elements that narrow the claim scope
+- **Design-around openings** — elements that could be changed to avoid infringement
+
+## Pending Applications (Published, Not Yet Granted)
+
+| # | Publication No. | Title | Applicant | Filed | Key Claims |
+|---|----------------|-------|-----------|-------|------------|
+| 1 | US 20XX/XXXXXXX | ... | Company | YYYY | [brief scope — note: claims may change] |
+
+## Comparison with Project Objectives
+
+If project objectives, a proposal, a technical approach, or CLAUDE.md context are available, map each relevant patent against the project:
+
+| Patent | Overlap with Our Approach | Risk Level | Specific Concern |
+|--------|--------------------------|------------|------------------|
+| US XX,XXX,XXX | [Which elements of our process match claim elements] | High/Medium/Low | [What specifically could be problematic] |
+| US 20XX/XXXXXXX | [Overlap description] | Medium (pending) | [Concern — note claims may narrow during prosecution] |
+
+## Feasibility Assessment
+
+Based on the patent landscape, assess:
+
+1. **Clear to proceed:** Aspects of the proposed research that do NOT overlap with any active patent claims. These approaches are unencumbered.
+2. **Proceed with caution:** Aspects that overlap with pending applications (claims not yet final) or with narrow claims that could potentially be designed around. Flag specific design-around strategies.
+3. **Approaches to avoid (or license):** Aspects that fall squarely within active, broadly-claimed patents. For each:
+   - Identify the specific patent and claim
+   - Explain what element of the approach triggers the claim
+   - Suggest alternative approaches that avoid the claim
+   - Note if the patent is nearing expiry (design-around may not be worth the effort)
+
+## Recommended Actions
+
+- [ ] Consult IP counsel on [specific patents] before [specific activities]
+- [ ] Consider design-around for [approach] by [alternative]
+- [ ] Monitor [pending application] — prosecution may narrow claims
+- [ ] [Other specific actions]
+```
+
+### When Project Objectives Are Not Available
+
+If no project context exists (no proposal, no CLAUDE.md, no explicit objectives), still produce the patent landscape with claims distillation, but replace the comparison and feasibility sections with:
+
+```
+## Note: No Project Objectives Available
+
+The comparison and feasibility assessment require knowledge of your specific
+technical approach. To generate these sections, provide:
+- A project proposal or technical approach document
+- A brief description of your planned methods, organisms, and target products
+- Or run this search again from a project directory with a CLAUDE.md describing the work
+```
 
 ---
 
