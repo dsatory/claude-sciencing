@@ -10,6 +10,7 @@ description: >
   documents that already exist — not for writing, drafting, or editing the user's own text (use
   scientific-writing for that). Not for applying style conventions to text being edited (use
   scientific-style for that).
+allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, mcp__claude_ai_PubMed__search_articles, mcp__claude_ai_PubMed__get_article_metadata, mcp__claude_ai_PubMed__get_full_text_article, mcp__claude_ai_PubMed__find_related_articles
 ---
 
 # Scientific Reading & Literature Intelligence
@@ -201,10 +202,14 @@ When analyzing literature in industrial biotech, apply these field-specific eval
 
 ### When given a paper/patent:
 1. **Determine the mode** — what does the user need? Quick summary? Deep dive? Data extraction?
-2. **Read the relevant reference file** for detailed guidance on that mode
-3. **Produce structured output** — always use a consistent format so outputs are comparable across papers
-4. **Flag what matters for their work** — connect findings to their projects, proposals, or technical approach
-5. **Be explicit about confidence** — distinguish "the paper clearly shows X" from "the paper claims X but the evidence is weak because Y"
+2. **Verify you have the full text.** If you only have an abstract, title, or web search snippet:
+   - **DO NOT produce a "deep analysis" or "data extraction."** These modes require reading the actual methods, figures, and supplementary data.
+   - **DO NOT present abstract-derived information as if you read the paper.** Instead, say: "I only have the abstract for this paper. Based on the abstract: [summary]. For a full analysis, I need the PDF — want me to try downloading it?"
+   - You MAY produce a **brief/tactical summary** from an abstract, but it must be clearly labeled: "**Source: abstract only — full text not available**"
+3. **Read the relevant reference file** for detailed guidance on that mode
+4. **Produce structured output** — always use a consistent format so outputs are comparable across papers
+5. **Flag what matters for their work** — connect findings to their projects, proposals, or technical approach
+6. **Be explicit about confidence** — distinguish "the paper clearly shows X" from "the paper claims X but the evidence is weak because Y"
 
 ### When given multiple papers:
 - Create comparison tables with standardized metrics

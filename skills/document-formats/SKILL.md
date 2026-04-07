@@ -28,7 +28,7 @@ libs = {
     'docx': 'python-docx',
     'pptx': 'python-pptx',
     'openpyxl': 'openpyxl',
-    'fpdf2': 'fpdf2',
+    'fpdf': 'fpdf2',
 }
 for module, pip_name in libs.items():
     try:

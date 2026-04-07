@@ -1,19 +1,19 @@
-# Claude Sciencing
+# Claude Sciencing v2.1.1
 
-A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish.
+A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Works on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock).
 
 ## Slash Commands
 
 | Command | Description |
 |---------|-------------|
-| `/sci-search` | Search PubMed, preprints, and patents. Build reading lists. Map research landscapes. |
+| `/sci-search` | Search PubMed, preprints, and patents. Scan internal sources (Slack, Confluence, GDrive, Glean). Build reading lists. Map research landscapes. |
 | `/sci-library` | Manage a local reference library — add papers, tag, organize, export BibTeX/citations. |
 | `/sci-read` | Distill papers and patents — tactical briefings, deep analysis, data extraction, patent claims. |
 | `/sci-review` | Compile thematic literature reviews with state-of-the-art comparison tables and gap analysis. |
 | `/sci-draft` | Draft any scientific document — abstracts, proposals, reports, SOWs, patents, presentations, protocols, memos. |
 | `/sci-edit` | Multi-pass scientific editing — grammar, spelling, typos, clarity, tone, jargon, logical flow, topic sentence analysis. |
 | `/sci-figures` | Write figure captions, format tables, manage panel labeling for publications. |
-| `/sci-patents` | Search, download, analyze, and map patent landscapes — claims distillation, FTO assessment, design-around analysis. |
+| `/sci-patents` | Search, analyze, and map patent landscapes — claims extracted directly from Google Patents via WebFetch (no PDF needed). FTO assessment, design-around analysis. |
 
 ### Quick Example
 
@@ -57,13 +57,14 @@ to high-value chemicals — focus on the last 2 years"
 ```
 
 **What the plugin does:**
-- **scientific-reading** and **pubmed-setup** skills activate — verifies PubMed MCP is connected, then queries with optimized Boolean queries and MeSH terms
-- Searches across PubMed, preprints (bioRxiv, chemRxiv), and web sources in parallel
+- **Internal discovery runs first** — searches Slack, Confluence, and Google Drive (via Claude.ai connectors) for related past projects, shared papers, FTO analyses, wiki pages, protocols, and reusable assets. Falls back to Glean enterprise search when Claude.ai connectors are unavailable. Surfaces prior proposals, fermentation data, and expert contacts before any external search.
+- **scientific-reading** and **pubmed-setup** skills activate — uses PubMed via MCP or NCBI E-utilities API directly (works on any provider including Vertex/GCP)
+- Searches across PubMed, preprints (bioRxiv, chemRxiv), and web sources in parallel with **minimum 8 query variations** from a mandatory term expansion table
 - Returns results ranked by relevance, recency, and open-access availability
-- Patent search runs automatically alongside literature search
+- Patent search runs automatically alongside literature search — claims extracted directly from Google Patents HTML via WebFetch (no PDF download needed)
 - Produces a Patent Landscape Summary with claims distillation, project comparison, clear/caution/avoid categories
 - Suggests a reading order, identifies gaps in the search, and recommends follow-up queries
-- Output: a curated reading list organized by priority
+- Output: a curated reading list organized by priority (minimum 15-20 papers for an active topic)
 
 ---
 
@@ -75,9 +76,10 @@ to high-value chemicals — focus on the last 2 years"
 
 **What the plugin does:**
 - **paper-retrieval** skill activates with its exhaustive 7-tier, 20-source strategy
-- **Tier 0 (PubMed MCP):** Resolves all identifiers (DOI → PMID → PMCID) and checks OA status for every paper upfront
-- **Fast pass (Tiers 1–2):** Downloads from PMC, publisher OA, Unpaywall, and Europe PMC — handles the easy ones first
-- **Patents:** All patents and patent applications are freely downloadable from Google Patents, USPTO, Espacenet, and WIPO PatentScope. Named with `USPat_`, `USApp_`, `EPPat_`, `WOApp_` prefixes and sorted to a dedicated `XX_Patents/` folder
+- **Tier 0:** Resolves all identifiers (DOI → PMID → PMCID) via PubMed MCP or NCBI E-utilities API. Checks OA status for every paper upfront.
+- **PMC full-text XML (primary paper access):** For papers with PMCIDs, fetches full article text as structured XML via `efetch` — returns complete body text, sections, figures, and tables for OA journals (MDPI, Frontiers, PLOS, BMC, Nature OA). More reliable than PDF download, and the structured format is better for analysis. Papers from non-OA publishers (ASM, Springer, Elsevier) return abstract only via this method.
+- **Fast pass (Tiers 1–2):** MDPI direct PDFs, publisher OA, Unpaywall, and Europe PMC — handles the easy ones first
+- **Patents:** Claims are extracted directly from Google Patents HTML pages via WebFetch — no PDF download required. Full claim text, metadata, assignee, dates, and status are parsed in a single call. PDF download is only triggered when the user explicitly requests it or when specification/figure analysis is needed. Patent data sorted to a dedicated `XX_Patents/` folder
 - **Stubborn pass (Tiers 3–6):** For remaining papers, searches institutional repositories, author websites, preprint servers, internal sources (Slack channels, Google Drive), and creative web queries — tries at least 10 sources per paper before giving up
 - **Browser-assisted fallback:** For papers that resist all automated methods, opens URLs in the user's browser for manual download through institutional access, then scans the downloads folder to rename and sort the files
 - **Verifies every download** — checks for HTML masquerading as PDF, stub files, and corrupted downloads
@@ -250,8 +252,8 @@ These skills trigger automatically when Claude detects relevant context — no s
 | **scientific-style** | Editing `.tex`, `.md`, `.bib`, `.pdf`, `.docx`, `.pptx`, `.xlsx` files with scientific content. Provides tense, voice, nomenclature, statistical reporting, and formatting guidance. |
 | **scientific-writing** | Any request to write, draft, or revise scientific documents. Provides strategic framing, audience calibration, and document-type-specific conventions. |
 | **scientific-reading** | Any request to read, summarize, or analyze a paper or patent. Provides structured distillation with field-specific evaluation lenses. |
-| **paper-retrieval** | Any request to download, fetch, or collect scientific PDFs. Exhaustive 7-tier, 20-source download strategy including patent databases (Google Patents, USPTO, Espacenet, WIPO), internal Slack/GDrive sources, and browser-assisted fallback. Cross-platform support. Auto-categorization into numbered folders with dedicated `XX_Patents/` folder and standardized naming (`JournalAbbrev_description_year.pdf`). |
-| **pubmed-setup** | Checks PubMed MCP integration status and guides setup. Runs diagnostics across search, metadata, ID conversion, and full-text capabilities. |
+| **paper-retrieval** | Any request to download, fetch, or collect scientific papers. PMC full-text XML via efetch for OA papers (no PDF needed). Exhaustive 7-tier, 20-source strategy for PDFs. Patent claims extracted via WebFetch from Google Patents HTML. Internal Slack/GDrive sources, browser-assisted fallback with user confirmation. Download-before-write gate blocks premature writing. Auto-categorization into numbered folders with dedicated `XX_Patents/` folder and standardized naming (`JournalAbbrev_3word_description_year.pdf`). |
+| **pubmed-setup** | Checks PubMed access — tests MCP first, falls back to NCBI E-utilities API (works on any provider). Runs diagnostics across search, metadata, ID conversion, and full-text capabilities. Guides setup for both methods. |
 | **document-formats** | Reading or writing `.pdf`, `.docx`, `.pptx`, `.xlsx` files, and Google Drive native files (`.gdoc`, `.gsheet`, `.gslides`). Handles dependency checks, Python-based read/write for all four Office formats, GDrive export via browser, and format conversion. |
 | **format-compliance** | Verifies documents against venue requirements (journal guidelines, solicitation specs, conference rules). Searches for and fetches actual requirements, audits structure/length/citations/formatting, and reports issues with fixes. |
 
@@ -295,9 +297,75 @@ Then add the path to your Claude Code settings (`.claude/settings.json`):
 
 ### PubMed Integration
 
-The `/sci-search`, `/sci-read`, `/sci-library`, and `/sci-review` commands use PubMed MCP tools for structured literature search, metadata retrieval, and full-text access. PubMed MCP is a Claude.ai managed integration — enable it at [claude.ai/settings/connectors](https://claude.ai/settings/connectors) and it syncs automatically to Claude Code. Without PubMed MCP, the commands fall back to web search — still functional, but with less structured results.
+The plugin searches PubMed for structured literature discovery, metadata retrieval, ID conversion, and full-text access. **Two access methods are supported** — the plugin auto-detects which is available and uses the best option.
 
-Run the **pubmed-setup** skill to check your integration status and troubleshoot any issues.
+#### Method 1: PubMed MCP (Claude.ai accounts only)
+
+PubMed MCP is a Claude.ai managed integration with convenience wrappers around the NCBI API.
+
+- **Works when:** Claude Code runs via an Anthropic account (direct API key or Claude.ai login)
+- **Does NOT work when:** Claude Code runs via Vertex (GCP), AWS Bedrock, or any third-party provider — the MCP integration requires a Claude.ai account session that doesn't exist on these providers
+- **Setup:** Enable at [claude.ai/settings/connectors](https://claude.ai/settings/connectors). Syncs automatically to Claude Code.
+
+#### Method 2: NCBI E-utilities API (works everywhere)
+
+Direct HTTP calls to NCBI's public PubMed API. **No authentication required.** Works on any provider (Vertex, Bedrock, Anthropic, local). Accesses the same database as PubMed MCP — identical results.
+
+- **No setup required** — the plugin calls the API directly via `WebFetch`
+- **Endpoints used:**
+  - `esearch` — search PubMed, returns PMIDs
+  - `efetch` — fetch article metadata (title, authors, journal, DOI, abstract)
+  - `idconv` — convert between PMID, DOI, and PMCID (identifies free PMC papers)
+  - `elink` — find related articles
+- **Rate limits:** 3 requests/sec (no key) or 10/sec (free API key from [NCBI account settings](https://www.ncbi.nlm.nih.gov/account/settings/))
+- **Full API documentation:** `skills/pubmed-setup/references/eutils-api.md`
+
+#### How the plugin chooses
+
+On every `/sci-search`, the plugin runs a **Pre-Flight PubMed health check**:
+
+1. Tests PubMed MCP with a simple query
+2. If MCP works → uses MCP (more convenient)
+3. If MCP fails → **tells the user why** (expired token, Vertex provider, etc.), then switches to E-utilities API automatically
+4. Never silently degrades to generic web search
+
+Run the **pubmed-setup** skill to check your integration status, test both methods, and troubleshoot issues.
+
+### Internal Discovery — Slack / Confluence / Google Drive / Glean
+
+The plugin's internal discovery (Step 0 of `/sci-search`) searches organizational sources for related prior work before external literature search. This surfaces prior proposals, shared papers, FTO analyses, protocols, project documentation, fermentation data, and expert contacts.
+
+#### Slack (primary — via Claude.ai connector)
+
+Uses Claude.ai managed MCP (`mcp__claude_ai_Slack__*`). Enable at [claude.ai/settings/connectors](https://claude.ai/settings/connectors). Works automatically with Anthropic accounts. Searches messages, threads, and file attachments across all channels.
+
+#### Confluence (primary — via Claude.ai Atlassian connector)
+
+Uses Claude.ai managed MCP (`mcp__claude_ai_Atlassian__*`). Enable at [claude.ai/settings/connectors](https://claude.ai/settings/connectors). Searches wiki pages, project documentation, protocols, SOPs, meeting notes, technical reports, and proposals using CQL queries. Can read full page content and navigate page hierarchies.
+
+**Limitation (Slack + Confluence):** These Claude.ai managed integrations do not work on Vertex/GCP or other third-party providers. If unavailable, the plugin prompts the user to set up Glean as a fallback.
+
+#### Google Drive (always works)
+
+Searched via local filesystem (`~/Library/CloudStorage/GoogleDrive-*/`). Requires Google Drive for Desktop to be installed and syncing. Works on any provider — no MCP needed.
+
+#### Glean Enterprise Search (fallback — when Slack/Confluence MCP is unavailable)
+
+If your organization uses [Glean](https://www.glean.com/), it can serve as a fallback for internal discovery when Slack/Confluence MCP is unavailable (e.g., on Vertex/GCP). Glean indexes Slack, Google Drive, Confluence, Jira, and email in a single unified search.
+
+Add to your global `~/.claude/.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "glean-mcp": {
+      "url": "https://YOUR-ORG.glean.com/mcp/default"
+    }
+  }
+}
+```
+
+Restart Claude Code after adding. When Slack/Confluence MCP fails, the plugin auto-detects Glean MCP and offers it as an alternative. If neither is available, the plugin tells the user and provides setup instructions for both options.
 
 ### Python Dependencies (for document-formats skill)
 
@@ -307,7 +375,7 @@ The document-formats skill requires Python libraries for Office and PDF file han
 pip3 install python-docx python-pptx openpyxl fpdf2
 ```
 
-The skill checks for missing dependencies automatically and guides installation.
+The skill checks for missing dependencies automatically and guides installation. Note: the pip package is `fpdf2` but the Python import is `from fpdf import FPDF`.
 
 ## Field-Specific Evaluation Lenses
 
@@ -319,6 +387,46 @@ The reading and review tools apply domain-specific scrutiny:
 - **TEA / economics** — assumptions, sensitivity analysis, scale, capital inclusion, benchmarks
 - **Patents** — claims scope, enablement, design-around opportunities, FTO risk
 
+## Quality Gates
+
+The plugin enforces hard checkpoints to prevent shallow output — the kind where search results go straight to writing without anyone reading the actual papers.
+
+### Search Enforcement
+
+`/sci-search` requires a **mandatory term expansion table** before any search is executed. Minimum 8 distinct queries across 3+ concept axes with synonyms. If PubMed returns 49 papers for a topic and the plugin only finds 7, the search queries were too narrow — the plugin will flag this.
+
+### Download-Before-Write Gate
+
+`/sci-review` and `/sci-draft` check the project's `literature/PDFs/` folder before writing:
+
+- **0-2 verified sources:** STOP — refuses to write, tells user to download papers first
+- **3-5 verified sources:** WARN — proceeds only with user confirmation, marks coverage as thin
+- **6+ verified sources:** Proceed normally
+
+### Citation Integrity — Three Tiers
+
+Every citation in generated documents is labeled by verification level:
+
+| Tier | Label | Meaning |
+|------|-------|---------|
+| **Verified** | (none) | PDF downloaded and read. Full confidence. |
+| **Unverified** | `[NOT IN LIBRARY]` | Identified in search but not downloaded. Abstract-level claims only. |
+| **Needed** | `[CITATION NEEDED]` | Claim needs a source but none found. Never fabricated. |
+
+Documents separate verified and unverified references into distinct sections so the evidence basis is transparent.
+
+### Reading Integrity
+
+`/sci-read` will NOT produce deep technical analyses or data extraction tables from papers it hasn't actually read. If only an abstract is available, the output is labeled **"Source: abstract only — full text not available"** and deep analysis modes are blocked.
+
+### Browser Download Workflow
+
+When automated PDF downloads fail and papers are opened in the browser for manual download, the plugin **waits for user confirmation** before proceeding. After confirmation, it scans `~/Downloads` for new PDFs, verifies them, renames per convention, and sorts into the library. It does not assume downloads succeeded.
+
+### PubMed Degradation Transparency
+
+If PubMed MCP is unavailable, the plugin **tells the user immediately** with the specific error, offers re-authorization instructions, and switches to NCBI E-utilities API. It never silently falls back to generic web search.
+
 ## Core Principles
 
 - **Data over claims** — specific numbers with units, conditions, and comparisons
@@ -326,8 +434,9 @@ The reading and review tools apply domain-specific scrutiny:
 - **Synthesize, don't summarize** — draw connections, identify consensus, flag contradictions
 - **Model vs. real** — always distinguish model substrate from real feedstock results
 - **Honest limitations** — credibility through acknowledging what you don't know
-- **Citation integrity** — every citation must trace to a verified source. Well-known landmark references are allowed but flagged. Never fabricate citations — use `[CITATION NEEDED]` instead.
+- **Citation integrity** — every citation must trace to a verified source. Three-tier labeling (verified / `[NOT IN LIBRARY]` / `[CITATION NEEDED]`) makes the evidence basis explicit. Never fabricate citations.
 - **Patent-aware by default** — every literature search includes patent landscape analysis with claims distillation, project comparison, and feasibility assessment
+- **Download before write** — never produce reviews or proposals from web search snippets. Build the PDF library first, read the papers, then write.
 
 ## License
 

@@ -143,8 +143,32 @@ Does this grouping work, or would you like to adjust?
 
 Before attempting any downloads, verify PubMed MCP is available:
 1. Call `mcp__claude_ai_PubMed__search_articles` with a simple test query
-2. If it fails, guide the user to run the **pubmed-setup** skill first
-3. Do NOT proceed with batch downloads without PubMed MCP — it is the backbone of identifier resolution and the most reliable download source
+2. If it fails, **tell the user immediately** — do not silently skip Tier 0. Say: "PubMed MCP is unavailable ([error]). Re-authorize at claude.ai/settings/connectors for best download rates. I can proceed without it, but identifier resolution and OA checking will be less reliable."
+3. **If PubMed MCP is unavailable, use NCBI E-utilities API directly** (see `skills/pubmed-setup/references/eutils-api.md` for full documentation):
+
+   **Step A — Resolve identifiers:**
+   ```
+   WebFetch: https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/?ids={DOI_or_PMID}&format=json
+   ```
+   Returns PMID, PMCID, and DOI. If PMCID exists → paper is in PMC → free PDF at `https://pmc.ncbi.nlm.nih.gov/articles/{PMCID}/pdf/`
+
+   **Step B — Get metadata:**
+   ```
+   WebFetch: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={PMID}&retmode=xml&rettype=abstract
+   ```
+   Extract title, authors, journal, DOI, abstract from the XML.
+
+   **Step C — Check OA via Unpaywall (supplement):**
+   ```
+   WebFetch: https://api.unpaywall.org/v2/{DOI}?email=user@example.com
+   ```
+   Returns `is_oa` and `oa_locations` with direct PDF URLs.
+
+   **Batch processing:** Both idconv and efetch accept comma-separated IDs (up to 200). Batch all papers in a single request to minimize API calls.
+
+   These three calls replace PubMed MCP's Tier 0 functionality entirely. The data is the same — it's the same NCBI database.
+
+4. Do NOT skip Tier 0 entirely — even without PubMed MCP, run identifier resolution through E-utilities. This is what determines which papers have free PMC PDFs.
 
 ---
 
@@ -169,11 +193,23 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 
 ### Tier 1: Near-Guaranteed (try these first)
 
-**1. PubMed Central (PMC) direct download**
-- Requires PMCID from Tier 0
-- URL pattern: `https://www.ncbi.nlm.nih.gov/pmc/articles/PMC{id}/pdf/`
-- This is the single most reliable PDF source — if a PMCID exists, this works ~95% of the time
-- **Also try**: individual article PDF links within PMC (some have multiple PDF files — main text vs. supplement)
+**1. PubMed Central (PMC) — Full Text XML via E-utilities (PREFERRED)**
+- Requires PMCID from Tier 0 (idconv)
+- **Use efetch to get full text as structured XML — this is more reliable than PDF download:**
+  ```
+  WebFetch: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id={PMCID_NUMBER}&retmode=xml
+  ```
+  (Use numeric part only: `3131665` not `PMC3131665`)
+- Returns full article text with sections, figures, tables for **genuinely OA papers** (MDPI, Frontiers, PLOS, BMC, Nature OA, etc.)
+- For non-OA papers deposited in PMC (e.g., ASM, Springer via embargo), efetch returns only abstract+metadata — the full text is only in the PDF
+- **This replaces the old approach of curling PMC PDF URLs**, which is now broken — PMC redirects all curl/wget requests to HTML regardless of User-Agent, headers, or HTTP version
+- If efetch returns full body text (`<body>` tag present): paper is fully available, no PDF needed for analysis
+- If efetch returns only abstract: fall through to Tier 2+ for PDF, or use browser fallback
+
+**1b. PMC PDF download (fallback — often fails)**
+- Direct curl to `https://pmc.ncbi.nlm.nih.gov/articles/PMC{id}/pdf/` is **unreliable** — PMC blocks automated downloads and returns HTML redirects
+- If full text XML from efetch (above) has the body content, skip PDF download entirely — the XML is actually better for analysis (structured, parseable)
+- If you need the PDF specifically (user request, or efetch only returned abstract): use browser fallback (`open "https://pmc.ncbi.nlm.nih.gov/articles/PMC{id}/pdf/"`) and wait for user confirmation
 
 **2. MDPI Journals (Polymers, Catalysts, Biomolecules, Molecules, etc.)**
 - All MDPI journals are open access
@@ -194,21 +230,22 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 - Reliable and fast
 - **Also check**: even for published papers, the preprint version may still be on bioRxiv — search by title or author
 
-**5. Patents (Always Free — All Patents Are Public Documents)**
-- All granted patents and published applications are public domain documents — they are always freely downloadable
-- **Google Patents (best starting point):**
-  - Landing page: `https://patents.google.com/patent/{patent_number}/en`
-  - Direct PDF: `https://patentimages.storage.googleapis.com/pdfs/{patent_number}.pdf`
-- **USPTO (US patents and applications):**
-  - `https://pdfpiw.uspto.gov/.piw?docid={patent_number}`
-- **Espacenet (European and worldwide patents):**
-  - `https://worldwide.espacenet.com/patent/search?q={patent_number}`
-- **WIPO PatentScope (PCT/international applications):**
-  - `https://patentscope.wipo.int/search/en/detail.jsf?docId={WO_number}`
-- **Lens.org** — cross-references patents ↔ scholarly literature, useful for finding patents that cite or are cited by research papers
-- **Naming convention:** Use `USPat_`, `USApp_`, `EPPat_`, `WOApp_` prefixes per the naming rules above
+**5. Patents (Always Free — Claims Available Without PDF Download)**
+- All granted patents and published applications are public domain documents
+- **For patent analysis, do NOT download PDFs by default.** The claims (the only legally enforceable part) are on the Google Patents HTML page. Use WebFetch to extract them directly:
+
+  ```
+  WebFetch: https://patents.google.com/patent/{PATENT_NUMBER}/en
+  Prompt: "Extract: patent number, title, assignee, inventors, filing date, grant date, expiry, status, ALL independent claims (full text), key dependent claims, abstract"
+  ```
+
+  This is faster, more reliable, and provides exactly what's needed for FTO analysis and landscape mapping.
+
+- **Only download patent PDFs when:** the user explicitly asks, or you need to read the specification/examples/figures in detail beyond the claims
+- **PDF sources (if needed):** Browser fallback to Google Patents page (curl to `patentimages.storage.googleapis.com` is unreliable — returns XML errors). USPTO and Espacenet as alternatives.
+- **Naming convention (when PDFs are downloaded):** Use `USPat_`, `USApp_`, `EPPat_`, `WOApp_` prefixes per the naming rules above
 - **Sort to:** `XX_Patents/` folder (always last numbered folder, separate from research papers)
-- **Metadata to capture:** patent/publication number, title, assignee, inventors, filing date, grant date (if granted), estimated expiry, status (Active/Pending/Expired/Abandoned), and independent claims (summarized)
+- **Metadata to capture:** patent/publication number, title, assignee, inventors, filing date, grant date (if granted), estimated expiry, status (Active/Pending/Expired/Abandoned), and **all independent claims (full text — not summarized)**
 
 ### Tier 2: Usually Works — Query ALL of These
 
@@ -285,16 +322,49 @@ If the paper isn't in PubMed at all (preprints, non-biomedical), fall through to
 
 ### Tier 5: Internal / Organizational Sources
 
-**16. Slack — #tech-papers and other channels**
-- Search using `slack_search_public_and_private` with paper title, author names, or DOI
-- Check for PDF attachments shared directly in channels
-- Look for Google Drive or Dropbox links to papers shared by colleagues
-- Try multiple query variations: exact title, abbreviated title, first author + year
+**16. Slack — search for shared papers and attachments**
+
+For each paper that failed Tiers 1-4, search Slack with **at least 3 query variations:**
+- Exact title (quoted): `"Production of L-alanine by metabolically engineered"`
+- First author + year: `Zhang 2007 alanine`
+- DOI: `10.1007/s00253-007-1170-y`
+
+**Also search for file attachments specifically:**
+```
+slack_search_public_and_private with content_types="files" and query="{paper title or keywords}"
+```
+
+Prioritize these channels:
+- `#tech-papers` — shared literature
+- Project-specific channels found in Step 0 internal discovery
+- `#science`, `#help-science` — general scientific discussion
+- DM conversations with colleagues who work in the area
+
+When you find a Slack message sharing a paper:
+- If it has a **file attachment** (PDF): note the message permalink — the user can download it from Slack
+- If it has a **GDrive link**: note the URL — offer to open in browser for download
+- If it has a **DOI or URL**: try downloading from that source directly
+- **Read the full thread** — replies may contain alternative links or the actual PDF
 
 **17. Google Drive (Shared Drives and My Drive)**
-- Search for paper title, author names, or DOI in Google Drive
-- Check shared drives (team drives) that may contain organized literature folders
-- Look for PDFs locally synced under `~/Library/CloudStorage/GoogleDrive-*/` (macOS) or equivalent paths
+
+Search for papers by title, author, or topic keywords across all synced GDrive locations:
+
+```bash
+# Search by paper title keywords
+find ~/Library/CloudStorage/GoogleDrive-*/ -iname "*alanine*" -name "*.pdf" -type f 2>/dev/null
+
+# Search by author name
+find ~/Library/CloudStorage/GoogleDrive-*/ -iname "*zhang*" -name "*.pdf" -type f 2>/dev/null
+
+# Search for literature/papers folders that might contain organized collections
+find ~/Library/CloudStorage/GoogleDrive-*/ -type d \( -iname "*literature*" -o -iname "*papers*" -o -iname "*references*" \) 2>/dev/null
+
+# If a promising folder is found, list its contents
+ls -la "path/to/literature/folder/"
+```
+
+Also check for GDrive links found in Slack threads (Step 0 or Tier 5 Slack search above) — these often point to shared team literature folders not in the user's local sync.
 - Check for Google Docs versions of papers (some teams paste content into Docs for annotation)
 
 > **Note:** Internal sources should be tried AFTER public OA sources (Tiers 1-4) since those produce files you can freely cite and share outside the org.
@@ -338,8 +408,19 @@ if system == "Windows":
 else:
     downloads = os.path.expanduser("~/Downloads")
 ```
-- **Batch workflow:** Open multiple tabs at once for all papers that failed automated download. Ask the user to confirm when they have finished downloading. Then scan the downloads folder, match files to the expected papers (by filename, title in PDF metadata, or file modification time), rename per naming convention, and move to the appropriate category folder.
+- **Batch workflow:** Open multiple tabs at once for all papers that failed automated download.
+  1. Tell the user exactly which papers/patents were opened and what to download
+  2. **MANDATORY: Use AskUserQuestion to wait for the user to confirm downloads are complete.** Do NOT proceed to writing, analysis, or any other step until the user confirms. Do NOT assume downloads happened — ASK.
+  3. After confirmation, **scan the downloads folder** for recent PDFs:
+     ```bash
+     find ~/Downloads -name "*.pdf" -mmin -15 -type f
+     ```
+  4. For each new PDF found: verify it's a real PDF (`file` command), read page 1 to identify the paper, rename per naming convention, and move to the appropriate category folder
+  5. Update the download log with results
+  6. Report to the user what was successfully retrieved and what remains missing
 - This is a last resort — use only after exhausting all automated tiers
+
+**CRITICAL: The workflow does NOT continue past downloads until the library is built. Do not write reviews, proposals, or analyses from web search snippets. The entire point of downloading is to READ the papers before writing about them.**
 
 ### DO NOT Attempt (Confirmed Time Sinks)
 
@@ -460,6 +541,22 @@ When starting a batch download and the literature directory already exists:
 - **After `/sci-search`**: Offer to download all OA papers from the search results
 - **With `/sci-library`**: Update library metadata with local PDF paths after download
 - **Before `/sci-read`**: Ensure the PDF is downloaded before attempting to read/analyze it
+- **Before `/sci-review` or `/sci-draft`**: **GATE — do not proceed to writing if the library is empty or nearly empty.** If fewer than 5 papers have been downloaded, tell the user: "You have [N] papers downloaded. A credible review or proposal needs at least 5-10 verified sources. Want me to download more papers first?" This prevents the failure mode where search results go straight to writing without anyone reading the actual papers.
+
+## Curl Best Practices
+
+Many sources (PMC, MDPI, Google Patents) block bare curl requests but work with a browser User-Agent. **Always use a User-Agent header:**
+
+```bash
+curl -sL -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" -o "output.pdf" "URL"
+```
+
+For MDPI journals specifically, use the `mdpi-res.com` direct PDF URL pattern:
+```
+https://mdpi-res.com/d_attachment/{journal}/{journal}-{volume}-{article_number}/article_deploy/{journal}-{volume}-{article_number}-v2.pdf
+```
+
+For PMC, if the standard `/pdf/` endpoint redirects to HTML, try `--http1.1` flag or the Europe PMC renderer as fallback.
 
 ---
 

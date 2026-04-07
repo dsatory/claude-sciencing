@@ -60,18 +60,42 @@ Found [N] active patents, [N] pending applications, [N] expired.
 
 ---
 
-### download — Download patent PDFs
+### download — Retrieve Patent Claims and Metadata
 
-Patents are **always free** — they are public documents. Never mark a patent as unavailable.
+Patents are **always free** — they are public documents. The claims (the only legally enforceable part) are available directly from Google Patents HTML pages. **Do not waste time downloading patent PDFs unless the user specifically asks for them.** Claims text from the web page is sufficient for FTO analysis, landscape mapping, and design-around work.
 
-**Download sources:**
-1. **Google Patents** — `https://patents.google.com/patent/{number}/en` → PDF link, or `https://patentimages.storage.googleapis.com/pdfs/{number}.pdf`
+#### Primary method: WebFetch from Google Patents (preferred)
+
+For any patent number, fetch the claims and metadata directly:
+
+```
+WebFetch: https://patents.google.com/patent/{PATENT_NUMBER}/en
+Prompt: "Extract from this patent page: (1) patent number, (2) title, (3) assignee, (4) all inventor names, (5) filing date, (6) grant date if granted, (7) estimated expiry date, (8) status (active/pending/expired/abandoned), (9) ALL independent claims (full text), (10) key dependent claims, (11) abstract. Return structured text."
+```
+
+**This single call provides everything needed for patent analysis.** No PDF required.
+
+**Examples:**
+```
+WebFetch: https://patents.google.com/patent/US10047364B2/en
+WebFetch: https://patents.google.com/patent/WO2016198529A1/en
+WebFetch: https://patents.google.com/patent/US20160304917A1/en
+```
+
+#### When to download the PDF
+
+Only download the full patent PDF when:
+- The user explicitly requests it ("download the patent PDF")
+- You need to read the specification/examples in detail (not just claims)
+- The patent has figures or sequence listings you need to examine
+
+**PDF download sources (if needed):**
+1. **Browser fallback** — `open "https://patents.google.com/patent/{number}/en"` → user downloads from the page
 2. **USPTO** — `https://pdfpiw.uspto.gov/.piw?docid={number}`
 3. **Espacenet** — "Original document" PDF link
-4. **WIPO PatentScope** — PDF download for all PCT publications
-5. **Lens.org** — PDF links plus cross-reference data
+4. **Google Patents PDF API** — `https://patentimages.storage.googleapis.com/pdfs/{number}.pdf` (often blocked by curl; use browser)
 
-**Naming convention:**
+**Naming convention (when PDFs are downloaded):**
 ```
 USPat_description_year.pdf      — US granted patent
 USApp_description_year.pdf      — US published application
@@ -81,13 +105,16 @@ WOApp_description_year.pdf      — WIPO/PCT application
 
 **Storage:** Always sort into the dedicated `XX_Patents/` folder in the literature directory (numbered last in the category structure). Do not mix patents with research papers.
 
-**Metadata to capture for each patent:**
+#### Metadata to capture for each patent (from WebFetch)
+
 - Patent/publication number
 - Title
 - Assignee and inventors
 - Filing date, grant date (if granted), estimated expiry
 - Status: Active / Pending / Expired / Abandoned
-- Independent claims (at minimum claim 1)
+- **All independent claims (full text)** — this is the most important field
+- Key dependent claims that narrow scope
+- CPC classification codes (useful for broadening patent searches)
 
 ---
 

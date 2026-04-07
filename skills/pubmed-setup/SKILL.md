@@ -125,19 +125,49 @@ The canonical list of PubMed MCP tool names used across this plugin is maintaine
 
 ---
 
+## Two Access Methods
+
+### Method 1: PubMed MCP (Claude.ai managed integration)
+
+The preferred method when available. Provides convenience wrappers around NCBI APIs with automatic authentication.
+
+**Requirements:** Claude Code running via Anthropic account (not Vertex/GCP). PubMed connector enabled at claude.ai/settings/connectors.
+
+**Limitation:** Does NOT work when Claude Code runs via Vertex, AWS Bedrock, or any non-Anthropic provider. The MCP integration syncs from your Claude.ai account session, which doesn't exist on third-party providers.
+
+### Method 2: NCBI E-utilities API (direct HTTP — always works)
+
+Direct HTTP calls to NCBI's public API. Works on **any provider** (Vertex, Bedrock, Anthropic, or local). No authentication required for basic use. Same underlying database as PubMed MCP.
+
+See `references/eutils-api.md` for complete API documentation with examples.
+
+**Quick test — verify E-utilities access:**
+```
+WebFetch: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=CRISPR&retmax=1&retmode=json
+```
+If this returns a JSON response with an `idlist`, E-utilities is working.
+
+**When to use which:**
+- PubMed MCP available → use MCP (more convenient, same data)
+- PubMed MCP unavailable → use E-utilities directly (same data, slightly more verbose calls)
+- Both access the same NCBI/PubMed database. The results are identical.
+
+---
+
 ## Troubleshooting
 
-### "Tool not found" errors
-- PubMed MCP is a Claude.ai managed integration, not a local MCP server
-- It syncs automatically from Claude.ai to Claude Code when you log in
+### PubMed MCP: "Tool not found" or "requires re-authorization"
+- **If using Vertex/GCP:** PubMed MCP will never work on Vertex. Use E-utilities API instead (Method 2). This is not a bug — managed MCP integrations require an Anthropic account session.
+- **If using Anthropic account:** Re-authorize at claude.ai/settings/connectors. Disconnect and reconnect PubMed.
 - If tools aren't appearing, try: `/mcp` in Claude Code to list connected servers
 
 ### "Permission denied" or "unauthorized" errors
 - Re-authorize the PubMed connector in Claude.ai settings
 - Ensure your Claude.ai account has the integration enabled (not just the organization)
 
-### "Rate limited" or "too many requests"
-- PubMed/NCBI has rate limits: ~3 requests/second without an API key, ~10/second with one
+### "Rate limited" or "too many requests" (applies to both methods)
+- NCBI rate limits: ~3 requests/second without an API key, ~10/second with one
+- Register for a free API key at https://www.ncbi.nlm.nih.gov/account/settings/
 - For large batch operations, the paper-retrieval skill automatically paces requests
 - If persistent, wait 60 seconds and retry
 

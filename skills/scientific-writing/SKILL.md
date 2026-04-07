@@ -12,6 +12,7 @@ description: >
   results, or literature and wants it shaped into a NEW coherent narrative. This skill is for
   PRODUCING text — not for analyzing existing papers (use scientific-reading for that) and not
   for passive style guidance on text being edited (use scientific-style for that).
+allowed-tools: Read, Glob, Grep, Edit, Write, WebSearch, WebFetch
 ---
 
 # Scientific Writing for Industrial Biotechnology
@@ -151,9 +152,20 @@ Tables and figures are the backbone of scientific communication. A well-designed
 
 **CRITICAL RULE: Every citation must be traceable to a real, verified source.**
 
-- **Primary sources:** Citations should come from papers found during literature search (`/sci-search`), downloaded to the `literature/` folder, or tracked in the library (`/sci-library`). These are verified — you have confirmed they exist.
-- **Well-known citations:** Landmark papers, textbook-level references, and widely-cited foundational works (e.g., seminal methods papers, Nobel-winning discoveries) are allowed even if not in the search results, BUT they must be explicitly flagged with a comment like `<!-- citation: not from search results -->` so the user can verify them independently.
-- **NEVER fabricate citations.** If a claim needs a citation and no matching paper exists in the library or your confident knowledge, insert `[CITATION NEEDED]` rather than inventing an author-year-journal combination. A placeholder is infinitely better than a hallucinated reference.
+**Three tiers of citation, with mandatory labeling:**
+
+1. **Verified (no label needed):** Papers with PDFs in the project's `literature/` folder that you have actually read. These are the only citations you can use with full confidence. Cite freely.
+
+2. **Unverified — flagged:** Papers identified in search results but NOT downloaded or read. You know the title, authors, journal, and abstract exist, but you have NOT read the full text. **Every such citation MUST be tagged `[NOT IN LIBRARY]`** so the user knows the claim comes from an abstract or web snippet, not from reading the paper. Do NOT write substantive technical analysis (methods details, specific data points, mechanistic claims) from unverified sources — only report what the abstract states, clearly attributed.
+
+3. **Needed — placeholder:** Claims that need a citation but no matching paper exists. Use `[CITATION NEEDED]`.
+
+**HARD RULES — violations of these undermine the entire plugin:**
+
+- **NEVER write a "deep analysis" or "tactical briefing" of a paper you haven't downloaded.** If you only have the abstract, say so: "Based on the abstract (full text not available)..."
+- **NEVER produce a literature review, proposal, or report where the majority of citations are unverified.** If fewer than 50% of your citations are from downloaded PDFs, STOP writing and tell the user they need to download more papers first.
+- **NEVER present web search snippets as if you read the paper.** The difference between "Zhang et al. (2007) achieved 95% yield" (from reading the paper) and "Zhang et al. (2007) reportedly achieved 95% yield [NOT IN LIBRARY]" (from a web search) is the difference between trustworthy and unreliable output.
+- **Separate verified and unverified references into two sections** at the end of every document. This makes the evidence basis transparent at a glance.
 
 - In technical documents: numbered references [1] or author-year (Nielsen et al. 2016) depending on format
 - Always cite primary sources, not reviews, for specific claims

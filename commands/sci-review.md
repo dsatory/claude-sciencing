@@ -25,6 +25,16 @@ Ask the user (if not provided in $ARGUMENTS):
 - Check if the user has reading notes in `references/notes/` — use those for papers already analyzed
 - Target 10-30 papers for a focused review, 30-80 for a comprehensive one
 
+**HARD GATE — Check before proceeding to Step 3:**
+
+Count how many papers you have actual full-text access to (downloaded PDFs in `literature/PDFs/` or full text retrieved via PubMed MCP). If fewer than 5 verified full-text sources are available:
+
+1. **STOP.** Do not proceed to writing.
+2. Tell the user: "I have full text for [N] papers but only abstracts for [M] others. A credible review requires reading the actual papers — abstracts don't contain the methods details, data quality flags, or comparison tables needed for synthesis. Want me to download more papers first?"
+3. Only proceed after the user explicitly chooses to continue with limited sources.
+
+A review written from 20 abstracts is a summary of summaries — it misses the methods scrutiny, data quality assessment, and cross-study comparison that make a review useful. The plugin exists to prevent exactly this failure mode.
+
 ### Step 3: Organize Thematically
 
 **Never organize chronologically or paper-by-paper.** Organize by technical challenge, approach, or question.

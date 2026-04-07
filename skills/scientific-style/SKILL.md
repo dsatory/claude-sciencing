@@ -9,7 +9,7 @@ description: >
   conventions like species italicization, gene/protein naming, unit formatting, and reporting
   guideline awareness. Use this skill ONLY as a passive overlay — for creating new documents
   use scientific-writing; for analyzing existing papers use scientific-reading.
-version: 1.3.0
+allowed-tools: Read, Glob, Grep
 ---
 
 # Scientific Style Guide

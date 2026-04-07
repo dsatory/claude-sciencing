@@ -36,6 +36,16 @@ When the user provides a file to work with (outline, existing draft, solicitatio
 
 Before drafting, the `scientific-writing` skill provides additional strategic guidance for each document type. If it is loaded, its reference files contain detailed conventions — trust that context and apply its principles.
 
+**PRE-DRAFT SOURCE CHECK — mandatory for proposals, reports, and reviews:**
+
+Before writing any document that cites scientific literature, check the project's `literature/PDFs/` folder and `references/library.md`. Count verified sources (downloaded PDFs you have read). If the count is low:
+
+- **0-2 verified sources:** STOP. Tell the user: "I don't have enough source material to write a credible [document type]. Run `/sci-search` and download papers first."
+- **3-5 verified sources:** Warn: "I have [N] verified sources. I can draft, but the literature coverage will be thin. Unverified claims will be marked `[NOT IN LIBRARY]`. Want to proceed or download more papers first?"
+- **6+ verified sources:** Proceed. Still mark any unverified citations clearly.
+
+This gate prevents the failure mode where a proposal or review gets written from web search abstracts and looks authoritative but isn't backed by actual paper reading.
+
 ---
 
 ## Mode: Outline
