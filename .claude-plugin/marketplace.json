@@ -1,0 +1,32 @@
+{
+  "name": "dsatory-plugins",
+  "owner": {
+    "name": "Dominik Satory"
+  },
+  "metadata": {
+    "description": "Scientific research plugin for Claude Code — literature search, analysis, writing, and patent landscape mapping"
+  },
+  "plugins": [
+    {
+      "name": "claude-sciencing",
+      "source": "./",
+      "description": "Claude Code plugin for scientific research in biotech and life sciences — search, read, analyze, write, edit, and publish",
+      "version": "2.1.1",
+      "keywords": [
+        "scientific-writing",
+        "literature-review",
+        "biotech",
+        "life-sciences",
+        "research",
+        "papers",
+        "grants",
+        "patents",
+        "pubmed",
+        "pdf",
+        "docx",
+        "pptx",
+        "xlsx"
+      ]
+    }
+  ]
+}
