@@ -1,5 +1,5 @@
 ---
-description: Search scientific literature — PubMed, preprints, patents, and web sources. Also scans internal sources (Slack, Confluence, Google Drive, Glean) for related past/current/future projects. Find papers, build reading lists, map landscapes.
+description: Search scientific literature — PubMed, preprints, patents, and web sources. Also scans internal sources (Slack, Confluence, Google Drive, and optional enterprise search tools) for related past/current/future projects. Find papers, build reading lists, map landscapes.
 argument-hint: [query or topic] [optional flags: --recent, --reviews, --no-patents, --clinical, --no-internal, --limit N]
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write, WebSearch, WebFetch, mcp__claude_ai_PubMed__search_articles, mcp__claude_ai_PubMed__get_article_metadata, mcp__claude_ai_PubMed__get_full_text_article, mcp__claude_ai_PubMed__find_related_articles, mcp__claude_ai_PubMed__lookup_article_by_citation, mcp__claude_ai_PubMed__convert_article_ids, mcp__claude_ai_PubMed__get_copyright_status, mcp__claude_ai_Slack__slack_search_public, mcp__claude_ai_Slack__slack_search_public_and_private, mcp__claude_ai_Slack__slack_read_channel, mcp__claude_ai_Slack__slack_read_thread, mcp__claude_ai_Atlassian__searchConfluenceUsingCql, mcp__claude_ai_Atlassian__getConfluencePage, mcp__claude_ai_Atlassian__getConfluencePageDescendants, mcp__claude_ai_Atlassian__getAccessibleAtlassianResources, mcp__claude_ai_Atlassian__searchAtlassian, mcp__claude_ai_Atlassian__getConfluenceSpaces
 ---
@@ -27,7 +27,7 @@ mcp__claude_ai_PubMed__search_articles with query="test" max_results=1
 1. **Tell the user immediately.** Do not silently fall back to web search. Say:
    > "PubMed MCP is not available ([specific error]). This significantly reduces search quality — PubMed MCP provides structured metadata, MeSH terms, related articles, full-text access, and ID conversion that web search cannot replicate. Re-authorize at claude.ai/settings/connectors to restore full functionality."
 
-2. **Ask if they want to re-auth now or proceed with degraded search.** Use AskUserQuestion:
+2. **Ask if they want to re-auth now or proceed with degraded search.** Wait for their answer before continuing:
    - Option 1: "I'll re-auth now" → wait, then re-test
    - Option 2: "Proceed without PubMed" → use compensating strategy below
 
@@ -69,7 +69,7 @@ mcp__claude_ai_PubMed__search_articles with query="test" max_results=1
 
 Before searching external literature, scan internal channels for related past, current, or planned projects. Colleagues may have already written proposals, run experiments, or shared papers on closely related topics. This step prevents duplicating work and surfaces reusable assets — prior proposals, shared PDFs, FTO analyses, fermentation data, and expert contacts.
 
-**Minimum effort: 6+ Slack queries + 3+ Confluence queries + 3+ GDrive search axes + 1 local directory scan.** If Slack/Confluence MCP is unavailable, use Glean as fallback. This is not a token search — internal knowledge is often the highest-value discovery.
+**Minimum effort when internal connectors are available: 6+ Slack queries + 3+ Confluence queries + 3+ GDrive search axes + 1 local directory scan.** If Slack/Confluence MCP is unavailable, skip them and continue with GDrive/local plus external search. This is not a token search — internal knowledge is often the highest-value discovery.
 
 ---
 
@@ -77,9 +77,9 @@ Before searching external literature, scan internal channels for related past, c
 
 Test Slack MCP availability first with a simple query. If it fails (token expired, not connected, running on Vertex/GCP):
 
-1. **Tell the user:** "Slack MCP is unavailable ([error]). Internal Slack search will be skipped unless you have Glean MCP configured as a fallback."
-2. **Check for Glean MCP** — look for tools matching `glean` or `mcp__glean`. If available, use Glean enterprise search (Section 4 below) which indexes Slack alongside other sources.
-3. **If neither Slack MCP nor Glean is available:** Tell the user: "No internal search sources available. Consider setting up Glean MCP for unified enterprise search — add your Glean MCP URL to `~/.claude/.mcp.json`. Proceeding with GDrive filesystem search and external sources only."
+1. **Tell the user:** "Slack MCP is unavailable ([error]). Internal Slack search will be skipped for this run."
+2. **Continue with GDrive and local filesystem discovery** — don't block the search on Slack being unavailable.
+3. **If the host environment already exposes a separate enterprise-search tool** (for example Glean), treat it as an optional supplement rather than a required dependency.
 
 **When Slack MCP is available**, use `slack_search_public_and_private` with **at least 6 query variations** covering different angles. Use the same term expansion logic as Step 1 — break the topic into concept axes and search each combination.
 
@@ -153,7 +153,7 @@ CQL: text ~ "beta-alanine" OR text ~ "amino acid production" AND type = page
 - Check child pages with `getConfluencePageDescendants` — project pages often have sub-pages with detailed data
 - Note the page authors — they are subject matter experts on this topic
 
-**If Confluence MCP is unavailable** (same Claude.ai managed MCP limitation as Slack): fall back to Glean (Section 4), which also indexes Confluence content.
+**If Confluence MCP is unavailable** (same Claude.ai managed MCP limitation as Slack): skip this step and continue with GDrive/local sources.
 
 ---
 
@@ -217,42 +217,14 @@ If existing literature folders or reference libraries are found, read them — d
 
 ---
 
-#### 4. Glean Enterprise Search (FALLBACK — when Slack MCP is unavailable)
+#### 4. Optional Enterprise Search
 
-If Slack MCP failed in Section 1, check if Glean MCP is connected. Glean indexes Slack, Google Drive, Confluence, Jira, Gmail, and other sources in a single unified search — it can replace individual Slack queries.
+Some environments expose a separate enterprise-search tool that indexes Slack, Google Drive, Confluence, Jira, or email. If such a tool is already available in the host environment, use it as an **optional supplement** for 2-3 targeted queries.
 
-**Check if Glean MCP is available** by looking for tools matching `glean` or `mcp__glean`. The tool names may vary by configuration but typically include `search`, `chat`, and `read_document`.
-
-**If Glean is available, run at least 3 queries with different term angles:**
-
-```
-Glean search: "alanine production E. coli fermentation"
-Glean search: "alanine metabolic engineering patent FTO"
-Glean search: "beta-alanine market nylon MGDA proposal"
-```
-
-Glean returns results across ALL connected sources ranked by relevance with user-level permission filtering. For each result:
-- Note the **source type** (Slack thread, GDrive doc, Confluence page, etc.)
-- For Slack threads: note permalink — user can open and read the full thread
-- For documents: use `read_document` to access content directly through Glean if available
-- For GDrive links: note for later retrieval
-
-**If Glean is NOT available and Slack MCP also failed:**
-Tell the user: "No internal search sources available. To enable internal discovery, either:
-1. Re-authorize Slack at [claude.ai/settings/connectors](https://claude.ai/settings/connectors) (requires Anthropic account), or
-2. Set up Glean MCP by adding your Glean server URL to `~/.claude/.mcp.json`:
-```json
-{
-  \"mcpServers\": {
-    \"glean-mcp\": {
-      \"url\": \"https://YOUR-ORG.glean.com/mcp/default\"
-    }
-  }
-}
-```
-Then restart Claude Code."
-
-Proceed with GDrive filesystem search (Section 2) and external sources only.
+Guidelines:
+- Do not assume an enterprise-search tool exists
+- Do not hard-code a specific vendor tool name into the workflow
+- Do not block the search on this section; if no enterprise-search tool is available, proceed with GDrive filesystem search and external sources only
 
 ---
 
@@ -346,7 +318,7 @@ WebFetch: https://api.semanticscholar.org/graph/v1/paper/search?query={QUERY}&fi
 - Rate limit: 1 req/sec without key
 
 **Database 4: bioRxiv/medRxiv** (preprints)
-- Use bioRxiv MCP if available, otherwise web search with `site:biorxiv.org`
+- Use the bioRxiv/medRxiv API when available, otherwise web search with `site:biorxiv.org OR site:medrxiv.org`
 - Catches papers not yet peer-reviewed or indexed
 
 **Database 5: Web search** (grey literature, theses, reports)

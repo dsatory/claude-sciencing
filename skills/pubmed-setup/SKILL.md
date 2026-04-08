@@ -10,7 +10,7 @@ allowed-tools: Bash, Read, Write, Edit, WebFetch, mcp__claude_ai_PubMed__search_
 
 # PubMed MCP Setup & Diagnostics
 
-This skill checks whether PubMed MCP tools are available and guides the user through enabling them if not. PubMed MCP is a core dependency for the claude-sciencing plugin — it powers literature search, article metadata retrieval, full-text access, and citation management.
+This skill checks whether PubMed MCP tools are available and guides the user through enabling them if not. PubMed access is a core dependency for the claude-sciencing plugin — prefer the managed PubMed integration when available, but fall back to NCBI E-utilities when it is not.
 
 ---
 
@@ -46,8 +46,9 @@ All claude-sciencing commands (/sci-search, /sci-library, /sci-read) are ready t
 Guide the user through setup:
 
 ```
-PubMed MCP is not currently available. This is required for literature search
-and article retrieval in the claude-sciencing plugin.
+PubMed MCP is not currently available. The managed integration is the best
+experience for literature search and article retrieval, but the plugin can
+still use NCBI E-utilities directly.
 
 To enable PubMed MCP:
 
@@ -61,7 +62,7 @@ To enable PubMed MCP:
 
 4. Restart Claude Code or start a new conversation to sync the integration
 
-5. Run this check again to verify: /pubmed-setup
+5. Re-run this diagnostic after enabling the connector
 ```
 
 ---

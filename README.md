@@ -1,6 +1,6 @@
-# Claude Sciencing v2.2.0
+# Claude Sciencing v2.2.1
 
-A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Works on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock).
+A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Core literature-search, reading, review, and drafting workflows work on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock). Optional internal-search integrations depend on the host environment and available connectors.
 
 ## Slash Commands
 
@@ -117,7 +117,7 @@ to high-value chemicals — focus on the last 2 years"
 
 **What the plugin does:**
 - Resolves full metadata via PubMed MCP for each DOI/PMID
-- Generates BibTeX entries and adds to `library.bib` (for LaTeX) and `library.md` (for browsing)
+- Generates BibTeX entries and adds to `references/library.bib` (for LaTeX) and `references/library.md` (for browsing)
 - Supports batch adding from search results, reference lists, or DOI lists
 - Tags let you filter later: `#for-proposal` to pull only proposal-relevant citations
 - Tracks reading status (unread → reading → read → cited)
@@ -193,7 +193,7 @@ strengthen the quantitative claims"
   - **Flow:** Checks logical progression paragraph-by-paragraph, ensures topic sentences carry the narrative, identifies non-sequiturs
   - **Tone:** Calibrates confidence level — assertive but not overclaiming, honest about limitations without undermining the proposal
 - **scientific-style** skill continues enforcing nomenclature, citation format, and conventions throughout
-- Output: polished draft with tracked changes and explanations
+- Output: polished draft with applied edits or edit suggestions, plus explanations
 
 ---
 
@@ -214,8 +214,8 @@ everything is compliant before submission"
   - **Figures/tables:** Sequential numbering, all referenced in text, captions complete
   - **Proposal-specific:** Evaluation criteria coverage proportional to weights, milestones quantitative, go/no-go criteria unambiguous, risks identified with mitigations, team qualifications evidenced
 - Produces a compliance report with critical vs. minor issues and specific fixes
-- Offers to apply automated fixes (citation renumbering, caption reformatting, word count trimming)
-- Output: compliance report + fixed document
+- Offers to apply straightforward fixes (citation renumbering, caption reformatting, word count trimming) where the source format supports direct editing
+- Output: compliance report + optional direct edits for straightforward issues
 
 ---
 
@@ -272,7 +272,7 @@ These skills trigger automatically when Claude detects relevant context — no s
 Clone the repo and add as a local plugin:
 
 ```bash
-git clone https://gitlab.com/ginkgobioworks/ai-skills/claude-sciencing.git
+git clone https://github.com/dsatory/claude-sciencing.git
 ```
 
 **Option B: From Archive (without git access)**
@@ -295,6 +295,13 @@ Then add the path to your Claude Code settings (`.claude/settings.json`):
 }
 ```
 
+Validate the checkout after changes:
+
+```bash
+python3 scripts/validate_plugin.py
+python3 scripts/validate_plugin.py --check-endpoints
+```
+
 ### Multi-Database Search
 
 The plugin searches across **4 scientific databases** simultaneously, deduplicates results, and scores every paper on a 0-10 relevance scale:
@@ -304,21 +311,22 @@ The plugin searches across **4 scientific databases** simultaneously, deduplicat
 | **PubMed** | Biomedical, life sciences | No (E-utilities) or Claude.ai MCP | MeSH terms, structured metadata |
 | **OpenAlex** | All disciplines (250M+ works) | No | Citation counts, OA URLs, affiliations |
 | **Semantic Scholar** | All disciplines (AI-powered) | No (1 req/sec) | Semantic matching, OA PDF URLs |
-| **bioRxiv/medRxiv** | Preprints | No (MCP or API) | Pre-peer-review papers |
+| **bioRxiv/medRxiv** | Preprints | No (API or web) | Pre-peer-review papers |
 
 A search on an active topic typically yields **25-50 unique papers** after deduplication across databases.
 
-### Bundled MCP Servers
+### Core Access Paths
 
-The plugin bundles three remote MCP servers that auto-install with the plugin — no local setup needed:
+The plugin's core search path does **not** depend on bundled third-party MCP servers. It relies on these access paths instead:
 
-| Server | Provider | What It Provides |
-|--------|----------|-----------------|
-| **PubMed** | U.S. NLM | Structured literature search, metadata, full text |
-| **bioRxiv** | deepsense.ai | bioRxiv and medRxiv preprint access |
-| **Scholar Gateway** | Wiley | Access to Wiley academic publications |
+| Access path | Coverage | Notes |
+|-------------|----------|-------|
+| **PubMed** | Biomedical, life sciences | Claude.ai managed connector when available, or direct NCBI E-utilities fallback |
+| **OpenAlex** | All disciplines | Free HTTP API for citation counts, OA URLs, affiliations |
+| **Semantic Scholar** | All disciplines | Free HTTP API for semantic search and OA PDF URLs |
+| **bioRxiv/medRxiv** | Preprints | API or targeted web search fallback |
 
-These work on any provider (Anthropic, Vertex, Bedrock) because they're HTTP-based remote MCP servers, not Claude.ai managed integrations.
+This keeps the core workflow provider-agnostic. Optional MCP integrations can still be added manually when the host environment supports them, but they are not bundled by default because availability and auth requirements vary.
 
 **Additional MCP servers available from the [Anthropic Life Sciences marketplace](https://github.com/anthropics/life-sciences):**
 
@@ -382,9 +390,9 @@ Uses Claude.ai managed MCP (`mcp__claude_ai_Atlassian__*`). Enable at [claude.ai
 
 Searched via local filesystem (`~/Library/CloudStorage/GoogleDrive-*/`). Requires Google Drive for Desktop to be installed and syncing. Works on any provider — no MCP needed.
 
-#### Glean Enterprise Search (fallback — when Slack/Confluence MCP is unavailable)
+#### Glean Enterprise Search (optional environment-specific fallback)
 
-If your organization uses [Glean](https://www.glean.com/), it can serve as a fallback for internal discovery when Slack/Confluence MCP is unavailable (e.g., on Vertex/GCP). Glean indexes Slack, Google Drive, Confluence, Jira, and email in a single unified search.
+If your organization uses [Glean](https://www.glean.com/), it can serve as an optional fallback for internal discovery when Slack/Confluence MCP is unavailable (for example on Vertex/GCP). Glean indexes Slack, Google Drive, Confluence, Jira, and email in a single unified search.
 
 Add to your global `~/.claude/.mcp.json`:
 
@@ -398,7 +406,7 @@ Add to your global `~/.claude/.mcp.json`:
 }
 ```
 
-Restart Claude Code after adding. When Slack/Confluence MCP fails, the plugin auto-detects Glean MCP and offers it as an alternative. If neither is available, the plugin tells the user and provides setup instructions for both options.
+Restart Claude Code after adding. Treat this as optional environment configuration rather than a guaranteed bundled integration.
 
 ### Python Dependencies (for document-formats skill)
 
@@ -409,6 +417,16 @@ pip3 install python-docx python-pptx openpyxl fpdf2
 ```
 
 The skill checks for missing dependencies automatically and guides installation. Note: the pip package is `fpdf2` but the Python import is `from fpdf import FPDF`.
+
+### Repository Validation
+
+Run the validation script after editing manifests or docs:
+
+```bash
+python3 scripts/validate_plugin.py
+```
+
+Add `--check-endpoints` to probe any MCP endpoints declared in `.claude-plugin/plugin.json`.
 
 ## Field-Specific Evaluation Lenses
 

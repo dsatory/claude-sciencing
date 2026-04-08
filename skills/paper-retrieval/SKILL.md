@@ -137,9 +137,9 @@ Does this grouping work, or would you like to adjust?
 
 ---
 
-## Prerequisites — PubMed MCP
+## Prerequisites — PubMed Access
 
-**This skill depends on PubMed MCP integration.** PubMed is the single best source for resolving article identifiers, checking OA status, and downloading full-text PDFs via PMC. Always start here.
+**This skill depends on PubMed access.** PubMed MCP is preferred when available, but direct NCBI E-utilities calls are the built-in fallback. PubMed is the single best source for resolving article identifiers, checking OA status, and downloading full-text PDFs via PMC. Always start here.
 
 Before attempting any downloads, verify PubMed MCP is available:
 1. Call `mcp__claude_ai_PubMed__search_articles` with a simple test query
@@ -410,7 +410,7 @@ else:
 ```
 - **Batch workflow:** Open multiple tabs at once for all papers that failed automated download.
   1. Tell the user exactly which papers/patents were opened and what to download
-  2. **MANDATORY: Use AskUserQuestion to wait for the user to confirm downloads are complete.** Do NOT proceed to writing, analysis, or any other step until the user confirms. Do NOT assume downloads happened — ASK.
+  2. **MANDATORY: Ask the user to confirm downloads are complete and wait for their answer.** Do NOT proceed to writing, analysis, or any other step until the user confirms. Do NOT assume downloads happened.
   3. After confirmation, **scan the downloads folder** for recent PDFs:
      ```bash
      find ~/Downloads -name "*.pdf" -mmin -15 -type f

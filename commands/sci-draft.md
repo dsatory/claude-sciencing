@@ -316,7 +316,7 @@ Key principles:
 - Include expected observations at key steps ("pellet should be white")
 - Include positive, negative, and no-template controls with acceptance criteria
 
-The `scientific-writing` skill's `references/protocols.md` contains detailed conventions — read it when drafting protocols.
+The `scientific-writing` skill's `skills/scientific-writing/references/protocols.md` file contains detailed conventions — read it when drafting protocols.
 
 ---
 
