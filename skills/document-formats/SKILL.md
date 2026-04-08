@@ -586,6 +586,63 @@ with open("output.csv", "w", newline="") as f:
         writer.writerow(row)
 ```
 
+### Markdown → LaTeX (for journal/conference submissions)
+
+When the user needs LaTeX output for journal or conference submission:
+
+```latex
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{natbib}
+
+\title{[Title]}
+\author{[Authors]}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+[Abstract text]
+\end{abstract}
+
+\section{Introduction}
+[Content with \cite{key} citations]
+
+% ... sections ...
+
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+\end{document}
+```
+
+**Conference-specific templates:**
+- **ICLR/NeurIPS/ICML:** Use the conference style file (`.sty`). The user should provide it or the plugin can suggest downloading from the conference website.
+- **ACS journals:** Use `achemso` package (`\documentclass{achemso}`)
+- **Nature/Science:** Use the journal's LaTeX template (available from author guidelines)
+- **IEEE:** Use `IEEEtran` class
+
+**When generating LaTeX:**
+- Convert markdown headers to `\section{}`, `\subsection{}`
+- Convert markdown tables to `booktabs` format (`\toprule`, `\midrule`, `\bottomrule`)
+- Convert `**bold**` to `\textbf{}`, `*italic*` to `\textit{}`
+- Convert organism names to `\textit{E.~coli}` (with non-breaking space after genus abbreviation)
+- Convert gene names to `\textit{alaD}` (italic)
+- Generate BibTeX entries in a companion `.bib` file
+- Validate all `\cite{}` keys exist in the `.bib` file
+
+**Compile sequence** (if LaTeX is installed):
+```bash
+pdflatex -interaction=nonstopmode template.tex
+bibtex template
+pdflatex -interaction=nonstopmode template.tex
+pdflatex -interaction=nonstopmode template.tex
+```
+
 ---
 
 ## Scientific Document Patterns

@@ -202,6 +202,57 @@ Select the venue format based on the document type or user specification:
 - [What would make this proposal competitive]
 ```
 
+### Ensemble Review Mode (inspired by AI Scientist)
+
+For high-stakes documents (proposals before submission, manuscripts before journal submission), run an **ensemble review** with multiple independent perspectives:
+
+**Step 1: Generate 3 independent reviews with different biases:**
+
+1. **Critical reviewer** — "Be a harsh critic. If a claim is unsupported or you're unsure, flag it as a weakness. Look for methodological gaps, missing controls, and unsupported conclusions."
+2. **Constructive reviewer** — "Be constructive. Identify both strengths and weaknesses fairly. Focus on what would make this work stronger, not just what's wrong."
+3. **Domain expert reviewer** — "Review from the perspective of an expert in [specific field]. Focus on whether the technical approach is sound, the benchmarks are appropriate, and the conclusions are justified by the data."
+
+Each review follows the same structured format (journal or grant format above).
+
+**Step 2: Meta-review (aggregation):**
+
+After generating 3 independent reviews, synthesize them into a single **meta-review**:
+
+```markdown
+## Meta-Review: [Document Title]
+
+### Consensus Strengths
+[Issues all 3 reviewers agreed are strong]
+
+### Consensus Weaknesses
+[Issues flagged by 2+ reviewers — these are the real problems]
+
+### Divergent Opinions
+[Issues where reviewers disagreed — discuss why]
+
+### Aggregated Scores
+| Dimension | R1 | R2 | R3 | Average |
+|-----------|----|----|----| --------|
+
+### Priority Actions (ranked by consensus)
+1. [Most critical fix — flagged by all reviewers]
+2. [Second priority — flagged by 2 reviewers]
+3. [...]
+
+### Overall Recommendation
+[Accept / Revise / Reject based on consensus]
+```
+
+This catches issues that a single review perspective misses and provides more reliable quality assessment.
+
+### Self-Critique Reflection Loop
+
+After each editing pass (clarity, tone, flow, or peer review), run a **reflection step**:
+
+> "Re-read your edits/review. Is there anything you missed, got wrong, or could improve? Consider: did you miss any errors in the original text? Were your suggestions actually improvements or just different? Are there inconsistencies between your suggestions? Refine your output. If nothing needs changing, state 'I am done.'"
+
+Iterate up to 3 times. Exit early if the reflection produces no changes. This catches errors in the editor's own output — a common failure mode where the editing introduces new problems.
+
 ### Review Principles
 
 - **Be specific** — "The statistical analysis is weak" is useless. "Section 3.2 reports p < 0.05 for 12 comparisons without correction for multiple testing" is actionable.

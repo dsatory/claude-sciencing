@@ -1,4 +1,4 @@
-# Claude Sciencing v2.3.0
+# Claude Sciencing v2.4.0
 
 A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Works on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock).
 
@@ -484,6 +484,26 @@ Before finalizing any document, every cited paper is checked for retraction stat
 ### Evidence Mapping
 
 `/sci-review` builds an **evidence map** before writing — a table linking each claim to its supporting and contradicting sources, with specific page/figure references and confidence ratings. Claims with no supporting sources are marked `[GAP]`. The review narrative is written from the evidence map, not the other way around.
+
+### Post-Draft Citation Pass
+
+After drafting any document, a **two-phase citation sweep** (inspired by AI Scientist) identifies uncited claims, generates targeted search queries, searches the appropriate database, and inserts citations. This typically adds 5-15 citations missed during initial writing.
+
+### Novelty Checking
+
+For proposals and invention disclosures, a **novelty check** extracts the core claims, searches PubMed/OpenAlex/Google Patents for the closest prior work, and presents the findings so the user can assess differentiation before submission.
+
+### Ensemble Peer Review
+
+`/sci-edit review` can run in **ensemble mode** (inspired by AI Scientist): 3 independent reviews (critical, constructive, domain expert) are generated and aggregated into a meta-review with consensus strengths/weaknesses, divergent opinions, and prioritized action items.
+
+### Section-by-Section Drafting
+
+`/sci-draft` writes proposals and reports **one section at a time** with plan-draft-refine cycles for each section, rather than generating the entire document in one pass. This produces higher quality output with better section-to-section flow.
+
+### LaTeX Output
+
+The document-formats skill supports **LaTeX generation** with conference-specific templates (ICLR, NeurIPS, ACS, Nature, IEEE) and BibTeX citation management. Includes compile sequence for PDF generation.
 
 ### Reading Integrity
 

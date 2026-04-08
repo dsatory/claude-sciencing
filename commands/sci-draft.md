@@ -46,6 +46,24 @@ Before writing any document that cites scientific literature, check the project'
 
 This gate prevents the failure mode where a proposal or review gets written from web search abstracts and looks authoritative but isn't backed by actual paper reading.
 
+**SECTION-BY-SECTION DRAFTING (inspired by AI Scientist):**
+
+For proposals, reports, and papers: do NOT write the entire document in one pass. Draft one section at a time, refine it, then proceed. This produces higher quality than a single-pass dump.
+
+**Per-section workflow:**
+1. **Plan** — before writing each section, state in a brief comment what the section will cover and how it connects to the previous section
+2. **Draft** — write the section content
+3. **Refine** — re-read the section and check for:
+   - Errors: unsupported claims, missing citations, incorrect numbers
+   - Clarity: sentences >35 words, nominalizations, vague quantifiers
+   - Completeness: does it cover everything the evaluation criteria require for this section?
+   - Connection: does the last sentence of this section connect to the first sentence of the next?
+4. **Proceed** — move to the next section
+
+After all sections are drafted:
+5. **Post-draft citation pass** — run the two-phase citation sweep (see scientific-writing skill)
+6. **Post-draft novelty check** — for proposals, verify core claims of novelty against literature (see scientific-writing skill)
+
 ---
 
 ## Mode: Outline

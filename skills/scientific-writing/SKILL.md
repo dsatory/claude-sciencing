@@ -207,8 +207,46 @@ When the user asks you to write or edit a document:
 1. **Identify the format** from the quick reference table above
 2. **Read the relevant reference file** for detailed structural guidance
 3. **Ask for what you need** — if critical information is missing (audience, page limit, evaluation criteria, key results), ask before writing rather than guessing
-4. **Draft, then refine** — produce a complete first draft, then offer to iterate on specific sections
+4. **Draft section by section** — write one section at a time, refine it, then proceed to the next. Do not write the entire document in one pass.
 5. **Flag gaps** — if the document needs data, figures, or citations you don't have, mark them clearly with [PLACEHOLDER: description of what's needed]
+
+### Post-Draft Citation Pass (inspired by AI Scientist)
+
+After completing a full draft, run a **two-phase citation sweep** before finalizing:
+
+**Phase 1 — Identify citation gaps:**
+Read the complete draft and identify every claim, comparison, or data point that lacks a citation or has only `[CITATION NEEDED]` / `[NOT IN LIBRARY]` placeholders. For each gap, generate a targeted search query.
+
+```
+For each uncited claim in the draft:
+1. What is the specific claim? (e.g., "L-alanine titers have reached 195 g/L")
+2. What search query would find the supporting paper? (e.g., "L-alanine 195 g/L E. coli dynamic regulation 2025")
+3. Which database should be searched? (PubMed for biomedical, OpenAlex for broad, Google Patents for IP claims)
+```
+
+**Phase 2 — Search, select, and insert:**
+For each gap, search the appropriate database. From the results:
+- Select the most relevant paper(s)
+- Verify they actually support the claim (read abstract at minimum)
+- Add to the reference list with proper BibTeX/citation format
+- Insert the citation in the draft at the correct location
+- Tag as `[NOT IN LIBRARY]` if full text wasn't read
+
+**Phase 3 — Retraction check:**
+Run retraction checking on all citations (see above).
+
+This pass typically adds 5-15 citations that were missed during initial drafting and eliminates `[CITATION NEEDED]` placeholders.
+
+### Novelty Checking (for proposals and invention disclosures)
+
+Before finalizing a proposal or patent disclosure, run a **novelty check** against the literature:
+
+1. Extract the 2-3 core claims of novelty from the document
+2. For each claim, generate search queries targeting the closest prior work
+3. Search PubMed, OpenAlex, Semantic Scholar, and Google Patents
+4. Present results to the user: "Your claim of [X] has [N] similar results in the literature. The closest is [paper]. Is your approach sufficiently differentiated?"
+
+This prevents the embarrassment of proposing something that's already been published.
 
 When editing existing text:
 - Preserve the author's voice while improving clarity and precision
