@@ -152,13 +152,29 @@ Tables and figures are the backbone of scientific communication. A well-designed
 
 **CRITICAL RULE: Every citation must be traceable to a real, verified source.**
 
-**Three tiers of citation, with mandatory labeling:**
+**Three tiers of citation availability, with mandatory labeling:**
 
 1. **Verified (no label needed):** Papers with PDFs in the project's `literature/` folder that you have actually read. These are the only citations you can use with full confidence. Cite freely.
 
 2. **Unverified — flagged:** Papers identified in search results but NOT downloaded or read. You know the title, authors, journal, and abstract exist, but you have NOT read the full text. **Every such citation MUST be tagged `[NOT IN LIBRARY]`** so the user knows the claim comes from an abstract or web snippet, not from reading the paper. Do NOT write substantive technical analysis (methods details, specific data points, mechanistic claims) from unverified sources — only report what the abstract states, clearly attributed.
 
 3. **Needed — placeholder:** Claims that need a citation but no matching paper exists. Use `[CITATION NEEDED]`.
+
+**4-class claim-citation alignment check (inspired by SemanticCite):**
+
+Beyond checking whether a citation *exists*, verify whether it actually *supports the specific claim* being made. For every verified citation in the final document, classify the claim-source relationship:
+
+| Class | Meaning | Action |
+|-------|---------|--------|
+| **Supported** | The source fully validates the claim with specific data | No action needed |
+| **Partially Supported** | The source provides evidence but lacks specific context (e.g., reports titer but not the yield you cited, or different organism) | Add qualifier: "under similar conditions" or cite the specific detail that differs |
+| **Unsupported** | The source does NOT support the claim, or actually contradicts it | Remove citation, find correct source, or revise claim |
+| **Uncertain** | Cannot determine alignment without reading the full text | Flag as `[VERIFY — claim-source alignment unclear]` |
+
+Run this check during the post-draft citation pass. For each citation in the document, ask:
+> "Does [Paper X] actually support the specific claim '[claim text]'? Consider: does the paper report the exact numbers cited? The same organism? The same conditions? Or is this a loose association?"
+
+This catches the common failure mode where a real paper is cited but doesn't actually support the specific claim — e.g., citing a paper that reports 95% yield but for a different product, or citing a review when the primary source has different numbers.
 
 **HARD RULES — violations of these undermine the entire plugin:**
 

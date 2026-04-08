@@ -1,4 +1,4 @@
-# Claude Sciencing v2.4.0
+# Claude Sciencing v2.5.0
 
 A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Works on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock).
 
@@ -493,9 +493,19 @@ After drafting any document, a **two-phase citation sweep** (inspired by AI Scie
 
 For proposals and invention disclosures, a **novelty check** extracts the core claims, searches PubMed/OpenAlex/Google Patents for the closest prior work, and presents the findings so the user can assess differentiation before submission.
 
-### Ensemble Peer Review
+### Ensemble & Adversarial Peer Review
 
-`/sci-edit review` can run in **ensemble mode** (inspired by AI Scientist): 3 independent reviews (critical, constructive, domain expert) are generated and aggregated into a meta-review with consensus strengths/weaknesses, divergent opinions, and prioritized action items.
+`/sci-edit review` supports two review modes:
+- **Ensemble mode** (inspired by AI Scientist): 3 independent reviews (critical, constructive, domain expert) aggregated into a meta-review
+- **Adversarial mode** (inspired by IdeaForge): Critic attacks → Proposer defends/revises → Judge evaluates, iterating until all issues are resolved. More thorough because it forces explicit defense of every claim.
+
+### Citation Claim-Source Alignment
+
+Beyond checking if citations exist, every citation is classified on a 4-level scale (inspired by SemanticCite): **Supported** (source fully validates claim), **Partially Supported** (evidence but missing context), **Unsupported** (source contradicts claim), **Uncertain** (needs verification). This catches the common failure where a real paper is cited but doesn't support the specific claim.
+
+### Biological Entity Verification
+
+The scientific-style skill verifies genes, proteins, enzymes, pathways, and organisms against authoritative databases (NCBI Gene, UniProt, KEGG) — catching nomenclature errors that formatting checks miss (e.g., deprecated gene symbols, wrong-organism gene names, incorrect EC numbers).
 
 ### Section-by-Section Drafting
 

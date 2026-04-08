@@ -84,6 +84,35 @@ Avoid double hedging ("it might possibly suggest").
 - Gene names: italicized (*TP53*, *BRCA1* for human; *Tp53*, *Brca1* for mouse)
 - Protein names: roman (non-italic), capitalized (TP53, BRCA1)
 
+## Biological Entity Verification (inspired by GeneAgent)
+
+When the document references specific biological entities (genes, proteins, enzymes, pathways, organisms, chemical compounds), verify their accuracy against authoritative databases. This catches nomenclature errors that formatting checks miss.
+
+**Verification checks to apply when editing scientific text:**
+
+| Entity type | What to verify | Database |
+|------------|---------------|----------|
+| **Gene names** | Correct symbol, correct organism, not deprecated | NCBI Gene (via WebFetch: `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=gene&term={gene}[sym]+AND+{organism}[orgn]&retmode=json`) |
+| **Protein names** | Matches gene name conventions (AlaD protein ↔ *alaD* gene), correct EC number | UniProt (via WebFetch: `https://rest.uniprot.org/uniprotkb/search?query={protein}+AND+organism_name:{organism}&format=json&size=1`) |
+| **Organism names** | Valid species, correct taxonomy, not a synonym | NCBI Taxonomy |
+| **Enzyme names** | Correct EC classification, correct reaction | BRENDA or ExplorEnz |
+| **Chemical names** | IUPAC-correct, CAS number matches if stated | PubChem |
+| **Pathway names** | Standard pathway name, not a colloquial shorthand | KEGG or MetaCyc |
+
+**When to run verification:**
+- During `/sci-edit` passes — flag incorrect entity names
+- During `/sci-draft` — verify entities as they're written
+- During `/sci-review` — evidence map should note entity accuracy
+
+**Common errors to catch:**
+- Gene names from wrong organism (human *ALDH* vs bacterial *aldH*)
+- Protein names incorrectly italicized (should be roman)
+- Deprecated gene symbols (e.g., old *ygaW* → current *alaE*)
+- EC numbers that don't match the stated reaction
+- Organism names with incorrect capitalization or abbreviation
+
+This is not a blocking gate — it's a background check that flags potential errors. Many can be verified from domain knowledge; use the APIs only for uncertain cases.
+
 ## Reporting Guidelines Awareness
 
 When the document describes specific study types, keep these reporting standards in mind:

@@ -245,6 +245,23 @@ After generating 3 independent reviews, synthesize them into a single **meta-rev
 
 This catches issues that a single review perspective misses and provides more reliable quality assessment.
 
+### Adversarial Review Mode (inspired by IdeaForge)
+
+For the most rigorous pre-submission review, use the **Critic-Proposer-Judge** adversarial pattern instead of independent parallel reviews:
+
+**Round 1 — Critic attacks:**
+> "You are a harsh, skeptical reviewer. Read this document and identify every weakness: unsupported claims, methodological gaps, missing controls, logical leaps, statistical issues, citation problems, and unclear writing. Be specific — cite section numbers and exact text. Your goal is to find every flaw."
+
+**Round 2 — Proposer defends and revises:**
+> "A reviewer has attacked this document with these criticisms: [Critic output]. For each criticism, either: (a) defend the original text with a specific counter-argument explaining why it's correct, or (b) propose a concrete revision that addresses the criticism. Be specific — provide exact replacement text for each revision."
+
+**Round 3 — Judge evaluates:**
+> "A Critic attacked a document, and a Proposer responded with defenses and revisions. Evaluate each exchange: Was the criticism valid? Was the defense or revision adequate? For each point, rule: VALID CRITICISM + ADEQUATE REVISION (apply the fix), VALID CRITICISM + INADEQUATE REVISION (needs more work — explain what's still wrong), or INVALID CRITICISM (dismiss — the original text was correct). Produce a final verdict with specific actions."
+
+**Iterate:** If the Judge identifies "needs more work" items, loop back to Proposer → Judge until all items are resolved or 3 rounds are exhausted.
+
+This adversarial pattern is more thorough than independent reviews because it forces explicit defense of every claim — weak claims that would survive independent review get exposed when directly challenged.
+
 ### Self-Critique Reflection Loop
 
 After each editing pass (clarity, tone, flow, or peer review), run a **reflection step**:
