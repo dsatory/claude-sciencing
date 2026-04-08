@@ -99,6 +99,14 @@ WebFetch: https://api.crossref.org/works/{DOI}
 
 **Advantages:** Most reliable DOI → metadata resolution. Good for batch DOI lookups.
 
+**Retraction checking via CrossRef:**
+When fetching paper metadata, check for retraction status:
+```
+WebFetch: https://api.crossref.org/works/{DOI}
+Prompt: "Check if this paper has been retracted. Look for 'update-to' field with type 'retraction', or 'retracted' in any field."
+```
+The `update-to` array in the CrossRef response contains correction/retraction notices. If present with type `retraction`, the paper has been retracted and must not be cited.
+
 ---
 
 ## 4. bioRxiv/medRxiv API (FREE, no auth)

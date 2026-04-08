@@ -167,6 +167,24 @@ Tables and figures are the backbone of scientific communication. A well-designed
 - **NEVER present web search snippets as if you read the paper.** The difference between "Zhang et al. (2007) achieved 95% yield" (from reading the paper) and "Zhang et al. (2007) reportedly achieved 95% yield [NOT IN LIBRARY]" (from a web search) is the difference between trustworthy and unreliable output.
 - **Separate verified and unverified references into two sections** at the end of every document. This makes the evidence basis transparent at a glance.
 
+**Retraction checking — MANDATORY before finalizing any document:**
+
+Before submitting any review, proposal, or report, check every cited paper for retraction status:
+
+```
+WebFetch: https://api.crossref.org/works/{DOI}
+Prompt: "Check if this paper has been retracted. Look for 'update-to' field, 'retracted' in any field, or any correction/withdrawal notices."
+```
+
+If a paper has been retracted:
+- **Remove it from the citation list immediately**
+- **Flag it to the user:** "WARNING: [Author et al. Year] (DOI: ...) has been RETRACTED. Removing from citations. [Reason if available]."
+- Check if any claims in the document relied solely on the retracted paper — those claims need alternative support or removal
+
+This takes seconds per paper and prevents the credibility disaster of citing retracted work in a proposal or publication.
+
+**General citation practices:**
+
 - In technical documents: numbered references [1] or author-year (Nielsen et al. 2016) depending on format
 - Always cite primary sources, not reviews, for specific claims
 - When citing your own unpublished work: "preliminary data (unpublished)" or "internal data" — be transparent

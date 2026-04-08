@@ -30,12 +30,22 @@ libs = {
     'openpyxl': 'openpyxl',
     'fpdf': 'fpdf2',
 }
+optional = {
+    'docling': 'docling',
+}
 for module, pip_name in libs.items():
     try:
         __import__(module)
         print(f'  {pip_name:15s} ✅ installed')
     except ImportError:
         print(f'  {pip_name:15s} ❌ missing  →  pip3 install {pip_name}')
+print()
+for module, pip_name in optional.items():
+    try:
+        __import__(module)
+        print(f'  {pip_name:15s} ✅ installed (optional — enhanced table extraction)')
+    except ImportError:
+        print(f'  {pip_name:15s} ⬜ not installed (optional — pip3 install {pip_name} for 97.9%% table accuracy)')
 "
 ```
 
@@ -123,17 +133,42 @@ Office files (`.docx`, `.xlsx`, `.pptx`) stored on Google Drive sync as real fil
 
 ### PDF — Use Claude Code's Native Reader
 
-Claude Code's `Read` tool handles PDFs directly — it renders pages visually and extracts text. **Do not use Python for reading PDFs** unless:
-- You need to extract structured tables (use `pdfplumber` or `tabula-py` if installed)
-- You need to extract images programmatically
-- You need to process hundreds of pages in batch
+Claude Code's `Read` tool handles PDFs directly — it renders pages visually and extracts text. For standard reading, this is sufficient:
 
-For standard reading:
 ```
 Use the Read tool with file_path pointing to the .pdf file
 For large PDFs (>10 pages), use the pages parameter: pages: "1-5"
 Maximum 20 pages per Read request
 ```
+
+**For structured data extraction from tables and figures, use Docling (if installed):**
+
+Docling (IBM) achieves 97.9% accuracy on scientific table cell extraction — significantly better than generic PDF text extraction for complex multi-column tables, chemical structures, and dense statistical results.
+
+```bash
+# Check if docling is available
+python3 -c "from docling.document_converter import DocumentConverter; print('docling ✅')" 2>/dev/null || echo "docling ❌ — install with: pip3 install docling"
+```
+
+```python
+from docling.document_converter import DocumentConverter
+
+converter = DocumentConverter()
+result = converter.convert("path/to/paper.pdf")
+
+# Get full document as markdown (optimized for LLM ingestion)
+markdown_text = result.document.export_to_markdown()
+
+# Get structured tables
+for table in result.document.tables:
+    print(table.export_to_markdown())
+```
+
+**When to use Docling vs Claude's Read tool:**
+- **Claude Read:** Quick reading, visual inspection, general content understanding
+- **Docling:** Extracting quantitative data from tables, parsing comparison tables for lit reviews, batch processing multiple papers, when table accuracy is critical (e.g., extracting titers/yields/productivities for state-of-the-art comparison tables)
+
+Docling is an **optional** dependency — the plugin works without it, but table extraction quality improves significantly when it's available.
 
 ### DOCX — python-docx
 

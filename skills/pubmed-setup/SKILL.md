@@ -176,3 +176,35 @@ If this returns a JSON response with an `idlist`, E-utilities is working.
 - Try a known working query (e.g., "CRISPR Cas9")
 - Check if the search terms use correct PubMed syntax
 - Some very recent papers may not be indexed yet (PubMed indexing can lag 1-2 days)
+
+---
+
+## Complementary Tools
+
+### PaperQA2 (FutureHouse) — optional, enhances literature search
+
+PaperQA2 is a standalone agentic RAG system that achieved superhuman accuracy on scientific literature retrieval benchmarks (LitQA2). It can be used alongside this plugin for deep, iterative literature search.
+
+**Install:**
+```bash
+pip3 install paper-qa
+```
+
+**Use from command line:**
+```bash
+pqa ask "What is the highest reported L-alanine titer in engineered E. coli?"
+```
+
+**What it adds over our built-in search:**
+- Iterative, multi-pass query refinement with automatic gap detection
+- Ranked Contextual Summarization (RCS) — scores every text chunk in the context of your specific question
+- Automatic retraction checking via Retraction Watch
+- Responses grounded with precise in-text citations linked to specific document pages
+- Processes local PDF libraries — point it at your `literature/PDFs/` folder
+
+**How to integrate with claude-sciencing:**
+1. After `/sci-search` downloads papers to `literature/PDFs/`, run PaperQA2 against that folder for deep Q&A
+2. Use PaperQA2 for specific factual questions ("what concentration of X did Y use?") where searching the full text matters
+3. The plugin handles the workflow (search, download, organize, write); PaperQA2 handles the deep reading
+
+**Source:** https://github.com/Future-House/paper-qa | Docs: https://paperqa.ai

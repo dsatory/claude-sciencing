@@ -1,4 +1,4 @@
-# Claude Sciencing v2.2.2
+# Claude Sciencing v2.3.0
 
 A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Works on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock).
 
@@ -417,6 +417,16 @@ pip3 install python-docx python-pptx openpyxl fpdf2
 
 The skill checks for missing dependencies automatically and guides installation. Note: the pip package is `fpdf2` but the Python import is `from fpdf import FPDF`.
 
+**Optional dependencies (enhance capabilities but not required):**
+
+```bash
+pip3 install docling      # 97.9% accuracy on scientific table extraction (IBM)
+pip3 install paper-qa     # PaperQA2 — superhuman literature search (FutureHouse)
+```
+
+- **Docling:** Used by the document-formats skill for high-fidelity table extraction from PDFs. When installed, comparison table data extraction improves significantly over the default PDF reader.
+- **PaperQA2:** Standalone agentic RAG for deep literature Q&A. Point it at your `literature/PDFs/` folder for precise, citation-grounded answers with page-level references. See `skills/pubmed-setup/SKILL.md` for integration guide.
+
 ### Repository Validation
 
 Run the validation script after editing manifests or docs:
@@ -445,6 +455,8 @@ The plugin enforces hard checkpoints to prevent shallow output — the kind wher
 
 `/sci-search` requires a **mandatory term expansion table** before any search is executed. Minimum 8 distinct queries across 3+ concept axes with synonyms, searched across 4 databases (PubMed, OpenAlex, Semantic Scholar, bioRxiv) with deduplication. Every paper is scored 0-10 on keyword relevance (40%), recency (25%), citation impact (20%), and open access availability (15%). Minimum 25 unique papers expected for an active topic — fewer triggers a warning to broaden queries.
 
+After initial results, an **iterative refinement loop** (inspired by PaperQA2) identifies coverage gaps, temporal gaps, missing authors, and citation network gaps — then generates targeted follow-up queries. Contextual re-ranking uses the LLM to re-score all papers in the context of the user's specific question, catching semantically relevant papers that keyword scoring misses.
+
 ### Download-Before-Write Gate
 
 `/sci-review` and `/sci-draft` check the project's `literature/PDFs/` folder before writing:
@@ -464,6 +476,14 @@ Every citation in generated documents is labeled by verification level:
 | **Needed** | `[CITATION NEEDED]` | Claim needs a source but none found. Never fabricated. |
 
 Documents separate verified and unverified references into distinct sections so the evidence basis is transparent.
+
+### Retraction Checking
+
+Before finalizing any document, every cited paper is checked for retraction status via the CrossRef API (`update-to` field). Retracted papers are removed from citations and flagged to the user with the retraction reason.
+
+### Evidence Mapping
+
+`/sci-review` builds an **evidence map** before writing — a table linking each claim to its supporting and contradicting sources, with specific page/figure references and confidence ratings. Claims with no supporting sources are marked `[GAP]`. The review narrative is written from the evidence map, not the other way around.
 
 ### Reading Integrity
 

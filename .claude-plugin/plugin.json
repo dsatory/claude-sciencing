@@ -1,6 +1,6 @@
 {
   "name": "claude-sciencing",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "Claude Code plugin for scientific research in biotech and life sciences — search, read, analyze, write, edit, and publish",
   "author": {
     "name": "Dominik Satory"

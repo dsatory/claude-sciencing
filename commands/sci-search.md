@@ -417,6 +417,30 @@ After listing results, provide:
 - **Gaps identified** — what the search didn't find, terms to try next
 - **Related searches** — adjacent queries that might be useful
 
+### Step 5: Iterative Refinement Loop (inspired by PaperQA2)
+
+**Do NOT stop after one pass.** After presenting initial results, analyze the result set for gaps and run targeted follow-up searches. This is the difference between a shallow search and a thorough one.
+
+**Gap analysis — ask these questions about the initial results:**
+
+1. **Coverage gaps:** Are there obvious sub-topics with no papers? (e.g., searched "alanine production" but got nothing on alanine export/transport → search specifically for "alaE" "alanine exporter")
+2. **Temporal gaps:** Are all results from before 2023? → Re-run with `mindate=2024` filters
+3. **Methodological gaps:** All results use one organism? → Broaden to related organisms
+4. **Key authors missing:** Did the results reveal prolific groups whose other work isn't in the set? → Search by author name
+5. **Citation network gaps:** Did any high-scoring paper cite references that aren't in the result set? → Add those references
+
+**For each gap identified, generate 1-2 targeted follow-up queries and run them.** Typical refinement adds 5-15 papers that the initial queries missed.
+
+**Contextual re-ranking after refinement:**
+
+After the refinement loop adds new papers, re-rank the full combined set. For each paper, ask:
+
+> "Given the user's original question '{topic}', rate how relevant this paper's title and abstract are to answering it. Consider: does it directly address the topic? Does it provide benchmarking data? Does it cover a key sub-topic? Score 0-10."
+
+This contextual re-ranking catches papers that score high on generic keyword metrics but are actually tangential, and elevates papers with low keyword overlap that are exactly what's needed (e.g., a paper about "pyruvate flux redistribution" that's critical for understanding alanine production but doesn't contain "alanine" in the title).
+
+**Stop when:** two consecutive refinement rounds add fewer than 3 new relevant papers, or the total exceeds 50 unique papers.
+
 ---
 
 ## Search Modes

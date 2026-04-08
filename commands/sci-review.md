@@ -69,13 +69,38 @@ For each theme:
 - **Assess quality** — not all published results are equally reliable
 - **Build comparison tables** — the most valuable output
 
-### Step 5: Produce Output
+### Step 5: Build Evidence Map
+
+Before writing, construct an evidence map linking each key claim to its supporting and contradicting sources. This makes the synthesis transparent and catches unsupported claims.
+
+```markdown
+## Evidence Map: [Topic]
+
+| Claim | Supports | Contradicts | Confidence |
+|-------|----------|-------------|------------|
+| L-alanine titers >100 g/L are achievable | Zhang 2007 (114 g/L, p.3), Li 2025 (195 g/L, abstract) | — | High (multiple independent reports) |
+| Dynamic regulation outperforms static KOs | Li 2025 (195 vs 121 g/L), Zhou 2016 (67 g/L) | Zhou 2016 titer lower than Zhang 2007 static | Medium (confounded by strain background) |
+| AlaE overexpression enhances export | Hori 2011 (Fig.2, direct evidence) | — | High (single study, strong data) |
+| Crude hydrolysate is viable at >100 g/L | — | No studies found | Low — [GAP] |
+```
+
+**Evidence map rules:**
+- Every claim in the review must appear in the evidence map
+- Each "Supports" entry must cite the specific location (page, figure, table) where the evidence is
+- Claims with only one supporting source get "Medium" confidence at best
+- Claims with no supporting sources get `[GAP]` and must be marked `[CITATION NEEDED]` in the review
+- Claims with contradicting sources must discuss the contradiction in the narrative
+
+This map serves as the backbone for the review — write the narrative from the map, not the other way around.
+
+### Step 6: Produce Output
 
 Based on `--format`:
 
 **narrative** — Full prose synthesis with citations
 **table** — State-of-the-art comparison tables with commentary
 **both** (default) — Narrative synthesis with embedded comparison tables
+**evidence** — Evidence map + narrative (most rigorous — includes the claim-to-source mapping)
 
 ---
 
