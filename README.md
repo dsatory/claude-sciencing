@@ -1,6 +1,6 @@
-# Claude Sciencing v2.2.1
+# Claude Sciencing v2.2.2
 
-A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Core literature-search, reading, review, and drafting workflows work on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock). Optional internal-search integrations depend on the host environment and available connectors.
+A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Works on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock).
 
 ## Slash Commands
 
@@ -315,18 +315,17 @@ The plugin searches across **4 scientific databases** simultaneously, deduplicat
 
 A search on an active topic typically yields **25-50 unique papers** after deduplication across databases.
 
-### Core Access Paths
+### Bundled MCP Servers
 
-The plugin's core search path does **not** depend on bundled third-party MCP servers. It relies on these access paths instead:
+The plugin bundles three remote MCP servers that auto-install — no local setup needed:
 
-| Access path | Coverage | Notes |
-|-------------|----------|-------|
-| **PubMed** | Biomedical, life sciences | Claude.ai managed connector when available, or direct NCBI E-utilities fallback |
-| **OpenAlex** | All disciplines | Free HTTP API for citation counts, OA URLs, affiliations |
-| **Semantic Scholar** | All disciplines | Free HTTP API for semantic search and OA PDF URLs |
-| **bioRxiv/medRxiv** | Preprints | API or targeted web search fallback |
+| Server | Provider | What It Provides |
+|--------|----------|-----------------|
+| **PubMed** | U.S. NLM | Structured literature search, metadata, full text |
+| **bioRxiv** | deepsense.ai | bioRxiv and medRxiv preprint access |
+| **Scholar Gateway** | Wiley | Access to Wiley academic publications |
 
-This keeps the core workflow provider-agnostic. Optional MCP integrations can still be added manually when the host environment supports them, but they are not bundled by default because availability and auth requirements vary.
+These are free, public HTTP endpoints that work on any provider (Anthropic, Vertex, Bedrock). They complement the built-in E-utilities and OpenAlex/Semantic Scholar API calls.
 
 **Additional MCP servers available from the [Anthropic Life Sciences marketplace](https://github.com/anthropics/life-sciences):**
 

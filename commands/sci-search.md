@@ -217,14 +217,40 @@ If existing literature folders or reference libraries are found, read them — d
 
 ---
 
-#### 4. Optional Enterprise Search
+#### 4. Enterprise Search (optional fallback — e.g., Glean)
 
-Some environments expose a separate enterprise-search tool that indexes Slack, Google Drive, Confluence, Jira, or email. If such a tool is already available in the host environment, use it as an **optional supplement** for 2-3 targeted queries.
+If Slack and/or Confluence MCP failed in Sections 1-1b, check if an enterprise search tool is available. Glean is the most common option — it indexes Slack, Google Drive, Confluence, Jira, Gmail, and other sources in a single unified search.
 
-Guidelines:
-- Do not assume an enterprise-search tool exists
-- Do not hard-code a specific vendor tool name into the workflow
-- Do not block the search on this section; if no enterprise-search tool is available, proceed with GDrive filesystem search and external sources only
+**Check if Glean MCP is available** by looking for tools matching `glean` or `mcp__glean`. The tool names may vary by configuration but typically include `search`, `chat`, and `read_document`.
+
+**If available, run at least 3 queries with different term angles:**
+
+```
+Glean search: "[product] production [organism] fermentation"
+Glean search: "[topic] metabolic engineering patent FTO"
+Glean search: "[related product] market demand proposal"
+```
+
+Glean returns results across ALL connected sources ranked by relevance. For each result:
+- Note the **source type** (Slack thread, GDrive doc, Confluence page, etc.)
+- For Slack threads: note permalink — user can open and read the full thread
+- For documents: use `read_document` to access content directly if available
+- For GDrive links: note for later retrieval
+
+**If no enterprise search tool is available:** Proceed with GDrive filesystem search (Section 2) and external sources only. Do not block the workflow.
+
+**Setup (if the user wants to enable Glean for future sessions):**
+Add to `~/.claude/.mcp.json`:
+```json
+{
+  "mcpServers": {
+    "glean-mcp": {
+      "url": "https://YOUR-ORG.glean.com/mcp/default"
+    }
+  }
+}
+```
+Then restart Claude Code.
 
 ---
 

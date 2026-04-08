@@ -410,7 +410,7 @@ else:
 ```
 - **Batch workflow:** Open multiple tabs at once for all papers that failed automated download.
   1. Tell the user exactly which papers/patents were opened and what to download
-  2. **MANDATORY: Ask the user to confirm downloads are complete and wait for their answer.** Do NOT proceed to writing, analysis, or any other step until the user confirms. Do NOT assume downloads happened.
+  2. **MANDATORY: Use AskUserQuestion (or equivalent interactive prompt) to wait for the user to confirm downloads are complete.** Do NOT proceed to writing, analysis, or any other step until the user confirms. Do NOT assume downloads happened — ASK and WAIT.
   3. After confirmation, **scan the downloads folder** for recent PDFs:
      ```bash
      find ~/Downloads -name "*.pdf" -mmin -15 -type f

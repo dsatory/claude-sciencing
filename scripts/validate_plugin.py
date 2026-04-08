@@ -130,7 +130,6 @@ def main():
                 errors.append(f"{path.relative_to(ROOT)} references missing file `{ref}`")
 
     banned_global = {
-        "AskUserQuestion": "Replace AskUserQuestion with plain user-prompt instructions",
         "`library.bib`": "Use references/library.bib",
         "`library.md`": "Use references/library.md",
     }

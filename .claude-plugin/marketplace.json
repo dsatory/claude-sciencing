@@ -11,7 +11,7 @@
       "name": "claude-sciencing",
       "source": "./",
       "description": "Claude Code plugin for scientific research in biotech and life sciences — search, read, analyze, write, edit, and publish",
-      "version": "2.2.1",
+      "version": "2.2.2",
       "keywords": [
         "scientific-writing",
         "literature-review",
