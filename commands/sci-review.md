@@ -101,6 +101,44 @@ Based on `--format`:
 **table** — State-of-the-art comparison tables with commentary
 **both** (default) — Narrative synthesis with embedded comparison tables
 **evidence** — Evidence map + narrative (most rigorous — includes the claim-to-source mapping)
+**hypotheses** — Generate testable hypotheses from the literature gaps (see below)
+
+### Hypothesis Generation Mode (`--format hypotheses`)
+
+After completing the evidence map and gap analysis, synthesize the gaps into **testable research hypotheses**. This transforms a literature review from a backward-looking summary into a forward-looking research agenda.
+
+**For each gap identified in the evidence map, generate a hypothesis:**
+
+```markdown
+## Hypotheses Generated from Literature Analysis: [Topic]
+
+### Hypothesis 1: [Descriptive title]
+**Gap:** [What the literature doesn't address]
+**Hypothesis:** [Specific, testable statement — must be falsifiable]
+**Rationale:** [Why this hypothesis is plausible, based on what IS known]
+**Key experiment:** [What experiment would test this — organism, conditions, measurement, expected outcome]
+**Expected outcome if true:** [Quantitative prediction — e.g., ">80 g/L from hydrolysate"]
+**Expected outcome if false:** [What would disprove it]
+**Risk:** [Why it might not work — biological, technical, or practical constraints]
+**Prior art proximity:** [Closest existing work and how this differs]
+**Impact if confirmed:** [What this would enable — new product, better process, IP position]
+
+### Hypothesis 2: ...
+```
+
+**Hypothesis quality criteria:**
+- **Falsifiable** — must be testable with a specific experiment, not a vague direction
+- **Grounded** — rationale must cite specific evidence from the reviewed papers
+- **Novel** — should NOT be something already demonstrated (check against evidence map)
+- **Feasible** — the proposed experiment should be executable with current technology
+- **Impactful** — confirmation should matter for the field or the user's project
+
+**Generate 3-5 hypotheses per review.** Rank by a combined score of novelty × feasibility × impact.
+
+This mode is particularly valuable for:
+- **Proposal preparation** — hypotheses become specific aims
+- **Research planning** — prioritize experiments by evidence strength
+- **IP strategy** — hypotheses that fill gaps in the patent landscape are high-value targets
 
 ---
 

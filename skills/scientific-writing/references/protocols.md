@@ -426,3 +426,46 @@ Consider ethanol precipitation cleanup before proceeding.
 ```
 
 The remediation step ("consider ethanol precipitation") is what separates a useful QC gate from a number with no actionable context.
+
+---
+
+## Reproducibility Checklist
+
+Before finalizing any protocol, verify it passes this checklist. A protocol that fails reproducibility is worse than no protocol — it gives false confidence.
+
+### Materials & Reagents
+- [ ] Every reagent has: name, supplier, catalog number, lot number (if critical), concentration, storage conditions
+- [ ] Buffer recipes include: exact components, pH, volume, storage stability, preparation date tracking
+- [ ] Enzymes and antibodies include: source organism, supplier, catalog number, dilution, storage
+- [ ] Cell lines / strains include: full designation, source (ATCC number, lab stock ID), passage number range, authentication method
+
+### Quantitative Precision
+- [ ] Every temperature has units (°C or K) and tolerance (e.g., 37°C ± 0.5°C)
+- [ ] Every time has units (seconds, minutes, hours) — no ambiguous "incubate briefly"
+- [ ] Every volume has units and pipetting precision (e.g., "add 2.5 µL using P10 pipette")
+- [ ] Every speed has units (rpm or × g) and rotor specification if centrifugation
+- [ ] Concentrations specify final vs. stock (e.g., "add 5 µL of 10 mM stock for 50 µM final")
+
+### Controls & Acceptance Criteria
+- [ ] Positive control specified with expected outcome
+- [ ] Negative control specified with expected outcome
+- [ ] No-template / no-enzyme / vehicle controls where applicable
+- [ ] Quantitative acceptance criteria for every QC step (not just "check")
+- [ ] Remediation steps for failed QC gates
+
+### Reproducibility Essentials
+- [ ] Equipment model numbers for instrument-specific steps
+- [ ] Software versions for data analysis steps
+- [ ] Sample size / replicate number specified and justified
+- [ ] Randomization described if applicable
+- [ ] Blinding described if applicable
+- [ ] Statistical test specified for data analysis
+- [ ] Raw data storage location specified
+- [ ] Version history tracking (who changed what, when, why)
+
+### Safety & Compliance
+- [ ] PPE requirements listed
+- [ ] Hazardous material handling specified (SDS reference)
+- [ ] Waste disposal procedures for each waste stream
+- [ ] BSL level if biological agents involved
+- [ ] IRB/IACUC protocol number if human/animal samples

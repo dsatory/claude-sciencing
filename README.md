@@ -1,4 +1,4 @@
-# Claude Sciencing v2.5.0
+# Claude Sciencing v2.6.0
 
 A Claude Code plugin for scientific research in biotech and life sciences — covering the full literature-to-publication lifecycle: search, organize, read, analyze, synthesize, write, edit, and publish. Works on any Claude Code provider (Anthropic, Vertex/GCP, Bedrock).
 
@@ -9,7 +9,7 @@ A Claude Code plugin for scientific research in biotech and life sciences — co
 | `/sci-search` | Multi-database search (PubMed, OpenAlex, Semantic Scholar, bioRxiv) with 0-10 relevance scoring. Scan internal sources (Slack, Confluence, GDrive, Glean). Patents via Google Patents. Deduplication across databases. |
 | `/sci-library` | Manage a local reference library — add papers, tag, organize, export BibTeX/citations. |
 | `/sci-read` | Distill papers and patents — tactical briefings, deep analysis, data extraction, patent claims. |
-| `/sci-review` | Compile thematic literature reviews with state-of-the-art comparison tables and gap analysis. |
+| `/sci-review` | Compile thematic literature reviews with comparison tables, gap analysis, and hypothesis generation from literature gaps. |
 | `/sci-draft` | Draft any scientific document — abstracts, proposals, reports, SOWs, patents, presentations, protocols, memos. |
 | `/sci-edit` | Multi-pass scientific editing — grammar, spelling, typos, clarity, tone, jargon, logical flow, topic sentences. Peer review mode for pre-submission self-assessment (journal and grant formats). |
 | `/sci-figures` | Write figure captions, format tables, manage panel labeling for publications. |
@@ -312,6 +312,7 @@ The plugin searches across **4 scientific databases** simultaneously, deduplicat
 | **OpenAlex** | All disciplines (250M+ works) | No | Citation counts, OA URLs, affiliations |
 | **Semantic Scholar** | All disciplines (AI-powered) | No (1 req/sec) | Semantic matching, OA PDF URLs |
 | **bioRxiv/medRxiv** | Preprints | No (API or web) | Pre-peer-review papers |
+| **ClinicalTrials.gov** | Clinical trials | No | Trial status, sponsors, phases (auto-included for health topics) |
 
 A search on an active topic typically yields **25-50 unique papers** after deduplication across databases.
 
@@ -514,6 +515,14 @@ The scientific-style skill verifies genes, proteins, enzymes, pathways, and orga
 ### LaTeX Output
 
 The document-formats skill supports **LaTeX generation** with conference-specific templates (ICLR, NeurIPS, ACS, Nature, IEEE) and BibTeX citation management. Includes compile sequence for PDF generation.
+
+### Hypothesis Generation
+
+`/sci-review --format hypotheses` transforms literature gaps into **testable research hypotheses** — each with a specific falsifiable statement, key experiment, expected outcomes, risk assessment, and impact. Ranked by novelty × feasibility × impact. Directly feeds into proposal specific aims.
+
+### Protocol Reproducibility Checklist
+
+Protocol drafts are verified against a **30-item reproducibility checklist** covering materials (catalog numbers, lot tracking), quantitative precision (units, tolerances), controls (positive/negative/acceptance criteria), and compliance (PPE, waste, BSL). Catches the ambiguities that make protocols fail in other hands.
 
 ### Reading Integrity
 

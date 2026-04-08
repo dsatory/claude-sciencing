@@ -131,7 +131,42 @@ WebFetch: https://api.biorxiv.org/details/biorxiv/{DOI_SUFFIX}
 
 ---
 
-## 5. Unpaywall (FREE, email required)
+## 5. ClinicalTrials.gov (FREE, no auth)
+
+Search active and completed clinical trials. Useful for biotech proposals (showing clinical relevance), competitive landscape, and regulatory context.
+
+**Search:**
+```
+WebFetch: https://clinicaltrials.gov/api/v2/studies?query.term={QUERY}&pageSize=10&format=json
+```
+
+**Filter by status:**
+```
+&filter.overallStatus=RECRUITING,ACTIVE_NOT_RECRUITING,COMPLETED
+```
+
+**Filter by condition or intervention:**
+```
+&query.cond={CONDITION}&query.intr={INTERVENTION}
+```
+
+**Response fields:**
+- `protocolSection.identificationModule.nctId` — trial ID (NCT number)
+- `protocolSection.identificationModule.briefTitle` — trial title
+- `protocolSection.statusModule.overallStatus` — RECRUITING, COMPLETED, etc.
+- `protocolSection.designModule` — study type, phase, enrollment
+- `protocolSection.sponsorCollaboratorsModule` — sponsor, collaborators
+- `protocolSection.descriptionModule.briefSummary` — trial description
+
+**When to include in search:**
+- When the topic has therapeutic or clinical applications
+- When writing proposals that need to demonstrate clinical relevance
+- When assessing competitive landscape for a drug/therapy/diagnostic
+- Add with `--clinical` flag or automatically when the topic involves human health applications
+
+---
+
+## 6. Unpaywall (FREE, email required)
 
 Finds open-access versions of paywalled papers.
 
